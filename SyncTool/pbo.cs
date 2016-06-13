@@ -1,9 +1,19 @@
-﻿namespace SyncTool
+﻿using System;
+using System.Collections;
+
+namespace SyncTool
 {
-    class pbo
+    class PBO
     {
-        public string name = "empty";
-        public string sdir = "empty";
-        public string hash = "empty";
+        public string name = "NULL";
+        public string sdir = "NULL";
+        public string hash = "NULL";
+
+        public PBO(string name, string sdir, string hash)
+        {
+            this.name = name;
+            this.sdir = sdir;
+            this.hash = hash;
+        }
     }
 }

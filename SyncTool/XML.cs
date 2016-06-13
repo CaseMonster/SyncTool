@@ -1,58 +1,75 @@
-﻿using System.Xml;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.IO;
+using System.Linq;
+using System.Xml.Linq;
 
 namespace SyncTool
 {
     class XML
     {
-        public LinkedList<pbo> Read(string s)
+        public XML()
         {
-            //Open XML Doc
-            XmlDocument xmlDoc = new XmlDocument();
+        }
+
+        public static ArrayList ReadXML(string s)
+        {
+            CheckSyntax(s);
+
+            var doc = XDocument.Load(s);
+            var list = from x in doc.Descendants("Device")
+                select new PBO
+                (
+                    (string)x.Element("NAME"),
+                    (string)x.Element("SDIR"),
+                    (string)x.Element("HASH")
+                );
+            ArrayList array = new ArrayList();
+            foreach(PBO x in list)
+                array.Add(x);
+            return array;
+        }
+
+        public static void GenerateXML(string s)
+        {
+            if (!File.Exists(s))
+            {
+                Log.info("generating new repo.xml");
+                StreamWriter f = File.CreateText(s);
+                f.Close();
+
+                var doc = new XDocument
+                (
+                    new XElement("SyncTool")
+                );
+
+            }
+            else
+            {
+                BackupXML(s);
+                GenerateXML(s);
+            }
+        }
+
+        public static void CheckSyntax(string s)
+        {
             try
             {
-                xmlDoc.Load(s);
+                var doc = XDocument.Load(s);
             }
-            catch (System.ComponentModel.Win32Exception ex)
+            catch (Exception ex)
             {
-                System.Console.WriteLine("Problem reading from XML - " + ex.ToString());
+                Log.error("repo.xml appears to be corrupted, backing up and recreating");
+                Log.info(ex.ToString());
+                BackupXML(s);
             }
+        }
 
-            //Init
-            XmlNodeList name = xmlDoc.GetElementsByTagName("name");
-            XmlNodeList sdir = xmlDoc.GetElementsByTagName("sdir");
-            XmlNodeList hash = xmlDoc.GetElementsByTagName("hash");
-            LinkedList<pbo> list = new LinkedList<pbo>();
-
-            for (int i = 0; i < name.Count; i++)
-            {
-                pbo p = new pbo();
-
-                try
-                {
-                    //copy values to array
-                    if (name[i].InnerText != null)
-                    {
-                        p.name = name[i].InnerText;
-                    }
-                    if (sdir[i].InnerText != null)
-                    {
-                        p.sdir = sdir[i].InnerText;
-                    }
-                    if (hash[i].InnerText != null)
-                    {
-                        p.hash = hash[i].InnerText;
-                    }
-
-                    //push to list
-                    list.AddLast(p);
-                }
-                catch (System.ComponentModel.Win32Exception ex)
-                {
-                    System.Console.WriteLine("Problem reading from XML - " + ex.ToString());
-                };
-            };
-            return list;
+        public static void BackupXML(string s)
+        {
+            if (File.Exists(s + ".backup"))
+                File.Delete(s + ".backup");
+            File.Move(s, s + ".backup");
         }
     }
 }
