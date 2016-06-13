@@ -14,6 +14,7 @@ namespace SyncTool
         static void Main(string[] args)
         {
             //load settings (settings.xml)
+            Log.Startup();
 
             //load local repo info (repo.xml), generate if doesn't exist
             PBOList localRepo = XML.ReadXML(LOCAL_REPO);

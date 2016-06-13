@@ -34,7 +34,7 @@ namespace SyncTool
         {
             if (!File.Exists(s))
             {
-                Log.info("generating new repo.xml");
+                Log.Info("generating new repo.xml");
                 StreamWriter f = File.CreateText(s);
                 f.Close();
 
@@ -59,8 +59,8 @@ namespace SyncTool
             }
             catch (Exception ex)
             {
-                Log.error("repo.xml appears to be corrupted, backing up and recreating");
-                Log.info(ex.ToString());
+                Log.Info("repo.xml appears to be corrupted, backing up and recreating");
+                Log.Info(ex.ToString());
                 BackupXML(s);
             }
         }

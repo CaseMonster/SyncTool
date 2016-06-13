@@ -8,7 +8,7 @@ namespace SyncTool
         public static string LOGFILE = "synctool.Log";
         static StreamWriter log;
 
-        public Log()
+        public static void Startup()
         {
             Info("SyncTool Started");
         }
