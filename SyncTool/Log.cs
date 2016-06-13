@@ -10,27 +10,27 @@ namespace SyncTool
 
         public Log()
         {
-            info("SyncTool Started");
+            Info("SyncTool Started");
         }
 
-        public static void info(string s)
+        public static void Info(string s)
         {
-            write(linePrep(s));
+            Write(LinePrep(s));
         }
 
-        public static void error(string s)
+        public static void Error(string s)
         {
-            write(linePrep(s));
+            Write(LinePrep(s));
         }
 
-        static string linePrep(string s)
+        static string LinePrep(string s)
         {
             return (Environment.NewLine + "[" + DateTime.Now.ToString("yyyyMMMdd HHmm") + "]  "
                 + Environment.NewLine + "   " + s
                 );
         }
 
-        static void write(string s)
+        static void Write(string s)
         {
             log = new StreamWriter(LOGFILE, true);
             log.WriteLine(s);

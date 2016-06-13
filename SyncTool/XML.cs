@@ -12,22 +12,22 @@ namespace SyncTool
         {
         }
 
-        public static ArrayList ReadXML(string s)
+        public static PBOList ReadXML(string s)
         {
             CheckSyntax(s);
 
             var doc = XDocument.Load(s);
-            var list = from x in doc.Descendants("Device")
+            var list = from x in doc.Descendants("FILE")
                 select new PBO
                 (
                     (string)x.Element("NAME"),
                     (string)x.Element("SDIR"),
                     (string)x.Element("HASH")
                 );
-            ArrayList array = new ArrayList();
+            PBOList p = new PBOList();
             foreach(PBO x in list)
-                array.Add(x);
-            return array;
+                p.Add(x);
+            return p;
         }
 
         public static void GenerateXML(string s)

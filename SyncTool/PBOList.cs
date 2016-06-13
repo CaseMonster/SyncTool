@@ -6,20 +6,28 @@ namespace SyncTool
 {
     class PBOList : ArrayList
     {
-        public PBOList ListDiff(PBOList remote)
+        //the return list contains a list of files not present in the remote repo (Deletion List)
+        public PBOList DeleteList(PBOList remote)
         {
             PBOList diff = this;
 
-            foreach (PBO r in remote)
-            {
-                foreach (PBO d in diff)
-                {
-                    if (r.hash == d.hash)
-                    {
-                        diff.Remove(d);
-                    }
-                }
-            } 
+            foreach (PBO diffPBO in diff)
+                foreach (PBO remotePBO in remote)
+                    if (remotePBO.hash == diffPBO.hash)
+                        diff.Remove(diffPBO);
+
+            return diff;
+        }
+
+        //the return list contains a list of files not present in the local repo (Download List)
+        public PBOList DownloadList(PBOList remote)
+        {
+            PBOList diff = this;
+
+            foreach (PBO remotePBO in remote)
+                foreach (PBO diffPBO in diff)
+                    if (remotePBO.hash == diffPBO.hash)
+                        diff.Remove(diffPBO);
 
             return diff;
         }

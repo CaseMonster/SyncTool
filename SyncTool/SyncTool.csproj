@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="HTTP.cs" />
     <Compile Include="Log.cs" />
-    <Compile Include="pbo.cs" />
+    <Compile Include="PBO.cs" />
     <Compile Include="PBOList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
