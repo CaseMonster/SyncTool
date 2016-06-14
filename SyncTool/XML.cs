@@ -100,25 +100,16 @@ namespace SyncTool
 
         public static void GenerateBlankXML(string s)
         {
-            if (!File.Exists(s))
-            {
-                Log.Info("generating new repo.xml");
-                StreamWriter f = File.CreateText(s);
-                f.Close();
+            Log.Info("generating new repo.xml");
+            StreamWriter f = File.CreateText(s);
+            f.Close();
 
-                var doc = new XDocument
-                (
-                    new XElement("SyncTool")
-                );
+            var doc = new XDocument
+            (
+                new XElement("SyncTool")
+            );
 
-                doc.Save(s);
-
-            }
-            else
-            {
-                //BackupXML(s);
-                //GenerateBlankXML(s);
-            }
+            doc.Save(s);
         }
 
         public static void OutputToXML(string fileName, string filePath, string fileHash, string basePath)
