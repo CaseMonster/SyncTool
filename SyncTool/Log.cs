@@ -44,6 +44,8 @@ namespace SyncTool
             log = new StreamWriter(LOGFILE, true);
             log.WriteLine(s);
             log.Close();
+
+            Console.WriteLine(s);
         }
     }
 }

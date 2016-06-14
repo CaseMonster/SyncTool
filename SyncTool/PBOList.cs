@@ -33,7 +33,7 @@ namespace SyncTool
                     if (remotePBO.hash == diffPBO.hash)
                     {
                         diff.Remove(diffPBO);
-                        Log.Info(diffPBO.name + " is going to be deleted");
+                        Log.Info(diffPBO.name + " is going to be downloaded");
                         break;
                     }
 
