@@ -149,7 +149,7 @@ namespace SyncTool
             try
             {
                 var doc = XDocument.Load(s);
-                Log.Info("syntax of " + s + "is okay");
+                Log.Info("syntax of " + s + " is okay");
             }
             catch (Exception ex)
             {
@@ -166,7 +166,7 @@ namespace SyncTool
 
         public static void BackupXML(string s)
         {
-            Log.Info("backing up " + s);
+            Log.Info("deleting/backing up " + s);
 
             if (File.Exists(s + ".backup"))
             {
