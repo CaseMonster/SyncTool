@@ -30,6 +30,54 @@ namespace SyncTool
             return p;
         }
 
+        public static Settings ReadSettingsXML(string s)
+        {
+            CheckSyntax(s);
+
+            var doc = XDocument.Load(s);
+            var list = from x in doc.Descendants("Settings")
+                       select new Settings
+                       (
+                           (string)x.Element("Server Address"),
+                           (string)x.Element("Arma3 Directory"),
+                           (string)x.Element("Launch Options")
+                       );
+            Settings settings = list.First();
+            return settings;
+        }
+
+        public static void GenerateSettingsXML(string s)
+        {
+            if (File.Exists(s))
+            {
+                Log.Info("generating new settings.xml");
+                StreamWriter f = File.CreateText(s);
+                f.Close();
+
+                var doc = new XDocument
+                (
+                    new XElement
+                    (
+                        "SyncTool",
+                        new XElement
+                        (
+                            "Settings",
+                            new XElement("Server Address", "http://rollingkeg.com/repo/"),
+                            new XElement("Arma3 Executable", "c:\\program files\\steam\\steamapps\\steamapps\\arma3\\arma3.exe"),
+                            new XElement("Launch Options", "")
+                        )
+                    )
+                );
+                doc.Save(s);
+
+            }
+            else
+            {
+                BackupXML(s);
+                GenerateSettingsXML(s);
+            }
+        }
+
         public static void GenerateXML(string s)
         {
             if (File.Exists(s))
