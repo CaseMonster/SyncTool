@@ -1,5 +1,5 @@
 *.suo
 *.Log
 *.exe
-bin/*
-obj/*
+SyncTool/bin/*
+SyncTool/obj/*
