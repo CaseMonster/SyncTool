@@ -166,7 +166,8 @@ namespace SyncTool
             if (File.Exists(s + ".backup"))
             {
                 File.Delete(s + ".backup");
-                File.Move(s, s + ".backup");
+                if(File.Exists(s))
+                    File.Move(s, s + ".backup");
             }
             else
             {
