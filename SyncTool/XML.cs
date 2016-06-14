@@ -38,7 +38,7 @@ namespace SyncTool
         public static RemoteSettings ReadRemoteSettingsXML(string s)
         {
             var doc = XDocument.Load(s);
-            var list = from x in doc.Descendants("Server Settings")
+            var list = from x in doc.Descendants("ServerSettings")
                        select new RemoteSettings
                        (
                            (string)x.Element("Mods")
@@ -56,9 +56,9 @@ namespace SyncTool
             var list = from x in doc.Descendants("Settings")
                        select new LocalSettings
                        (
-                           (string)x.Element("Server Address"),
-                           (string)x.Element("Arma3 Directory"),
-                           (string)x.Element("Launch Options")
+                           (string)x.Element("ServerAddress"),
+                           (string)x.Element("Arma3Directory"),
+                           (string)x.Element("LaunchOptions")
                        );
             Log.Info("loaded local settings");
             LocalSettings settings = list.First();
@@ -81,9 +81,9 @@ namespace SyncTool
                         new XElement
                         (
                             "Settings",
-                            new XElement("Server Address", "http://rollingkeg.com/repo/"),
-                            new XElement("Arma3 Executable", @"c:\program files\steam\steamapps\steamapps\arma3\arma3.exe"),
-                            new XElement("Launch Options", "")
+                            new XElement("ServerAddress", "http://rollingkeg.com/repo/"),
+                            new XElement("Arma3Executable", @"c:\program files\steam\steamapps\steamapps\arma3\arma3.exe"),
+                            new XElement("LaunchOptions", "")
                         )
                     )
                 );

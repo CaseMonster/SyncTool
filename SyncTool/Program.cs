@@ -27,11 +27,6 @@ namespace SyncTool
 
             //generate object chain of loaded dirs/pbos
 
-            //download remote repo (http://rollingkeg.com/repo/repo.xml) -> (remote.xml)
-            PBOList remoteRepo = XML.ReadXML(REMOTE_REPO);
-
-            //generate object chain of loaded dirs/pbos
-
             //create list of pbos that have changed, hashes that have changed
             PBOList downloadList = localRepo.DownloadList(remoteRepo);
             PBOList deleteList = localRepo.DeleteList(remoteRepo);
