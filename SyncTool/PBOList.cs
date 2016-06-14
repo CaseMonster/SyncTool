@@ -14,8 +14,10 @@ namespace SyncTool
             foreach (PBO diffPBO in diff)
                 foreach (PBO remotePBO in remote)
                     if (remotePBO.hash == diffPBO.hash)
+                    {
                         diff.Remove(diffPBO);
-
+                        Log.InfoNoStamp(diffPBO.name + " is going to be deleted");
+                    }
             return diff;
         }
 
@@ -27,7 +29,10 @@ namespace SyncTool
             foreach (PBO remotePBO in remote)
                 foreach (PBO diffPBO in diff)
                     if (remotePBO.hash == diffPBO.hash)
+                    {
                         diff.Remove(diffPBO);
+                        Log.InfoNoStamp(diffPBO.name + " is going to be deleted");
+                    }
 
             return diff;
         }
