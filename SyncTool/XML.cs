@@ -119,7 +119,7 @@ namespace SyncTool
 
         public static void GenerateBlankXML(string s)
         {
-            Log.Info("generating new" + s);
+            Log.Info("generating new " + s);
             StreamWriter f = File.CreateText(s);
             f.Close();
 
@@ -149,6 +149,7 @@ namespace SyncTool
             try
             {
                 var doc = XDocument.Load(s);
+                Log.Info("syntax of " + s + "is okay");
             }
             catch (Exception ex)
             {
@@ -166,9 +167,14 @@ namespace SyncTool
         public static void BackupXML(string s)
         {
             Log.Info("backing up " + s);
+
             if (File.Exists(s + ".backup"))
             {
                 File.Delete(s + ".backup");
+                File.Move(s, s + ".backup");
+            }
+            else
+            {
                 File.Move(s, s + ".backup");
             }
         }

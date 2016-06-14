@@ -14,6 +14,7 @@ namespace SyncTool
             try
             {
                 Log.Info("running executable");
+
                 p.Start();
             }
             catch (System.ComponentModel.Win32Exception ex)
