@@ -20,6 +20,7 @@ namespace SyncTool
             localSettings = XML.ReadLocalSettingsXML(SyncTool.Program.LOCAL_SETTINGS);
             if (localSettings == null)
             {
+
                 Log.Error("Failed to Get localsetting xml");
             }
             this.Repo_Add_Textbox.Text = localSettings.server;
@@ -41,6 +42,7 @@ namespace SyncTool
                 localSettings.arma3file = this.Arma_Folder_Textbox.Text;
                 localSettings.server = this.Repo_Add_Textbox.Text;
                 localSettings.modfolder = this.Mods_Text.Text;
+                XML.OverWriteSettingsXML(localSettings, SyncTool.Program.LOCAL_SETTINGS);
             }
         }
     }
