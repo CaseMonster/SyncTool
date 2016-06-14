@@ -10,11 +10,13 @@ namespace SyncTool
     {
         public static string LOCAL_REPO = "repo.xml";
         public static string REMOTE_REPO = "http://rollingkeg.com/repo/repo.xml";
+        public static string LOCAL_SETTINGS = "settings.xml";
 
         static void Main(string[] args)
         {
             //load settings (settings.xml)
             Log.Startup();
+            Settings settings = XML.ReadSettingsXML(LOCAL_SETTINGS);
 
             //load local repo info (repo.xml), generate if doesn't exist
             PBOList localRepo = XML.ReadXML(LOCAL_REPO);
@@ -39,6 +41,9 @@ namespace SyncTool
             //update local xml as replace
 
             //compare two xml checksums for pbos, again
+
+            //Run A3
+            Run.Execute(settings);
         }
     }
 }

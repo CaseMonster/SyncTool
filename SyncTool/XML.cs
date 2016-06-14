@@ -42,6 +42,7 @@ namespace SyncTool
                            (string)x.Element("Arma3 Directory"),
                            (string)x.Element("Launch Options")
                        );
+            Log.Info("loaded settings");
             Settings settings = list.First();
             return settings;
         }

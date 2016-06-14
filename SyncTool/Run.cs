@@ -4,30 +4,23 @@ namespace SyncTool
 {
     class Run
     {
-        public void Execute(string dir, string file, string args)
+        public static void Execute(Settings settings)
         {
             Process p = new Process();
-            p.StartInfo.FileName = file;
-            p.StartInfo.WorkingDirectory = dir;
-            p.StartInfo.Arguments = args;
+            p.StartInfo.FileName = settings.arma3file;
+            p.StartInfo.WorkingDirectory = settings.arma3file;
+            p.StartInfo.Arguments = settings.arma3args;
 
-            if (file == "null" || file == null)
+            try
             {
-                Log.Info("executable not found");
+                Log.Info("running executable");
+                p.Start();
             }
-            else
+            catch (System.ComponentModel.Win32Exception ex)
             {
-                try
-                {
-                    Log.Info("running executable");
-                    p.Start();
-                }
-                catch (System.ComponentModel.Win32Exception ex)
-                {
-                    Log.Error("could not run program");
-                    Log.Info(ex.ToString());
-                    return;
-                };
+                Log.Error("could not run program");
+                Log.Info(ex.ToString());
+                return;
             };
         }
     }
