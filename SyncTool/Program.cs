@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SyncTool
 {
@@ -13,6 +14,11 @@ namespace SyncTool
 
         static void Main(string[] args)
         {
+            if (true)
+            {
+                Application.Run(new OptionsMenu());
+                return;
+            }
             //load settings
             Log.Startup();
             LocalSettings localSettings = XML.ReadLocalSettingsXML(LOCAL_SETTINGS);
