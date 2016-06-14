@@ -35,5 +35,25 @@ namespace SyncTool
                 Log.Info(diff.Count + " file(s) will be downloaded");
             return diff;
         }
+
+        public bool HaveFileNamesChanged(PBOList quickRepo)
+        {
+            PBOList diff = new PBOList();
+            diff.AddRange(this);
+            Log.Info("comparing files");
+
+            foreach (PBO thisPBO in this)
+                foreach (PBO quickPBO in quickRepo)
+                    if (quickPBO.name == thisPBO.name)
+                        diff.Remove(thisPBO);
+
+            if(diff.Count > 0)
+            {
+                Log.Info("file names have changed");
+                return true;
+            };
+            Log.Info("no changes in file names detected");
+            return false;
+        }
     }
 }

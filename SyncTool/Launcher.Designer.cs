@@ -60,6 +60,7 @@
             this.Sync_Progress.Location = new System.Drawing.Point(13, 26);
             this.Sync_Progress.Name = "Sync_Progress";
             this.Sync_Progress.Size = new System.Drawing.Size(367, 23);
+            this.Sync_Progress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.Sync_Progress.TabIndex = 2;
             // 
             // label2

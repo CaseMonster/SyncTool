@@ -123,7 +123,7 @@ namespace SyncTool
 
         public static void GenerateBlankXML(string s)
         {
-            Log.InfoStamp("generating new " + s);
+            Log.Info("generating new " + s);
             StreamWriter f = File.CreateText(s);
             f.Close();
 
@@ -135,9 +135,9 @@ namespace SyncTool
             doc.Save(s);
         }
 
-        public static void OutputToXML(string fileName, string filePath, string fileHash)
+        public static void OutputToXML(string xmlName, string fileName, string filePath, string fileHash)
         {
-            XDocument xmlFile = XDocument.Load(Program.LOCAL_REPO);
+            XDocument xmlFile = XDocument.Load(xmlName);
             var xmlElement = (new XElement("FileNode",
                 new XElement("FileName", fileName),
                 new XElement("FilePath", filePath),
@@ -156,15 +156,17 @@ namespace SyncTool
             }
             catch (Exception ex)
             {
-                if ((s == Program.LOCAL_SETTINGS) || (s == Program.LOCAL_REPO))
+                if ((s == Program.LOCAL_SETTINGS) || (s == Program.LOCAL_REPO) || (s == Program.QUICK_REPO))
                 {
                     Log.Info("the XML appears to be corrupted, backing up and recreating");
-                    Log.Info(ex.ToString());
+                    //Log.Info(ex.ToString());
                     BackupXML(s);
 
                     if (s == Program.LOCAL_SETTINGS)
                         GenerateLocalSettingsXML(s);
                     if (s == Program.LOCAL_REPO)
+                        GenerateBlankXML(s);
+                    if (s == Program.QUICK_REPO)
                         GenerateBlankXML(s);
                 }
                 else
