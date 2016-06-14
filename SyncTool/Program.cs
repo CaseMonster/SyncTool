@@ -14,7 +14,7 @@ namespace SyncTool
 
         static void Main(string[] args)
         {
-            if (true)
+            if (false)
             {
                 Application.Run(new OptionsMenu());
                 return;
