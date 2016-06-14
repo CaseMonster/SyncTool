@@ -35,6 +35,7 @@ namespace SyncTool
 
             foreach(string mod in remoteSettings.modsArray)
             {
+                Log.Info("generating repo for " + mod);
                 FileHandler.GenerateLocalRepo(string.Format("{0}\\{1}", localSettings.modfolder, mod));
             }
 
