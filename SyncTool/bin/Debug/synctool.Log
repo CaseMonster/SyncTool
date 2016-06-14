@@ -1,148 +1,22 @@
 
-[2016Jun13 1922]  
+[2016Jun13 2139]  
    SyncTool Started
 
-[2016Jun13 1922]  
-   generating new repo.xml
-
-[2016Jun13 2053]  
-   SyncTool Started
-
-[2016Jun13 2053]  
-   repo.xml appears to be corrupted, backing up and recreating
-
-[2016Jun13 2053]  
-   System.IO.FileNotFoundException: Could not find file 'D:\KC\Documents\GitHub\SyncTool\SyncTool\bin\Debug\settings.xml'.
-File name: 'D:\KC\Documents\GitHub\SyncTool\SyncTool\bin\Debug\settings.xml'
-   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
-   at System.Xml.XmlDownloadManager.GetStream(Uri uri, ICredentials credentials, IWebProxy proxy, RequestCachePolicy cachePolicy)
-   at System.Xml.XmlUrlResolver.GetEntity(Uri absoluteUri, String role, Type ofObjectToReturn)
-   at System.Xml.XmlTextReaderImpl.FinishInitUriString()
-   at System.Xml.XmlTextReaderImpl..ctor(String uriStr, XmlReaderSettings settings, XmlParserContext context, XmlResolver uriResolver)
-   at System.Xml.XmlReaderSettings.CreateReader(String inputUri, XmlParserContext inputContext)
-   at System.Xml.XmlReader.Create(String inputUri, XmlReaderSettings settings, XmlParserContext inputContext)
-   at System.Xml.Linq.XDocument.Load(String uri, LoadOptions options)
-   at System.Xml.Linq.XDocument.Load(String uri)
-   at SyncTool.XML.CheckSyntax(String s) in D:\KC\Documents\GitHub\SyncTool\SyncTool\XML.cs:line 152
-
-[2016Jun13 2102]  
-   SyncTool Started
-
-[2016Jun13 2102]  
-   repo.xml appears to be corrupted, backing up and recreating
-
-[2016Jun13 2102]  
-   System.IO.FileNotFoundException: Could not find file 'D:\KC\Documents\GitHub\SyncTool\SyncTool\bin\Debug\settings.xml'.
-File name: 'D:\KC\Documents\GitHub\SyncTool\SyncTool\bin\Debug\settings.xml'
-   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
-   at System.Xml.XmlDownloadManager.GetStream(Uri uri, ICredentials credentials, IWebProxy proxy, RequestCachePolicy cachePolicy)
-   at System.Xml.XmlUrlResolver.GetEntity(Uri absoluteUri, String role, Type ofObjectToReturn)
-   at System.Xml.XmlTextReaderImpl.FinishInitUriString()
-   at System.Xml.XmlTextReaderImpl..ctor(String uriStr, XmlReaderSettings settings, XmlParserContext context, XmlResolver uriResolver)
-   at System.Xml.XmlReaderSettings.CreateReader(String inputUri, XmlParserContext inputContext)
-   at System.Xml.XmlReader.Create(String inputUri, XmlReaderSettings settings, XmlParserContext inputContext)
-   at System.Xml.Linq.XDocument.Load(String uri, LoadOptions options)
-   at System.Xml.Linq.XDocument.Load(String uri)
-   at SyncTool.XML.CheckSyntax(String s) in D:\KC\Documents\GitHub\SyncTool\SyncTool\XML.cs:line 152
-
-[2016Jun13 2115]  
-   SyncTool Started
-
-[2016Jun13 2115]  
-   repo.xml appears to be corrupted, backing up and recreating
-
-[2016Jun13 2115]  
-   System.IO.FileNotFoundException: Could not find file 'D:\KC\Documents\GitHub\SyncTool\SyncTool\bin\Debug\settings.xml'.
-File name: 'D:\KC\Documents\GitHub\SyncTool\SyncTool\bin\Debug\settings.xml'
-   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
-   at System.Xml.XmlDownloadManager.GetStream(Uri uri, ICredentials credentials, IWebProxy proxy, RequestCachePolicy cachePolicy)
-   at System.Xml.XmlUrlResolver.GetEntity(Uri absoluteUri, String role, Type ofObjectToReturn)
-   at System.Xml.XmlTextReaderImpl.FinishInitUriString()
-   at System.Xml.XmlTextReaderImpl..ctor(String uriStr, XmlReaderSettings settings, XmlParserContext context, XmlResolver uriResolver)
-   at System.Xml.XmlReaderSettings.CreateReader(String inputUri, XmlParserContext inputContext)
-   at System.Xml.XmlReader.Create(String inputUri, XmlReaderSettings settings, XmlParserContext inputContext)
-   at System.Xml.Linq.XDocument.Load(String uri, LoadOptions options)
-   at System.Xml.Linq.XDocument.Load(String uri)
-   at SyncTool.XML.CheckSyntax(String s) in D:\KC\Documents\GitHub\SyncTool\SyncTool\XML.cs:line 140
-
-[2016Jun13 2115]  
-   generating new settings.xml
-
-[2016Jun13 2115]  
+[2016Jun13 2139]  
    loaded local settings
 
-[2016Jun13 2115]  
+[2016Jun13 2139]  
    loaded remote settings
 
-[2016Jun13 2115]  
-   generating new repo.xml
-
-[2016Jun13 2115]  
-   generating new repo.xml
-
-[2016Jun13 2120]  
-   SyncTool Started
-
-[2016Jun13 2120]  
-   loaded local settings
-
-[2016Jun13 2120]  
-   loaded remote settings
-
-[2016Jun13 2120]  
-   generating new repo.xml
-
-[2016Jun13 2125]  
-   SyncTool Started
-
-[2016Jun13 2125]  
-   loaded local settings
-
-[2016Jun13 2125]  
-   loaded remote settings
-
-[2016Jun13 2125]  
-   SyncTool Started
-
-[2016Jun13 2125]  
+[2016Jun13 2139]  
    repo.xml appears to be corrupted, backing up and recreating
 
-[2016Jun13 2125]  
-   System.IO.FileNotFoundException: Could not find file 'D:\KC\Documents\GitHub\SyncTool\SyncTool\bin\Debug\settings.xml'.
-File name: 'D:\KC\Documents\GitHub\SyncTool\SyncTool\bin\Debug\settings.xml'
-   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
-   at System.Xml.XmlDownloadManager.GetStream(Uri uri, ICredentials credentials, IWebProxy proxy, RequestCachePolicy cachePolicy)
-   at System.Xml.XmlUrlResolver.GetEntity(Uri absoluteUri, String role, Type ofObjectToReturn)
-   at System.Xml.XmlTextReaderImpl.FinishInitUriString()
-   at System.Xml.XmlTextReaderImpl..ctor(String uriStr, XmlReaderSettings settings, XmlParserContext context, XmlResolver uriResolver)
-   at System.Xml.XmlReaderSettings.CreateReader(String inputUri, XmlParserContext inputContext)
-   at System.Xml.XmlReader.Create(String inputUri, XmlReaderSettings settings, XmlParserContext inputContext)
+[2016Jun13 2139]  
+   System.Xml.XmlException: Root element is missing.
+   at System.Xml.XmlTextReaderImpl.Throw(Exception e)
+   at System.Xml.XmlTextReaderImpl.ParseDocumentContent()
+   at System.Xml.XmlTextReaderImpl.Read()
+   at System.Xml.Linq.XDocument.Load(XmlReader reader, LoadOptions options)
    at System.Xml.Linq.XDocument.Load(String uri, LoadOptions options)
    at System.Xml.Linq.XDocument.Load(String uri)
-   at SyncTool.XML.CheckSyntax(String s) in D:\KC\Documents\GitHub\SyncTool\SyncTool\XML.cs:line 131
-
-[2016Jun13 2125]  
-   generating new settings.xml
-
-[2016Jun13 2125]  
-   loaded local settings
-
-[2016Jun13 2125]  
-   loaded remote settings
-
-[2016Jun13 2125]  
-   generating new repo.xml
-
-[2016Jun13 2125]  
-   generating new repo.xml
-
-[2016Jun13 2127]  
-   SyncTool Started
+   at SyncTool.XML.CheckSyntax(String s) in D:\KC\Documents\GitHub\SyncTool\SyncTool\XML.cs:line 127

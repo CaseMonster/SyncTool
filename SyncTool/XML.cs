@@ -14,15 +14,17 @@ namespace SyncTool
 
         public static PBOList ReadXML(string s)
         {
+            Log.Info("reading " + s);
+
             CheckSyntax(s);
 
             var doc = XDocument.Load(s);
-            var list = from x in doc.Descendants("FILE")
+            var list = from x in doc.Descendants("FileNode")
                 select new PBO
                 (
-                    (string)x.Element("NAME"),
-                    (string)x.Element("SDIR"),
-                    (string)x.Element("HASH")
+                    (string)x.Element("FileName"),
+                    (string)x.Element("FilePath"),
+                    (string)x.Element("FileHash")
                 );
             PBOList p = new PBOList();
             foreach(PBO x in list)
@@ -65,7 +67,7 @@ namespace SyncTool
         {
             if (!File.Exists(s))
             {
-                Log.Info("generating new settings.xml");
+                Log.Info("generating new " + s);
                 StreamWriter f = File.CreateText(s);
                 f.Close();
 
@@ -96,7 +98,7 @@ namespace SyncTool
 
         public static void GenerateBlankXML(string s)
         {
-            Log.Info("generating new repo.xml");
+            Log.Info("generating new" + s);
             StreamWriter f = File.CreateText(s);
             f.Close();
 
@@ -113,8 +115,8 @@ namespace SyncTool
             XDocument xmlFile = XDocument.Load(Program.LOCAL_REPO);
             var xmlElement = (new XElement("FileNode",
                                   new XElement("FileName", fileName),
-                                  new XElement("filePath", filePath),
-                                  new XElement("fileHash", fileHash)));
+                                  new XElement("FilePath", filePath),
+                                  new XElement("FileHash", fileHash)));
 
             xmlFile.Element("SyncTool").Add(xmlElement);
             xmlFile.Save(Program.LOCAL_REPO);
@@ -122,13 +124,14 @@ namespace SyncTool
 
         public static void CheckSyntax(string s)
         {
+            Log.Info("checking syntax of " + s);
             try
             {
                 var doc = XDocument.Load(s);
             }
             catch (Exception ex)
             {
-                Log.Info("repo.xml appears to be corrupted, backing up and recreating");
+                Log.Info(s + " appears to be corrupted, backing up and recreating");
                 Log.Info(ex.ToString());
                 BackupXML(s);
 
@@ -141,6 +144,7 @@ namespace SyncTool
 
         public static void BackupXML(string s)
         {
+            Log.Info("backing up " + s);
             if (File.Exists(s + ".backup"))
             {
                 File.Delete(s + ".backup");
