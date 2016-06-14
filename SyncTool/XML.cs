@@ -108,7 +108,7 @@ namespace SyncTool
             doc.Save(s);
         }
 
-        public static void OutputToXML(string fileName, string filePath, string fileHash, string basePath)
+        public static void OutputToXML(string fileName, string filePath, string fileHash)
         {
             XDocument xmlFile = XDocument.Load(Program.LOCAL_REPO);
             var xmlElement = (new XElement("FileNode",
