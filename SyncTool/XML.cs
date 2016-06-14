@@ -14,11 +14,6 @@ namespace SyncTool
 
         public static PBOList ReadXML(string s)
         {
-            if(!File.Exists(s))
-            {
-                GenerateBlankXML(s);
-            }
-
             CheckSyntax(s);
 
             var doc = XDocument.Load(s);
@@ -35,9 +30,71 @@ namespace SyncTool
             return p;
         }
 
-        public static void GenerateBlankXML(string s)
+        public static RemoteSettings ReadRemoteSettingsXML(string s)
         {
-            if (!File.Exists(s))
+            var doc = XDocument.Load(s);
+            var list = from x in doc.Descendants("Server Settings")
+                       select new RemoteSettings
+                       (
+                           (string)x.Element("Mods")
+                       );
+            Log.Info("loaded remote settings");
+            RemoteSettings settings = list.First();
+            return settings;
+        }
+
+        public static LocalSettings ReadLocalSettingsXML(string s)
+        {
+            CheckSyntax(s);
+
+            var doc = XDocument.Load(s);
+            var list = from x in doc.Descendants("Settings")
+                       select new LocalSettings
+                       (
+                           (string)x.Element("Server Address"),
+                           (string)x.Element("Arma3 Directory"),
+                           (string)x.Element("Launch Options")
+                       );
+            Log.Info("loaded local settings");
+            LocalSettings settings = list.First();
+            return settings;
+        }
+
+        public static void GenerateLocalSettingsXML(string s)
+        {
+            if (File.Exists(s))
+            {
+                Log.Info("generating new settings.xml");
+                StreamWriter f = File.CreateText(s);
+                f.Close();
+
+                var doc = new XDocument
+                (
+                    new XElement
+                    (
+                        "SyncTool",
+                        new XElement
+                        (
+                            "Settings",
+                            new XElement("Server Address", "http://rollingkeg.com/repo/"),
+                            new XElement("Arma3 Executable", "c:\\program files\\steam\\steamapps\\steamapps\\arma3\\arma3.exe"),
+                            new XElement("Launch Options", "")
+                        )
+                    )
+                );
+                doc.Save(s);
+
+            }
+            else
+            {
+                BackupXML(s);
+                GenerateLocalSettingsXML(s);
+            }
+        }
+
+        public static void GenerateXML(string s)
+        {
+            if (File.Exists(s))
             {
                 Log.Info("generating new repo.xml");
                 StreamWriter f = File.CreateText(s);
@@ -48,39 +105,12 @@ namespace SyncTool
                     new XElement("SyncTool")
                 );
 
-                doc.Save(s);
-
             }
             else
             {
-                //BackupXML(s);
-                //GenerateBlankXML(s);
+                BackupXML(s);
+                GenerateXML(s);
             }
-        }
-
-        public static void OutputToXML(string fileName, string filePath, string fileHash, string basePath)
-        {
-            string fullFilePath = string.Format("{0}\\SyncTool.xml", basePath);
-
-            if (File.Exists(fullFilePath))
-            {
-                // Nothing
-            }
-            else
-            {
-                GenerateBlankXML(fullFilePath);
-                OutputToXML(fileName, filePath, fileHash, basePath);
-            }
-
-            XDocument xmlFile = XDocument.Load(fullFilePath);
-
-            var xmlElement = (new XElement("FileNode",
-                                  new XElement("FileName", fileName),
-                                  new XElement("filePath", filePath),
-                                  new XElement("fileHash", fileHash)));
-
-            xmlFile.Element("SyncTool").Add(xmlElement);
-            xmlFile.Save(fullFilePath);
         }
 
         public static void CheckSyntax(string s)
@@ -91,19 +121,18 @@ namespace SyncTool
             }
             catch (Exception ex)
             {
-                Log.Info("repo.xml appears to be corrupted, backing up and recreating");
+                Log.Info("repo.xml appears to be corrupted");
                 Log.Info(ex.ToString());
                 BackupXML(s);
+                GenerateXML(s);
             }
         }
 
         public static void BackupXML(string s)
         {
             if (File.Exists(s + ".backup"))
-            {
                 File.Delete(s + ".backup");
-                File.Move(s, s + ".backup");
-            }
+            File.Move(s, s + ".backup");
         }
     }
 }
