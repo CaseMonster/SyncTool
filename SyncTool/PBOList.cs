@@ -10,14 +10,14 @@ namespace SyncTool
         public PBOList DeleteList(PBOList remote)
         {
             PBOList diff = this;
-            Log.Info("generating delete list");
+            Log.InfoStamp("generating delete list");
 
             foreach (PBO diffPBO in diff)
                 foreach (PBO remotePBO in remote)
                     if (remotePBO.hash == diffPBO.hash)
                     {
                         diff.Remove(diffPBO);
-                        Log.InfoNoStamp(diffPBO.name + " is going to be deleted");
+                        Log.Info(diffPBO.name + " is going to be deleted");
                     }
             return diff;
         }
@@ -26,14 +26,14 @@ namespace SyncTool
         public PBOList DownloadList(PBOList remote)
         {
             PBOList diff = this;
-            Log.Info("generating download list");
+            Log.InfoStamp("generating download list");
 
             foreach (PBO remotePBO in remote)
                 foreach (PBO diffPBO in diff)
                     if (remotePBO.hash == diffPBO.hash)
                     {
                         diff.Remove(diffPBO);
-                        Log.InfoNoStamp(diffPBO.name + " is going to be deleted");
+                        Log.Info(diffPBO.name + " is going to be deleted");
                         break;
                     }
 

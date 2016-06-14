@@ -40,7 +40,7 @@ namespace SyncTool
                        (
                            (string)x.Element("Mods")
                        );
-            Log.Info("loaded remote settings");
+            Log.Info("loaded " + s);
             RemoteSettings settings = list.First();
             return settings;
         }
@@ -53,7 +53,7 @@ namespace SyncTool
             var set = doc.Element("SyncTool").Element("Settings");
             LocalSettings settings = new LocalSettings(set.Element("ServerAddress").Value,set.Element("ModFolder").Value, set.Element("Arma3Executable").Value, set.Element("LaunchOptions").Value);
 
-            Log.Info("loaded local settings");
+            Log.Info("loaded " + s);
             //LocalSettings settings=null;// list.First();
             return settings;
         }
@@ -114,7 +114,7 @@ namespace SyncTool
 
         public static void GenerateBlankXML(string s)
         {
-            Log.Info("generating new " + s);
+            Log.InfoStamp("generating new " + s);
             StreamWriter f = File.CreateText(s);
             f.Close();
 

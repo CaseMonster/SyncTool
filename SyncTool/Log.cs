@@ -10,15 +10,16 @@ namespace SyncTool
 
         public static void Startup()
         {
-            Info("SyncTool started");
+            Info(Environment.NewLine + "=======================================================================================================================");
+            InfoStamp("SyncTool started");
         }
 
-        public static void Info(string s)
+        public static void InfoStamp(string s)
         {
             Write(LinePrep(s));
         }
 
-        public static void InfoNoStamp(string s)
+        public static void Info(string s)
         {
             Write(LinePrepNoStamp(s));
         }
@@ -30,14 +31,12 @@ namespace SyncTool
 
         static string LinePrep(string s)
         {
-            return (Environment.NewLine + "[" + DateTime.Now.ToString("yyyyMMMdd HHmm") + "]  "
-                + Environment.NewLine + "   " + s
-                );
+            return (Environment.NewLine + "[" + DateTime.Now.ToString("yyyyMMMdd HHmm") + "]  " + Environment.NewLine + "   " + s);
         }
 
         static string LinePrepNoStamp(string s)
         {
-            return (Environment.NewLine + "   " + s);
+            return ("   " + s);
         }
 
         static void Write(string s)
