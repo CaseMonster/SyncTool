@@ -14,11 +14,6 @@ namespace SyncTool
 
         public static PBOList ReadXML(string s)
         {
-            if(!File.Exists(s))
-            {
-                GenerateBlankXML(s);
-            }
-
             CheckSyntax(s);
 
             var doc = XDocument.Load(s);
