@@ -20,7 +20,7 @@ namespace SyncTool
 
         public static void InfoNoStamp(string s)
         {
-            Write(LinePrep(s));
+            Write(LinePrepNoStamp(s));
         }
 
         public static void Error(string s)

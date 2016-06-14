@@ -10,6 +10,7 @@ namespace SyncTool
         public PBOList DeleteList(PBOList remote)
         {
             PBOList diff = this;
+            Log.Info("generating delete list");
 
             foreach (PBO diffPBO in diff)
                 foreach (PBO remotePBO in remote)
@@ -25,6 +26,7 @@ namespace SyncTool
         public PBOList DownloadList(PBOList remote)
         {
             PBOList diff = this;
+            Log.Info("generating download list");
 
             foreach (PBO remotePBO in remote)
                 foreach (PBO diffPBO in diff)
@@ -32,6 +34,7 @@ namespace SyncTool
                     {
                         diff.Remove(diffPBO);
                         Log.InfoNoStamp(diffPBO.name + " is going to be deleted");
+                        break;
                     }
 
             return diff;

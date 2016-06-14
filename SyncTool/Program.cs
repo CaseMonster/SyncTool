@@ -38,14 +38,9 @@ namespace SyncTool
                 FileHandler.GenerateLocalRepo(string.Format("{0}\\{1}", localSettings.modfolder, mod));
             }
 
-            Console.ReadKey();
-
             //Pull remote repo
             PBOList remoteRepo = XML.ReadXML(localSettings.server + "repo.xml");
             PBOList localRepo = XML.ReadXML(LOCAL_REPO);
-
-            Console.WriteLine("DONE");
-            
 
             //generate object chain of loaded dirs/pbos
 
@@ -64,7 +59,7 @@ namespace SyncTool
             //compare two xml checksums for pbos, again
 
             //Run A3
-            Run.Execute(localSettings);
+            //Run.Execute(localSettings);
         }
     }
 }

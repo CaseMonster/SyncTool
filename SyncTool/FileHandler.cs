@@ -23,7 +23,6 @@ namespace SyncTool
                 string fileHash = HashGenerator.GetHash(file);
 
                 // store data in the XML file
-                Console.WriteLine(file);
                 XML.OutputToXML(fileName, filePath, fileHash);
             }
         }
