@@ -42,6 +42,7 @@ namespace SyncTool
 
             //Pull remote repo
             PBOList remoteRepo = XML.ReadXML(localSettings.server + "repo.xml");
+            PBOList localRepo = XML.ReadXML(LOCAL_REPO);
 
             Console.WriteLine("DONE");
             
@@ -49,8 +50,8 @@ namespace SyncTool
             //generate object chain of loaded dirs/pbos
 
             //create list of pbos that have changed, hashes that have changed
-            //PBOList downloadList = localRepo.DownloadList(remoteRepo);
-            //PBOList deleteList = localRepo.DeleteList(remoteRepo);
+            PBOList downloadList = localRepo.DownloadList(remoteRepo);
+            PBOList deleteList = localRepo.DeleteList(remoteRepo);
 
             //cycle list of pbo downloads, store in temp location
 
