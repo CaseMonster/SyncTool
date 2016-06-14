@@ -35,6 +35,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +50,12 @@
     <Compile Include="HTTP.cs" />
     <Compile Include="LocalSettings.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="OptionsMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OptionsMenu.Designer.cs">
+      <DependentUpon>OptionsMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="PBO.cs" />
     <Compile Include="PBOList.cs" />
     <Compile Include="Program.cs" />

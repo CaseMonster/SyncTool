@@ -10,3 +10,6 @@ C:\GitHub\SyncTool\SyncTool\obj\Debug\SyncTool.pdb
 C:\GitHub\SyncTool\SyncTool\bin\Debug\SyncTool.exe
 C:\GitHub\SyncTool\SyncTool\bin\Debug\SyncTool.pdb
 C:\GitHub\SyncTool\SyncTool\obj\Debug\SyncTool.csprojResolveAssemblyReference.cache
+C:\Users\am195\Desktop\SyncTool\SyncTool\bin\Debug\SyncTool.exe.config
+C:\Users\am195\Desktop\SyncTool\SyncTool\obj\Debug\SyncTool.exe
+C:\Users\am195\Desktop\SyncTool\SyncTool\obj\Debug\SyncTool.pdb
