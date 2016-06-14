@@ -175,7 +175,8 @@ namespace SyncTool
             }
             else
             {
-                File.Move(s, s + ".backup");
+                if(File.Exists(s))
+                    File.Move(s, s + ".backup");
             }
         }
     }
