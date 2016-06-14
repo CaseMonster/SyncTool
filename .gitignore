@@ -1,5 +1,5 @@
 *.suo
 *.Log
 *.exe
-*.exe
-*.Log
+bin/*
+obj/*
