@@ -14,13 +14,17 @@ namespace SyncTool
 
         static void Main(string[] args)
         {
-            if (false)
+            if (true)
             {
                 Application.Run(new OptionsMenu());
                 return;
             }
             //load settings
             Log.Startup();
+
+            FileHandler.GenerateLocalRepo("C:\\GitHub\\SyncTool\\SyncTool");
+            Console.ReadKey();
+
             LocalSettings localSettings = XML.ReadLocalSettingsXML(LOCAL_SETTINGS);
             RemoteSettings remoteSettings = XML.ReadRemoteSettingsXML(localSettings.server + "settings.xml");
 
