@@ -49,17 +49,12 @@ namespace SyncTool
         {
             CheckSyntax(s);
 
-            var doc = XDocument.Load(s);
-            var list = from x in doc.Descendants("Settings")
-                       select new LocalSettings
-                       (
-                           (string)x.Element("ServerAddress"),
-                           (string)x.Element("ModFolder"),
-                           (string)x.Element("Arma3Directory"),
-                           (string)x.Element("LaunchOptions")
-                       );
+            var doc = XDocument.Load(s, LoadOptions.PreserveWhitespace);
+            var set = doc.Element("SyncTool").Element("Settings");
+            LocalSettings settings = new LocalSettings(set.Element("ServerAddress").Value,set.Element("ModFolder").Value, set.Element("Arma3Executable").Value, set.Element("LaunchOptions").Value);
+
             Log.Info("loaded local settings");
-            LocalSettings settings = list.First();
+            //LocalSettings settings=null;// list.First();
             return settings;
         }
 
@@ -102,7 +97,7 @@ namespace SyncTool
                             "Settings",
                             new XElement("ServerAddress", "http://rollingkeg.com/repo/"),
                             new XElement("ModFolder", @"C:\Users\User\Documents\Arma 3\Mods\"),
-                            new XElement("Arma3Executable", @"c:\program files\steam\steamapps\steamapps\arma3\arma3.exe"),
+                            new XElement("Arma3Executable", "C:\\Program Files\\steam\\steamapps\\steamapps\\arma3\\arma3.exe"),
                             new XElement("LaunchOptions", "")
                         )
                     )
