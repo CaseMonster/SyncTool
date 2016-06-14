@@ -4,7 +4,7 @@ namespace SyncTool
 {
     class Run
     {
-        public static void Execute(Settings settings)
+        public static void Execute(LocalSettings settings)
         {
             Process p = new Process();
             p.StartInfo.FileName = settings.arma3file;

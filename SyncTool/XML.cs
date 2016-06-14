@@ -30,24 +30,37 @@ namespace SyncTool
             return p;
         }
 
-        public static Settings ReadSettingsXML(string s)
+        public static RemoteSettings ReadRemoteSettingsXML(string s)
+        {
+            var doc = XDocument.Load(s);
+            var list = from x in doc.Descendants("Server Settings")
+                       select new RemoteSettings
+                       (
+                           (string)x.Element("Mods")
+                       );
+            Log.Info("loaded remote settings");
+            RemoteSettings settings = list.First();
+            return settings;
+        }
+
+        public static LocalSettings ReadLocalSettingsXML(string s)
         {
             CheckSyntax(s);
 
             var doc = XDocument.Load(s);
             var list = from x in doc.Descendants("Settings")
-                       select new Settings
+                       select new LocalSettings
                        (
                            (string)x.Element("Server Address"),
                            (string)x.Element("Arma3 Directory"),
                            (string)x.Element("Launch Options")
                        );
-            Log.Info("loaded settings");
-            Settings settings = list.First();
+            Log.Info("loaded local settings");
+            LocalSettings settings = list.First();
             return settings;
         }
 
-        public static void GenerateSettingsXML(string s)
+        public static void GenerateLocalSettingsXML(string s)
         {
             if (File.Exists(s))
             {
@@ -75,7 +88,7 @@ namespace SyncTool
             else
             {
                 BackupXML(s);
-                GenerateSettingsXML(s);
+                GenerateLocalSettingsXML(s);
             }
         }
 

@@ -74,8 +74,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RemoteSettings.cs" />
     <Compile Include="Run.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="LocalSettings.cs" />
     <Compile Include="XML.cs" />
   </ItemGroup>
   <ItemGroup>
