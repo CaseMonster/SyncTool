@@ -20,8 +20,8 @@ namespace SyncTool
             localSettings = XML.ReadLocalSettingsXML(SyncTool.Program.LOCAL_SETTINGS);
             if (localSettings == null)
             {
-
-                Log.Error("Failed to Get localsetting xml");
+                Log.Error("Failed to Get localsetting xml trying a generic");
+                return;
             }
             this.Repo_Add_Textbox.Text = localSettings.server;
             this.Launch_Text.Text = localSettings.arma3args;
