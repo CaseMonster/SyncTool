@@ -27,5 +27,6 @@ namespace SyncTool
                 XML.OutputToXML(fileName, filePath, fileHash);
             }
         }
+
     }
 }

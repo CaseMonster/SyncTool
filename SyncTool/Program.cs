@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace SyncTool
 {
@@ -25,6 +26,13 @@ namespace SyncTool
             RemoteSettings remoteSettings = XML.ReadRemoteSettingsXML(localSettings.server + "settings.xml");
 
             //Generate new localRepo
+            XML.BackupXML("repo.xml");
+
+            if(!File.Exists(LOCAL_REPO))
+            {
+                XML.GenerateBlankXML(LOCAL_REPO);
+            }
+
             foreach(string mod in remoteSettings.modsArray)
             {
                 FileHandler.GenerateLocalRepo(string.Format("{0}\\{1}", localSettings.modfolder, mod));
