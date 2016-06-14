@@ -42,7 +42,7 @@ namespace SyncTool
                 localSettings.arma3file = this.Arma_Folder_Textbox.Text;
                 localSettings.server = this.Repo_Add_Textbox.Text;
                 localSettings.modfolder = this.Mods_Text.Text;
-                XML.OverWriteSettingsXML(localSettings, SyncTool.Program.LOCAL_SETTINGS);
+                XML.OverWriteLocalSettingsXML(localSettings, SyncTool.Program.LOCAL_SETTINGS);
             }
         }
     }

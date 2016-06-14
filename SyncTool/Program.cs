@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.IO;
+﻿using System.Windows.Forms;
 
 namespace SyncTool
 {
@@ -16,41 +10,43 @@ namespace SyncTool
         static void Main(string[] args)
         {
             Log.Startup();
-            if (true)
+
+            if (false)
             {
                 Application.Run(new Launcher());
                 return;
             }
+
             //load settings
-            
             LocalSettings localSettings = XML.ReadLocalSettingsXML(LOCAL_SETTINGS);
             RemoteSettings remoteSettings = XML.ReadRemoteSettingsXML(localSettings.server + "settings.xml");
 
             //Generate new localRepo
-            XML.BackupXML("repo.xml");
+            //XML.BackupXML("repo.xml");
 
-            if(!File.Exists(LOCAL_REPO))
-            {
-                XML.GenerateBlankXML(LOCAL_REPO);
-            }
+            //if(!File.Exists(LOCAL_REPO))
+            //{
+            //    XML.GenerateBlankXML(LOCAL_REPO);
+            //}
 
-            foreach(string mod in remoteSettings.modsArray)
-            {
-                Log.Info("generating repo for " + mod);
-                FileHandler.GenerateLocalRepo(string.Format("{0}\\{1}", localSettings.modfolder, mod));
-            }
+            //We need an additional check for filenames?  then if we see a change in the dir, hash that one dir
+
+            //Comb through directories and hash folders, if nessesary
+            //FileHandler.HashFolders(remoteSettings, localSettings);
 
             //Pull remote repo
-            PBOList remoteRepo = XML.ReadXML(localSettings.server + "repo.xml");
-            PBOList localRepo = XML.ReadXML(LOCAL_REPO);
-
-            //generate object chain of loaded dirs/pbos
+            PBOList remoteRepo = XML.ReadRepoXML(localSettings.server + "repo.xml");
+            PBOList localRepo = XML.ReadRepoXML(LOCAL_REPO);
 
             //create list of pbos that have changed, hashes that have changed
             PBOList downloadList = localRepo.DownloadList(remoteRepo);
             PBOList deleteList = localRepo.DeleteList(remoteRepo);
 
+            //Delete PBOs that are no longer in Repo
+            FileHandler.DeleteList(deleteList);
+
             //cycle list of pbo downloads, store in temp location
+            HTTP.DownloadList(downloadList);
 
             //hash downloaded pbos, compare to remote list of pbos
 

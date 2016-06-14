@@ -28,9 +28,28 @@ namespace SyncTool
             }
             catch
             {
-                Log.Info("cannot find folder");
+                Log.Info(basePath + " folder does not exist");
             };
         }
 
+        public static void HashFolders(RemoteSettings remoteSettings, LocalSettings localSettings)
+        {
+            Log.InfoStamp("generating new repo.xml");
+            foreach (string mod in remoteSettings.modsArray)
+            {
+                Log.Info("creating hashes for " + mod);
+                GenerateLocalRepo(string.Format("{0}\\{1}", localSettings.modfolder, mod));
+            }
+        }
+
+        public static void DeleteList(PBOList deleteList)
+        {
+            Log.InfoStamp("deleting file(s)");
+            foreach (PBO pbo in deleteList)
+                if (File.Exists(pbo.sdir))
+                    //File.Delete(pbo.sdir);
+                    Log.Info("deleting " + pbo.name);
+            Log.Info("file(s) deleted");
+        }
     }
 }

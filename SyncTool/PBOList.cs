@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
+﻿using System.Collections;
 
 namespace SyncTool
 {
@@ -9,27 +7,32 @@ namespace SyncTool
         //the return list contains a list of files not present in the remote repo (Deletion List)
         public PBOList DeleteList(PBOList remote)
         {
-            PBOList diff = this;
+            PBOList diff = new PBOList();
+            diff.AddRange(this);
             Log.InfoStamp("generating delete list");
 
-            foreach (PBO diffPBO in diff)
+            foreach (PBO thisPBO in this)
                 foreach (PBO remotePBO in remote)
-                    if (remotePBO.hash == diffPBO.hash)
-                        diff.Remove(diffPBO);
+                    if (remotePBO.hash == thisPBO.hash)
+                        diff.Remove(thisPBO);
 
+                Log.Info(diff.Count + " file(s) will be deleted");
             return diff;
         }
 
         //the return list contains a list of files not present in the local repo (Download List)
         public PBOList DownloadList(PBOList remote)
         {
-            PBOList diff = this;
+            PBOList diff = new PBOList();
+            diff.AddRange(remote);
             Log.InfoStamp("generating download list");
 
             foreach (PBO remotePBO in remote)
-                foreach (PBO diffPBO in diff)
-                    if (remotePBO.hash == diffPBO.hash)
-                        diff.Remove(diffPBO);
+                foreach (PBO thisPBO in this)
+                    if (remotePBO.hash == thisPBO.hash)
+                        diff.Remove(remotePBO);
+
+                Log.Info(diff.Count + " file(s) will be downloaded");
             return diff;
         }
     }

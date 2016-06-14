@@ -56,8 +56,8 @@ namespace SyncTool
                 }
 
                 //Pull remote repo
-                PBOList remoteRepo = XML.ReadXML(localSettings.server + "repo.xml");
-                PBOList localRepo = XML.ReadXML(LOCAL_REPO);
+                PBOList remoteRepo = XML.ReadRepoXML(localSettings.server + "repo.xml");
+                PBOList localRepo = XML.ReadRepoXML(LOCAL_REPO);
 
                 //generate object chain of loaded dirs/pbos
 

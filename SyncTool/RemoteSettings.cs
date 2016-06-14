@@ -6,10 +6,15 @@ namespace SyncTool
         public string mods = "NULL";
         public string[] modsArray;
 
-        public RemoteSettings(string s)
+        public string forceHash = "NULL";
+        public string version = "NULL";
+
+        public RemoteSettings(string mods, string version, string forceHash)
         {
-            this.mods = s;
-            ParseRemoteSettings(s);
+            this.mods = mods;
+            ParseRemoteSettings(mods);
+            this.version = version;
+            this.forceHash = forceHash;
         }
 
         public void ParseRemoteSettings(string s)

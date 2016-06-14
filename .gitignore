@@ -3,3 +3,4 @@
 *.exe
 SyncTool/bin/*
 SyncTool/obj/*
+SyncTool/.vs/SyncTool/v14/.suo

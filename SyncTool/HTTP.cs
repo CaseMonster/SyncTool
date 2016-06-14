@@ -12,8 +12,10 @@ namespace SyncTool
 
         public static void DownloadList(PBOList dlList)
         {
+            Log.InfoStamp("downloading file(s)");
             foreach (PBO dlObject in dlList)
                 Download(dlObject.sdir + "\\" + dlObject.name, dlObject.sdir + "\\" + dlObject.name);
+            Log.Info("file(s) downloaded");
         }
     }
 }

@@ -12,10 +12,9 @@ namespace SyncTool
         {
         }
 
-        public static PBOList ReadXML(string s)
+        public static PBOList ReadRepoXML(string s)
         {
             Log.Info("reading " + s);
-
             CheckSyntax(s);
 
             var doc = XDocument.Load(s);
@@ -34,31 +33,41 @@ namespace SyncTool
 
         public static RemoteSettings ReadRemoteSettingsXML(string s)
         {
+            Log.Info("reading " + s);
+            CheckSyntax(s);
+
             var doc = XDocument.Load(s);
             var list = from x in doc.Descendants("ServerSettings")
-                       select new RemoteSettings
-                       (
-                           (string)x.Element("Mods")
-                       );
-            Log.Info("loaded " + s);
+                select new RemoteSettings
+                (
+                    (string)x.Element("Mods"),
+                    (string)x.Element("Version"),
+                    (string)x.Element("ForceHash")
+
+                );
             RemoteSettings settings = list.First();
             return settings;
         }
 
         public static LocalSettings ReadLocalSettingsXML(string s)
         {
+            Log.Info("reading " + s);
             CheckSyntax(s);
 
             var doc = XDocument.Load(s, LoadOptions.PreserveWhitespace);
             var set = doc.Element("SyncTool").Element("Settings");
-            LocalSettings settings = new LocalSettings(set.Element("ServerAddress").Value,set.Element("ModFolder").Value, set.Element("Arma3Executable").Value, set.Element("LaunchOptions").Value);
+            LocalSettings settings = new LocalSettings
+            (
+                set.Element("ServerAddress").Value,
+                set.Element("ModFolder").Value,
+                set.Element("Arma3Executable").Value,
+                set.Element("LaunchOptions").Value
+            );
 
-            Log.Info("loaded " + s);
-            //LocalSettings settings=null;// list.First();
             return settings;
         }
 
-        public static void OverWriteSettingsXML(LocalSettings settings, string location)
+        public static void OverWriteLocalSettingsXML(LocalSettings settings, string location)
         {
             var doc = new XDocument
                (
@@ -130,9 +139,9 @@ namespace SyncTool
         {
             XDocument xmlFile = XDocument.Load(Program.LOCAL_REPO);
             var xmlElement = (new XElement("FileNode",
-                                  new XElement("FileName", fileName),
-                                  new XElement("FilePath", filePath),
-                                  new XElement("FileHash", fileHash)));
+                new XElement("FileName", fileName),
+                new XElement("FilePath", filePath),
+                new XElement("FileHash", fileHash)));
 
             xmlFile.Element("SyncTool").Add(xmlElement);
             xmlFile.Save(Program.LOCAL_REPO);
@@ -140,22 +149,29 @@ namespace SyncTool
 
         public static void CheckSyntax(string s)
         {
-            Log.Info("checking syntax of " + s);
+            Log.Info("checking syntax");
             try
             {
                 var doc = XDocument.Load(s);
-                Log.Info("syntax of " + s + " is okay");
             }
             catch (Exception ex)
             {
-                Log.Info(s + " appears to be corrupted, backing up and recreating");
-                Log.Info(ex.ToString());
-                BackupXML(s);
+                if ((s == Program.LOCAL_SETTINGS) || (s == Program.LOCAL_REPO))
+                {
+                    Log.Info("the XML appears to be corrupted, backing up and recreating");
+                    Log.Info(ex.ToString());
+                    BackupXML(s);
 
-                if(s == "settings.xml")
-                    GenerateLocalSettingsXML(s);
-                if(s == "repo.xml")
-                    GenerateBlankXML(s);
+                    if (s == Program.LOCAL_SETTINGS)
+                        GenerateLocalSettingsXML(s);
+                    if (s == Program.LOCAL_REPO)
+                        GenerateBlankXML(s);
+                }
+                else
+                {
+                    Log.Info("the server's xml appears to be corrupted");
+                }
+          
             }
         }
 
