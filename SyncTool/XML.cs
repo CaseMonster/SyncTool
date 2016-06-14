@@ -83,6 +83,7 @@ namespace SyncTool
                         (
                             "Settings",
                             new XElement("ServerAddress", "http://rollingkeg.com/repo/"),
+                            new XElement("ModFolder", @"C:\Users\User\Documents\Arma 3\Mods\"),
                             new XElement("Arma3Executable", @"c:\program files\steam\steamapps\steamapps\arma3\arma3.exe"),
                             new XElement("LaunchOptions", "")
                         )
