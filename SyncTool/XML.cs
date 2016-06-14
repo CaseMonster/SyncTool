@@ -35,6 +35,68 @@ namespace SyncTool
             return p;
         }
 
+        public static RemoteSettings ReadRemoteSettingsXML(string s)
+        {
+            var doc = XDocument.Load(s);
+            var list = from x in doc.Descendants("Server Settings")
+                       select new RemoteSettings
+                       (
+                           (string)x.Element("Mods")
+                       );
+            Log.Info("loaded remote settings");
+            RemoteSettings settings = list.First();
+            return settings;
+        }
+
+        public static LocalSettings ReadLocalSettingsXML(string s)
+        {
+            CheckSyntax(s);
+
+            var doc = XDocument.Load(s);
+            var list = from x in doc.Descendants("Settings")
+                       select new LocalSettings
+                       (
+                           (string)x.Element("Server Address"),
+                           (string)x.Element("Arma3 Directory"),
+                           (string)x.Element("Launch Options")
+                       );
+            Log.Info("loaded local settings");
+            LocalSettings settings = list.First();
+            return settings;
+        }
+
+        public static void GenerateLocalSettingsXML(string s)
+        {
+            if (!File.Exists(s))
+            {
+                Log.Info("generating new settings.xml");
+                StreamWriter f = File.CreateText(s);
+                f.Close();
+
+                var doc = new XDocument
+                (
+                    new XElement
+                    (
+                        "SyncTool",
+                        new XElement
+                        (
+                            "Settings",
+                            new XElement("Server Address", "http://rollingkeg.com/repo/"),
+                            new XElement("Arma3 Executable", @"c:\program files\steam\steamapps\steamapps\arma3\arma3.exe"),
+                            new XElement("Launch Options", "")
+                        )
+                    )
+                );
+                doc.Save(s);
+
+            }
+            else
+            {
+                BackupXML(s);
+                GenerateLocalSettingsXML(s);
+            }
+        }
+
         public static void GenerateBlankXML(string s)
         {
             if (!File.Exists(s))

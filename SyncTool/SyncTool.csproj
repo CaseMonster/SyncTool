@@ -43,14 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="FileHandler.cs" />
     <Compile Include="Hash.cs" />
     <Compile Include="HTTP.cs" />
+    <Compile Include="LocalSettings.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="PBO.cs" />
     <Compile Include="PBOList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemoteSettings.cs" />
+    <Compile Include="Run.cs" />
     <Compile Include="XML.cs" />
   </ItemGroup>
   <ItemGroup>

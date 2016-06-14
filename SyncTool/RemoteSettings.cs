@@ -4,7 +4,7 @@ namespace SyncTool
     class RemoteSettings
     {
         public string mods = "NULL";
-        public string []modsArray;
+        public string[] modsArray;
 
         public RemoteSettings(string s)
         {
