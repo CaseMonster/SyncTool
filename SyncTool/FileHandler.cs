@@ -24,7 +24,7 @@ namespace SyncTool
 
                 // store data in the XML file
                 Console.WriteLine(file);
-                XML.OutputToXML(fileName, filePath, fileHash, basePath);
+                XML.OutputToXML(fileName, filePath, fileHash);
             }
         }
     }
