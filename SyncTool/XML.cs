@@ -63,6 +63,27 @@ namespace SyncTool
             return settings;
         }
 
+        public static void OverWriteSettingsXML(LocalSettings settings, string location)
+        {
+            var doc = new XDocument
+               (
+                   new XElement
+                   (
+                       "SyncTool",
+                       new XElement
+                       (
+                           "Settings",
+                           new XElement("ServerAddress", settings.server),
+                           new XElement("ModFolder", settings.modfolder),
+                           new XElement("Arma3Executable", settings.arma3file),
+                           new XElement("LaunchOptions", settings.arma3args)
+                       )
+                   )
+               );
+            doc.Save(location);
+
+        }
+
         public static void GenerateLocalSettingsXML(string s)
         {
             if (!File.Exists(s))
