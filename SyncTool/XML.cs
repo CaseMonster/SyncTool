@@ -122,20 +122,9 @@ namespace SyncTool
 
         public static void OutputToXML(string fileName, string filePath, string fileHash, string basePath)
         {
-            string fullFilePath = string.Format("{0}\\SyncTool.xml", basePath);
-
-            if (File.Exists(fullFilePath))
-            {
-                // Nothing
-            }
-            else
-            {
-                GenerateBlankXML(fullFilePath);
-                OutputToXML(fileName, filePath, fileHash, basePath);
-            }
+            string fullFilePath = string.Format("{0}\\repo.xml", basePath);
 
             XDocument xmlFile = XDocument.Load(fullFilePath);
-
             var xmlElement = (new XElement("FileNode",
                                   new XElement("FileName", fileName),
                                   new XElement("filePath", filePath),
@@ -156,6 +145,11 @@ namespace SyncTool
                 Log.Info("repo.xml appears to be corrupted, backing up and recreating");
                 Log.Info(ex.ToString());
                 BackupXML(s);
+
+                if(s == "settings.xml")
+                    GenerateLocalSettingsXML(s);
+                if(s == "repo.xml")
+                    GenerateBlankXML(s);
             }
         }
 
