@@ -15,13 +15,14 @@ namespace SyncTool
 
         static void Main(string[] args)
         {
-            if (false)
+            Log.Startup();
+            if (true)
             {
-                Application.Run(new OptionsMenu());
+                Application.Run(new Launcher());
                 return;
             }
             //load settings
-            Log.Startup();
+            
             LocalSettings localSettings = XML.ReadLocalSettingsXML(LOCAL_SETTINGS);
             RemoteSettings remoteSettings = XML.ReadRemoteSettingsXML(localSettings.server + "settings.xml");
 

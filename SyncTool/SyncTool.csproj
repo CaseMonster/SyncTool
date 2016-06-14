@@ -48,6 +48,12 @@
     <Compile Include="FileHandler.cs" />
     <Compile Include="Hash.cs" />
     <Compile Include="HTTP.cs" />
+    <Compile Include="Launcher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Launcher.Designer.cs">
+      <DependentUpon>Launcher.cs</DependentUpon>
+    </Compile>
     <Compile Include="LocalSettings.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="OptionsMenu.cs">
@@ -68,6 +74,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Launcher.resx">
+      <DependentUpon>Launcher.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OptionsMenu.resx">
       <DependentUpon>OptionsMenu.cs</DependentUpon>
     </EmbeddedResource>
