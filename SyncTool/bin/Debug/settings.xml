@@ -2,7 +2,7 @@
 <SyncTool>
   <Settings>
     <ServerAddress>http://rollingkeg.com/repo/</ServerAddress>
-    <ModFolder>C:\Users\User\Documents\Arma 3\Mods\</ModFolder>
+    <ModFolder>C:\Steam\steamapps\common\Arma 3\__Rolling_Keg</ModFolder>
     <Arma3Executable>c:\program files\steam\steamapps\steamapps\arma3\arma3.exe</Arma3Executable>
     <LaunchOptions></LaunchOptions>
   </Settings>

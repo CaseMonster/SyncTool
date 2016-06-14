@@ -25,19 +25,24 @@ namespace SyncTool
             RemoteSettings remoteSettings = XML.ReadRemoteSettingsXML(localSettings.server + "settings.xml");
 
             //Generate new localRepo
-            //PBOList localRepo = XML.ReadXML(LOCAL_REPO);
+            foreach(string mod in remoteSettings.modsArray)
+            {
+                FileHandler.GenerateLocalRepo(string.Format("{0}\\{1}", localSettings.modfolder, mod));
+            }
+
+            Console.ReadKey();
 
             //Pull remote repo
             PBOList remoteRepo = XML.ReadXML(localSettings.server + "repo.xml");
 
             Console.WriteLine("DONE");
-            Console.ReadKey();
+            
 
             //generate object chain of loaded dirs/pbos
 
             //create list of pbos that have changed, hashes that have changed
-            PBOList downloadList = localRepo.DownloadList(remoteRepo);
-            PBOList deleteList = localRepo.DeleteList(remoteRepo);
+            //PBOList downloadList = localRepo.DownloadList(remoteRepo);
+            //PBOList deleteList = localRepo.DeleteList(remoteRepo);
 
             //cycle list of pbo downloads, store in temp location
 

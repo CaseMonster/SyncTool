@@ -20,3 +20,106 @@
    at System.Xml.Linq.XDocument.Load(String uri, LoadOptions options)
    at System.Xml.Linq.XDocument.Load(String uri)
    at SyncTool.XML.CheckSyntax(String s) in D:\KC\Documents\GitHub\SyncTool\SyncTool\XML.cs:line 127
+
+[2016Jun13 2055]  
+   SyncTool Started
+
+[2016Jun13 2055]  
+   loaded local settings
+
+[2016Jun13 2055]  
+   loaded remote settings
+
+[2016Jun13 2055]  
+   repo.xml appears to be corrupted, backing up and recreating
+
+[2016Jun13 2055]  
+   System.IO.FileNotFoundException: Could not find file 'C:\GitHub\SyncTool\SyncTool\bin\Debug\repo.xml'.
+File name: 'C:\GitHub\SyncTool\SyncTool\bin\Debug\repo.xml'
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
+   at System.Xml.XmlDownloadManager.GetStream(Uri uri, ICredentials credentials, IWebProxy proxy, RequestCachePolicy cachePolicy)
+   at System.Xml.XmlUrlResolver.GetEntity(Uri absoluteUri, String role, Type ofObjectToReturn)
+   at System.Xml.XmlTextReaderImpl.FinishInitUriString()
+   at System.Xml.XmlTextReaderImpl..ctor(String uriStr, XmlReaderSettings settings, XmlParserContext context, XmlResolver uriResolver)
+   at System.Xml.XmlReaderSettings.CreateReader(String inputUri, XmlParserContext inputContext)
+   at System.Xml.XmlReader.Create(String inputUri, XmlReaderSettings settings, XmlParserContext inputContext)
+   at System.Xml.Linq.XDocument.Load(String uri, LoadOptions options)
+   at System.Xml.Linq.XDocument.Load(String uri)
+   at SyncTool.XML.CheckSyntax(String s) in D:\KC\Documents\GitHub\SyncTool\SyncTool\XML.cs:line 127
+
+[2016Jun13 2055]  
+   generating new repo.xml
+
+[2016Jun13 2055]  
+   SyncTool Started
+
+[2016Jun13 2055]  
+   loaded local settings
+
+[2016Jun13 2055]  
+   loaded remote settings
+
+[2016Jun13 2056]  
+   SyncTool Started
+
+[2016Jun13 2056]  
+   checking syntax of settings.xml
+
+[2016Jun13 2056]  
+   loaded local settings
+
+[2016Jun13 2056]  
+   loaded remote settings
+
+[2016Jun13 2056]  
+   reading http://rollingkeg.com/repo/repo.xml
+
+[2016Jun13 2056]  
+   checking syntax of http://rollingkeg.com/repo/repo.xml
+
+[2016Jun13 2056]  
+   running executable
+
+[2016Jun13 2057]  
+   SyncTool Started
+
+[2016Jun13 2057]  
+   checking syntax of settings.xml
+
+[2016Jun13 2057]  
+   loaded local settings
+
+[2016Jun13 2057]  
+   loaded remote settings
+
+[2016Jun13 2057]  
+   reading http://rollingkeg.com/repo/repo.xml
+
+[2016Jun13 2057]  
+   checking syntax of http://rollingkeg.com/repo/repo.xml
+
+[2016Jun13 2103]  
+   SyncTool Started
+
+[2016Jun13 2103]  
+   checking syntax of settings.xml
+
+[2016Jun13 2103]  
+   loaded local settings
+
+[2016Jun13 2103]  
+   loaded remote settings
+
+[2016Jun13 2107]  
+   SyncTool Started
+
+[2016Jun13 2107]  
+   checking syntax of settings.xml
+
+[2016Jun13 2107]  
+   loaded local settings
+
+[2016Jun13 2107]  
+   loaded remote settings
