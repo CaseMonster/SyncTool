@@ -57,6 +57,7 @@ namespace SyncTool
                        select new LocalSettings
                        (
                            (string)x.Element("ServerAddress"),
+                           (string)x.Element("ModFolder"),
                            (string)x.Element("Arma3Directory"),
                            (string)x.Element("LaunchOptions")
                        );
@@ -122,16 +123,14 @@ namespace SyncTool
 
         public static void OutputToXML(string fileName, string filePath, string fileHash, string basePath)
         {
-            string fullFilePath = string.Format("{0}\\repo.xml", basePath);
-
-            XDocument xmlFile = XDocument.Load(fullFilePath);
+            XDocument xmlFile = XDocument.Load(Program.LOCAL_REPO);
             var xmlElement = (new XElement("FileNode",
                                   new XElement("FileName", fileName),
                                   new XElement("filePath", filePath),
                                   new XElement("fileHash", fileHash)));
 
             xmlFile.Element("SyncTool").Add(xmlElement);
-            xmlFile.Save(fullFilePath);
+            xmlFile.Save(Program.LOCAL_REPO);
         }
 
         public static void CheckSyntax(string s)

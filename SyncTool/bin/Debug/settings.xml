@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SyncTool>
+  <Settings>
+    <ServerAddress>http://rollingkeg.com/repo/</ServerAddress>
+    <Arma3Executable>c:\program files\steam\steamapps\steamapps\arma3\arma3.exe</Arma3Executable>
+    <LaunchOptions></LaunchOptions>
+  </Settings>
+</SyncTool>
