@@ -20,7 +20,7 @@ namespace SyncTool
             {
                 if (args[0] == "-server")
                 {
-                    localSettings.modfolder = "";
+                    localSettings.modfolder = "\\";
                     FileHandler.HashFolders(remoteSettings, localSettings);
                     return;
                 }
@@ -60,14 +60,16 @@ namespace SyncTool
                 FileHandler.HashFolders(remoteSettings, localSettings);
 
             //create list of pbos that have changed, hashes that have changed
-            PBOList downloadList = localRepo.DownloadList(remoteRepo);
-            PBOList deleteList = localRepo.DeleteList(remoteRepo);
+            PBOList downloadList = localRepo.GenerateDownloadList(remoteRepo);
+            PBOList deleteList = localRepo.GenerateDeleteList(remoteRepo);
 
             //Delete PBOs that are no longer in Repo
-            FileHandler.DeleteList(deleteList);
+            if(deleteList.Count > 0)
+                FileHandler.DeleteList(deleteList);
 
             //cycle list of pbo downloads, store in temp location
-            HTTP.DownloadList(downloadList);
+            if (downloadList.Count > 0)
+                HTTP.DownloadList(downloadList, localSettings);
 
             //hash downloaded pbos, compare to remote list of pbos
 
@@ -79,6 +81,9 @@ namespace SyncTool
 
             //Run A3
             //Run.Execute(localSettings);
+
+            Log.InfoStamp("all done");
+            System.Console.ReadKey();
         }
     }
 }

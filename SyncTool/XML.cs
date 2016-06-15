@@ -156,24 +156,16 @@ namespace SyncTool
             }
             catch (Exception ex)
             {
-                if ((s == Program.LOCAL_SETTINGS) || (s == Program.LOCAL_REPO) || (s == Program.QUICK_REPO))
-                {
-                    Log.Info("the XML appears to be corrupted, backing up and recreating");
-                    //Log.Info(ex.ToString());
-                    BackupXML(s);
+                Log.Info("the XML appears to be corrupted, backing up and recreating");
+                //Log.Info(ex.ToString());
+                BackupXML(s);
 
-                    if (s == Program.LOCAL_SETTINGS)
-                        GenerateLocalSettingsXML(s);
-                    if (s == Program.LOCAL_REPO)
-                        GenerateBlankXML(s);
-                    if (s == Program.QUICK_REPO)
-                        GenerateBlankXML(s);
-                }
-                else
-                {
-                    Log.Info("the server's xml appears to be corrupted");
-                }
-          
+                if (s == Program.LOCAL_SETTINGS)
+                    GenerateLocalSettingsXML(s);
+                if (s == Program.LOCAL_REPO)
+                    GenerateBlankXML(s);
+                if (s == Program.QUICK_REPO)
+                    GenerateBlankXML(s);
             }
         }
 

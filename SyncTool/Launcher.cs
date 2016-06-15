@@ -62,8 +62,8 @@ namespace SyncTool
                 //generate object chain of loaded dirs/pbos
 
                 //create list of pbos that have changed, hashes that have changed
-                PBOList downloadList = localRepo.DownloadList(remoteRepo);
-                PBOList deleteList = localRepo.DeleteList(remoteRepo);
+                PBOList downloadList = localRepo.GenerateDownloadList(remoteRepo);
+                PBOList deleteList = localRepo.GenerateDeleteList(remoteRepo);
             }));
             SyncThread.Start();
         }

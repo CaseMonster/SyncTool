@@ -78,9 +78,11 @@ namespace SyncTool
         {
             Log.InfoStamp("deleting file(s)");
             foreach (PBO pbo in deleteList)
-                if (File.Exists(pbo.sdir))
+                if (File.Exists(pbo.sdir + pbo.name))
+                {
+                    Log.Info(pbo.name);
                     //File.Delete(pbo.sdir);
-                    Log.Info("deleting " + pbo.name);
+                };
             Log.Info("file(s) deleted");
         }
     }

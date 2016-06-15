@@ -5,7 +5,7 @@ namespace SyncTool
     class PBOList : ArrayList
     {
         //the return list contains a list of files not present in the remote repo (Deletion List)
-        public PBOList DeleteList(PBOList remote)
+        public PBOList GenerateDeleteList(PBOList remote)
         {
             PBOList diff = new PBOList();
             diff.AddRange(this);
@@ -13,7 +13,7 @@ namespace SyncTool
 
             foreach (PBO thisPBO in this)
                 foreach (PBO remotePBO in remote)
-                    if (remotePBO.hash == thisPBO.hash)
+                    if ((remotePBO.hash == thisPBO.hash) && (remotePBO.name == thisPBO.name))
                         diff.Remove(thisPBO);
 
                 Log.Info(diff.Count + " file(s) will be deleted");
@@ -21,7 +21,7 @@ namespace SyncTool
         }
 
         //the return list contains a list of files not present in the local repo (Download List)
-        public PBOList DownloadList(PBOList remote)
+        public PBOList GenerateDownloadList(PBOList remote)
         {
             PBOList diff = new PBOList();
             diff.AddRange(remote);
@@ -29,7 +29,7 @@ namespace SyncTool
 
             foreach (PBO remotePBO in remote)
                 foreach (PBO thisPBO in this)
-                    if (remotePBO.hash == thisPBO.hash)
+                    if ((remotePBO.hash == thisPBO.hash) && (remotePBO.name == thisPBO.name))
                         diff.Remove(remotePBO);
 
                 Log.Info(diff.Count + " file(s) will be downloaded");
