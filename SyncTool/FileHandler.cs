@@ -85,5 +85,18 @@ namespace SyncTool
                 };
             Log.Info("file(s) deleted");
         }
+
+        public static void CreateFolder(string path)
+        {
+            Directory.CreateDirectory(path);
+        }
+
+        public static void CheckFolder(string file)
+        {
+            string fileName = Path.GetFileName(file);
+            string filePath = file.TrimEnd(fileName.ToCharArray());
+
+            CreateFolder(filePath);
+        }
     }
 }
