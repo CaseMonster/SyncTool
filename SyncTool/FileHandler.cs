@@ -59,6 +59,7 @@ namespace SyncTool
         {
             Log.InfoStamp("generating new " + Program.LOCAL_REPO);
             XML.BackupXML(Program.LOCAL_REPO);
+            XML.CheckSyntax(Program.LOCAL_REPO);
             foreach (string mod in remoteSettings.modsArray)
             {
                 Log.Info("creating hashes for " + mod);
@@ -69,9 +70,11 @@ namespace SyncTool
         public static void ListFolders(RemoteSettings remoteSettings, LocalSettings localSettings)
         {
             Log.InfoStamp("generating new " + Program.QUICK_REPO);
+            XML.BackupXML(Program.QUICK_REPO);
+            XML.CheckSyntax(Program.QUICK_REPO);
             foreach (string mod in remoteSettings.modsArray)
             {
-                GenerateLocalRepoNoHash(string.Format("{0}\\{1}", localSettings.modfolder, mod));
+                GenerateLocalRepoNoHash(localSettings.modfolder + "\\" + mod);
             }
         }
 
@@ -82,7 +85,7 @@ namespace SyncTool
                 if (File.Exists(pbo.sdir + pbo.name))
                 {
                     Log.Info(pbo.name);
-                    //File.Delete(pbo.sdir);
+                    File.Delete(pbo.sdir + pbo.name);
                 };
             Log.Info("file(s) deleted");
         }

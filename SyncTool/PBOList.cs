@@ -56,21 +56,27 @@ namespace SyncTool
             diff.AddRange(this);
 
             ArrayList list = new ArrayList();
-
-            foreach (PBO thisPBO in this)
-                foreach (PBO quickPBO in quickRepo)
+            
+            foreach (PBO quickPBO in quickRepo)
+                foreach (PBO thisPBO in this)
                     if (quickPBO.name == thisPBO.name)
                         list.Add(thisPBO.hash);
 
             foreach (string s in list)
                 diff = DeleteFromArray(diff, s);
 
-            if (diff.Count > 0)
+            if(quickRepo.Count != this.Count)
             {
-                Log.Info("file names have changed");
+                Log.Info("files have changed");
                 return true;
             };
-            Log.Info("no changes in file names detected");
+            if (diff.Count > 0)
+            {
+                Log.Info("files have changed");
+                return true;
+            };
+
+            Log.Info("no changes in file detected");
             return false;
         }
 

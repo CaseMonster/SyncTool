@@ -6,7 +6,7 @@ namespace SyncTool
     {
         public static string LOCAL_REPO = "repo.xml";
         public static string LOCAL_SETTINGS = "settings.xml";
-        public static string QUICK_REPO = "temp.xml";
+        public static string QUICK_REPO = "quick.xml";
 
         static void Main(string[] args)
         {
@@ -57,7 +57,10 @@ namespace SyncTool
 
             //Comb through directories and hash folders, if nessesary
             if (localRepo.HaveFileNamesChanged(quickRepo))
+            {
                 FileHandler.HashFolders(remoteSettings, localSettings);
+                localRepo = XML.ReadRepoXML(LOCAL_REPO);
+            }
 
             //create list of pbos that have changed, hashes that have changed
             PBOList downloadList = localRepo.GenerateDownloadList(remoteRepo);

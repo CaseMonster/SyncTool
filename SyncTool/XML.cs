@@ -144,21 +144,19 @@ namespace SyncTool
                 new XElement("FileHash", fileHash)));
 
             xmlFile.Element("SyncTool").Add(xmlElement);
-            xmlFile.Save(Program.LOCAL_REPO);
+            xmlFile.Save(xmlName);
         }
 
         public static void CheckSyntax(string s)
         {
-            Log.Info("checking syntax");
             try
             {
                 var doc = XDocument.Load(s);
             }
             catch (Exception ex)
             {
-                Log.Info("the XML appears to be corrupted, backing up and recreating");
+                Log.Info("the XML is missing or corrupted, recreating");
                 //Log.Info(ex.ToString());
-                BackupXML(s);
 
                 if (s == Program.LOCAL_SETTINGS)
                     GenerateLocalSettingsXML(s);
@@ -184,6 +182,8 @@ namespace SyncTool
                 if(File.Exists(s))
                     File.Move(s, s + ".backup");
             }
+
+            CheckSyntax(s);
         }
     }
 }
