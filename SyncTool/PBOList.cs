@@ -7,53 +7,84 @@ namespace SyncTool
         //the return list contains a list of files not present in the remote repo (Deletion List)
         public PBOList GenerateDeleteList(PBOList remote)
         {
+            Log.InfoStamp("generating delete list");
+
             PBOList diff = new PBOList();
             diff.AddRange(this);
-            Log.InfoStamp("generating delete list");
+
+            ArrayList list = new ArrayList();
 
             foreach (PBO thisPBO in this)
                 foreach (PBO remotePBO in remote)
                     if ((remotePBO.hash == thisPBO.hash) && (remotePBO.name == thisPBO.name))
-                        diff.Remove(thisPBO);
+                        list.Add(thisPBO.hash);
 
-                Log.Info(diff.Count + " file(s) will be deleted");
+            foreach (string s in list)
+                diff = DeleteFromArray(diff, s);
+
+            Log.Info(diff.Count + " file(s) will be deleted");
             return diff;
         }
 
         //the return list contains a list of files not present in the local repo (Download List)
         public PBOList GenerateDownloadList(PBOList remote)
         {
+            Log.InfoStamp("generating download list");
+
             PBOList diff = new PBOList();
             diff.AddRange(remote);
-            Log.InfoStamp("generating download list");
+
+            ArrayList list = new ArrayList();
 
             foreach (PBO remotePBO in remote)
                 foreach (PBO thisPBO in this)
                     if ((remotePBO.hash == thisPBO.hash) && (remotePBO.name == thisPBO.name))
-                        diff.Remove(remotePBO);
+                        list.Add(thisPBO.hash);
+            
+            foreach (string s in list)
+                diff = DeleteFromArray(diff, s);
 
-                Log.Info(diff.Count + " file(s) will be downloaded");
+            Log.Info(diff.Count + " file(s) will be downloaded");
             return diff;
         }
 
         public bool HaveFileNamesChanged(PBOList quickRepo)
         {
+            Log.Info("comparing files");
+
             PBOList diff = new PBOList();
             diff.AddRange(this);
-            Log.Info("comparing files");
+
+            ArrayList list = new ArrayList();
 
             foreach (PBO thisPBO in this)
                 foreach (PBO quickPBO in quickRepo)
                     if (quickPBO.name == thisPBO.name)
-                        diff.Remove(thisPBO);
+                        list.Add(thisPBO.hash);
 
-            if(diff.Count > 0)
+            foreach (string s in list)
+                diff = DeleteFromArray(diff, s);
+
+            if (diff.Count > 0)
             {
                 Log.Info("file names have changed");
                 return true;
             };
             Log.Info("no changes in file names detected");
             return false;
+        }
+
+        public PBOList DeleteFromArray(PBOList list, string s)
+        {
+            foreach (PBO p in list)
+            {
+                if(p.hash == s)
+                {
+                    list.Remove(p);
+                    return list;
+                };
+            }
+            return list;
         }
     }
 }

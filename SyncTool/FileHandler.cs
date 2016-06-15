@@ -58,6 +58,7 @@ namespace SyncTool
         public static void HashFolders(RemoteSettings remoteSettings, LocalSettings localSettings)
         {
             Log.InfoStamp("generating new " + Program.LOCAL_REPO);
+            XML.BackupXML(Program.LOCAL_REPO);
             foreach (string mod in remoteSettings.modsArray)
             {
                 Log.Info("creating hashes for " + mod);
