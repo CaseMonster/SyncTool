@@ -24,15 +24,20 @@ namespace SyncTool
             this.Sync_Button.Click += Start_Sync;
 
         }
+
         private void Open_Options_Form(Object sender, EventArgs e)
         {
             var optionsForm = new OptionsMenu();
+            optionsForm.FormClosing += optionsFormClosing;
             optionsForm.Show();
+            this.Options_Button.Enabled = false;
         }
+
         private void Start_Sync(Object sender, EventArgs e)
         {
             this.Sync_Button.Enabled = false;
-            Thread SyncThread = new Thread(new ThreadStart(() =>{
+            Thread SyncThread = new Thread(new ThreadStart(() =>
+            {
                 //Add Run Function here
                 // The following is bad and should not be done
                 int total = 0;
@@ -47,7 +52,7 @@ namespace SyncTool
                     XML.GenerateBlankXML(LOCAL_REPO);
                 }
                 total = remoteSettings.modsArray.Count();
-                total = (100 / total)-1;
+                total = (100 / total) - 1;
                 foreach (string mod in remoteSettings.modsArray)
                 {
                     Log.Info("generating repo for " + mod);
@@ -67,6 +72,7 @@ namespace SyncTool
             }));
             SyncThread.Start();
         }
+
         public void Sync_updateProgress(int n)
         {
             Sync_Progress.BeginInvoke(
@@ -76,6 +82,11 @@ namespace SyncTool
                 Sync_Progress.Value = n;
             }));
 
+        }
+
+        private void optionsFormClosing(Object sender, FormClosingEventArgs e)
+        {
+            this.Options_Button.Enabled = true;
         }
     }
 }

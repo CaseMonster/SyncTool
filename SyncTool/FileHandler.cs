@@ -9,6 +9,8 @@ namespace SyncTool
 {
     class FileHandler
     {
+        private const string KeyFile = ".fuckboi";
+
         public static void GenerateLocalRepo(string basePath)
         {
             // Recurse through the directory
@@ -82,7 +84,7 @@ namespace SyncTool
         {
             Log.InfoStamp("deleting file(s)");
             foreach (PBO pbo in deleteList)
-                if (File.Exists(pbo.sdir + pbo.name))
+                if (File.Exists(pbo.sdir + pbo.name)&&File.Exists(pbo.sdir+KeyFile))
                 {
                     Log.Info(pbo.name);
                     File.Delete(pbo.sdir + pbo.name);
