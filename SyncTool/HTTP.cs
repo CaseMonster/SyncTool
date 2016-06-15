@@ -19,8 +19,8 @@ namespace SyncTool
             foreach (PBO dlObject in dlList)
             {
                 //Log.Info(localSettings.server + (new DirectoryInfo(dlObject.sdir).Name) + "/" + dlObject.name);
-                Log.Info(localSettings.server + dlObject.sdir.Replace(@"\", "/") + "/" + dlObject.name);
-                Download(localSettings.server + dlObject.sdir.Replace(@"\","/") + "/" + dlObject.name, localSettings.modfolder + dlObject.sdir + dlObject.name);
+                Log.Info(localSettings.server + dlObject.filePath.Replace(@"\", "/") + "/" + dlObject.fileName);
+                Download(localSettings.server + dlObject.filePath.Replace(@"\","/") + "/" + dlObject.fileName, localSettings.modfolder + dlObject.filePath + dlObject.fileName);
             };
             Log.Info("file(s) downloaded");
         }
