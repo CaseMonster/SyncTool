@@ -8,13 +8,15 @@ namespace SyncTool
 
         public string forceHash = "NULL";
         public string version = "NULL";
+        public string currentVersion = "NULL";
 
         public RemoteSettings(string mods, string version, string forceHash)
         {
             this.mods = mods;
             ParseRemoteSettings(mods);
-            this.version = version;
             this.forceHash = forceHash;
+            this.version = version;
+            this.currentVersion = currentVersion = "NULL";
         }
 
         public void ParseRemoteSettings(string s)

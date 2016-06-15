@@ -56,7 +56,7 @@ namespace SyncTool
                 foreach (string mod in remoteSettings.modsArray)
                 {
                     Log.Info("generating repo for " + mod);
-                    FileHandler.GenerateLocalRepo(string.Format("{0}\\{1}", localSettings.modfolder, mod));
+                    //FileHandler.GenerateLocalRepo(string.Format("{0}\\{1}", localSettings.modfolder, mod));
                     Sync_updateProgress(total += total);
                 }
 
@@ -67,8 +67,8 @@ namespace SyncTool
                 //generate object chain of loaded dirs/pbos
 
                 //create list of pbos that have changed, hashes that have changed
-                PBOList downloadList = localRepo.GenerateDownloadList(remoteRepo);
-                PBOList deleteList = localRepo.GenerateDeleteList(remoteRepo);
+                //PBOList downloadList = localRepo.GetDownloadList(remoteRepo);
+                //PBOList deleteList = localRepo.GetDeleteList(remoteRepo);
             }));
             SyncThread.Start();
         }

@@ -21,7 +21,7 @@ namespace SyncTool
                 if (args[0] == "-server")
                 {
                     localSettings.modfolder = "\\";
-                    FileHandler.HashFolders(remoteSettings, localSettings);
+                    //FileHandler.HashFolders(remoteSettings, localSettings);
                     return;
                 }
 
@@ -39,36 +39,26 @@ namespace SyncTool
                 return;
             }
 
-            //Generate new localRepo
-            //XML.BackupXML("repo.xml");
-
-            //if(!File.Exists(LOCAL_REPO))
-            //{
-            //    XML.GenerateBlankXML(LOCAL_REPO);
-            //}
-
-            //We need an additional check for filenames?  then if we see a change in the dir, hash that one dir
-
             //Pull local repo, remote repo, generate quick repo
-            PBOList remoteRepo = XML.ReadRepoXML(localSettings.server + "repo.xml");
-            PBOList localRepo = XML.ReadRepoXML(LOCAL_REPO);
-            FileHandler.ListFolders(remoteSettings, localSettings);
-            PBOList quickRepo = XML.ReadRepoXML(QUICK_REPO);
+            PBOList remoteRepo = PBOList.ReadFromDisk(localSettings.server + "repo.xml");
+            PBOList localRepo  = PBOList.ReadFromDisk(LOCAL_REPO);
+            PBOList quickRepo  = PBOList.GeneratePBOListFromDirs(remoteSettings.modsArray, localSettings);
 
             //Comb through directories and hash folders, if nessesary
             if (localRepo.HaveFileNamesChanged(quickRepo))
             {
-                FileHandler.HashFolders(remoteSettings, localSettings);
-                localRepo = XML.ReadRepoXML(LOCAL_REPO);
+                localRepo.Clear();
+                localRepo = quickRepo.AddHashesToList();
+                localRepo.WriteXMLToDisk();
             }
 
             //create list of pbos that have changed, hashes that have changed
-            PBOList downloadList = localRepo.GenerateDownloadList(remoteRepo);
-            PBOList deleteList = localRepo.GenerateDeleteList(remoteRepo);
+            PBOList downloadList = localRepo.GetDownloadList(remoteRepo);
+            PBOList deleteList = localRepo.GetDeleteList(remoteRepo);
 
-            //Delete PBOs that are no longer in Repo
-            if(deleteList.Count > 0)
-                FileHandler.DeleteList(deleteList);
+            //DeleteFromDisk PBOs that are no longer in Repo
+            if (deleteList.Count > 0)
+                localRepo.DeleteFilesOnDisk();
 
             //cycle list of pbo downloads, store in temp location
             if (downloadList.Count > 0)

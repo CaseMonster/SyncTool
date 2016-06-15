@@ -9,11 +9,12 @@ namespace SyncTool
 {
     class FileHandler
     {
-        private const string KeyFile = ".fuckboi";
 
-        public static void GenerateLocalRepo(string basePath)
+        private const string KeyFile = ".fuckboi";
+        public static PBOList FindPBOinDirectory(string basePath)
         {
             // Recurse through the directory
+            PBOList list = new PBOList();
             try
             {
                 string[] files = Directory.GetFiles(basePath, "*.*", SearchOption.AllDirectories);
@@ -24,72 +25,32 @@ namespace SyncTool
                     // for each file get the hash
                     string fileHash = HashGenerator.GetHash(file);
 
-                    // store data in the XML file
-                    XML.OutputToXML(Program.LOCAL_REPO, fileName, filePath, fileHash);
+                    // store data in new pbo
+                    list.Add(new PBO(fileName, filePath, fileHash));
                 }
+                return list;
             }
             catch
             {
                 Log.Info(basePath + " folder does not exist");
+                return list;
             };
         }
 
-        public static void GenerateLocalRepoNoHash(string basePath)
+        public static PBOList HashPBOs(PBOList list)
         {
-            // Recurse through the directory
-            try
+            foreach (PBO pbo in list)
             {
-                string[] files = Directory.GetFiles(basePath, "*.*", SearchOption.AllDirectories);
-                foreach (string file in files)
-                {
-                    string fileName = Path.GetFileName(file);
-                    string filePath = file.TrimEnd(fileName.ToCharArray());
-                    // for each file get the hash
-                    string fileHash = "";
-
-                    // store data in the XML file
-                    XML.OutputToXML(Program.QUICK_REPO, fileName, filePath, fileHash);
-                }
+                pbo.fileHash = HashGenerator.GetHash(pbo.filePath + pbo.fileName);
             }
-            catch
-            {
-                Log.Info(basePath + " folder does not exist");
-            };
+            return list;
         }
 
-        public static void HashFolders(RemoteSettings remoteSettings, LocalSettings localSettings)
+        public static void DeleteFile(PBO pbo)
         {
-            Log.InfoStamp("generating new " + Program.LOCAL_REPO);
-            XML.BackupXML(Program.LOCAL_REPO);
-            XML.CheckSyntax(Program.LOCAL_REPO);
-            foreach (string mod in remoteSettings.modsArray)
-            {
-                Log.Info("creating hashes for " + mod);
-                GenerateLocalRepo(string.Format("{0}\\{1}", localSettings.modfolder, mod));
-            }
-        }
 
-        public static void ListFolders(RemoteSettings remoteSettings, LocalSettings localSettings)
-        {
-            Log.InfoStamp("generating new " + Program.QUICK_REPO);
-            XML.BackupXML(Program.QUICK_REPO);
-            XML.CheckSyntax(Program.QUICK_REPO);
-            foreach (string mod in remoteSettings.modsArray)
-            {
-                GenerateLocalRepoNoHash(localSettings.modfolder + "\\" + mod);
-            }
-        }
+            File.Delete(pbo.filePath + pbo.fileName);
 
-        public static void DeleteList(PBOList deleteList)
-        {
-            Log.InfoStamp("deleting file(s)");
-            foreach (PBO pbo in deleteList)
-                if (File.Exists(pbo.sdir + pbo.name)&&File.Exists(pbo.sdir+KeyFile))
-                {
-                    Log.Info(pbo.name);
-                    File.Delete(pbo.sdir + pbo.name);
-                };
-            Log.Info("file(s) deleted");
         }
 
         public static void CreateFolder(string path)

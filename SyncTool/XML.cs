@@ -15,7 +15,7 @@ namespace SyncTool
         public static PBOList ReadRepoXML(string s)
         {
             Log.Info("reading " + s);
-            CheckSyntax(s);
+            IsSyntaxCorrect(s);
 
             var doc = XDocument.Load(s);
             var list = from x in doc.Descendants("FileNode")
@@ -34,7 +34,7 @@ namespace SyncTool
         public static RemoteSettings ReadRemoteSettingsXML(string s)
         {
             Log.Info("reading " + s);
-            CheckSyntax(s);
+            IsSyntaxCorrect(s);
 
             var doc = XDocument.Load(s);
             var list = from x in doc.Descendants("ServerSettings")
@@ -52,7 +52,7 @@ namespace SyncTool
         public static LocalSettings ReadLocalSettingsXML(string s)
         {
             Log.Info("reading " + s);
-            CheckSyntax(s);
+            IsSyntaxCorrect(s);
 
             var doc = XDocument.Load(s, LoadOptions.PreserveWhitespace);
             var set = doc.Element("SyncTool").Element("Settings");
@@ -135,23 +135,24 @@ namespace SyncTool
             doc.Save(s);
         }
 
-        public static void OutputToXML(string xmlName, string fileName, string filePath, string fileHash)
+        public static void WritePBOXML(string xmlName, PBO pbo)
         {
             XDocument xmlFile = XDocument.Load(xmlName);
             var xmlElement = (new XElement("FileNode",
-                new XElement("FileName", fileName),
-                new XElement("FilePath", filePath),
-                new XElement("FileHash", fileHash)));
+                new XElement("FileName", pbo.fileName),
+                new XElement("FilePath", pbo.filePath),
+                new XElement("FileHash", pbo.fileHash)));
 
             xmlFile.Element("SyncTool").Add(xmlElement);
             xmlFile.Save(xmlName);
         }
 
-        public static void CheckSyntax(string s)
+        public static bool IsSyntaxCorrect(string s)
         {
             try
             {
                 var doc = XDocument.Load(s);
+                return true;
             }
             catch (Exception ex)
             {
@@ -164,6 +165,8 @@ namespace SyncTool
                     GenerateBlankXML(s);
                 if (s == Program.QUICK_REPO)
                     GenerateBlankXML(s);
+
+                return false;
             }
         }
 
@@ -183,7 +186,7 @@ namespace SyncTool
                     File.Move(s, s + ".backup");
             }
 
-            CheckSyntax(s);
+            IsSyntaxCorrect(s);
         }
     }
 }
