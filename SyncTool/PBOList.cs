@@ -4,13 +4,13 @@ namespace SyncTool
 {
     class PBOList : ArrayList
     {
-        public static PBOList GeneratePBOListFromDirs(string[] dirs, LocalSettings localSettings)
+        public string locationOnDisk;
+
+        public void GeneratePBOListFromDirs(string[] dirs, LocalSettings localSettings)
         {
             Log.InfoStamp("building list of files");
-            PBOList list = new PBOList();
             foreach (string dir in dirs)
-                list.AddRange(FileHandler.FindPBOinDirectory(localSettings.modfolder + "\\" + dir + "\\"));
-            return list;
+                this.AddRange(FileHandler.FindPBOinDirectory(localSettings.modfolder + "\\" + dir + "\\"));
         }
 
         public PBOList AddHashesToList()
@@ -20,15 +20,16 @@ namespace SyncTool
             return this;
         }
 
-        public void WriteXMLToDisk(string saveLocation)
+        public void WriteXMLToDisk()
         {
             foreach (PBO pbo in this)
-                XML.WritePBOXML(saveLocation, pbo);
+                XML.WritePBOXML(this.locationOnDisk, pbo);
         }
 
-        public static PBOList ReadFromDisk(string loadLocation)
+        public PBOList ReadFromDisk(string s)
         {
-            return XML.ReadRepoXML(loadLocation);
+            this.locationOnDisk = s;
+            return XML.ReadRepoXML(this.locationOnDisk);
         }
 
         public void DeleteFilesOnDisk()
@@ -37,9 +38,9 @@ namespace SyncTool
                 FileHandler.DeleteFile(p);
         }
 
-        public void DeleteXML(string s)
+        public void DeleteXML()
         {
-            XML.BackupXML(s);
+            XML.BackupXML(this.locationOnDisk);
         }
 
         //the return list contains a list of files not present in the remote repo (Deletion List)

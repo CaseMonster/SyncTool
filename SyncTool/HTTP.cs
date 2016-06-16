@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Net;
+﻿using System.Net;
 
 namespace SyncTool
 {
@@ -8,7 +7,6 @@ namespace SyncTool
         public static void Download(string uri, string file)
         {
             FileHandler.CheckFolder(file);
-
             WebClient myWebClient = new WebClient();
             myWebClient.DownloadFile(uri, file);
         }
@@ -17,7 +15,6 @@ namespace SyncTool
         {
             foreach (PBO dlObject in dlList)
             {
-                //Log.Info(localSettings.server + (new DirectoryInfo(dlObject.sdir).Name) + "/" + dlObject.name);
                 Log.Info(dlObject.fileName);
                 Download(localSettings.server + dlObject.filePath.Replace(@"\","/") + "/" + dlObject.fileName, localSettings.modfolder + "\\" + dlObject.filePath + dlObject.fileName);
             };

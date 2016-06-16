@@ -41,10 +41,11 @@ namespace SyncTool
             {
                 if (args[0] == "-server")
                 {
-                    PBOList serverRepo = PBOList.ReadFromDisk("server.xml");
-                    serverRepo = PBOList.GeneratePBOListFromDirs(remoteSettings.modsArray, localSettings);
+                    PBOList serverRepo = new PBOList();
+                    serverRepo.ReadFromDisk("server.xml");
+                    serverRepo.GeneratePBOListFromDirs(remoteSettings.modsArray, localSettings);
                     serverRepo.AddHashesToList();
-                    serverRepo.WriteXMLToDisk("server.xml");
+                    serverRepo.WriteXMLToDisk();
                     return;
                 }
 
@@ -63,28 +64,32 @@ namespace SyncTool
             }
 
             //Pull local repo, remote repo, generate quick repo
-            PBOList remoteRepo = PBOList.ReadFromDisk(localSettings.server + "repo.xml");
-            PBOList localRepo  = PBOList.ReadFromDisk(LOCAL_REPO);
-            PBOList quickRepo  = PBOList.GeneratePBOListFromDirs(remoteSettings.modsArray, localSettings);
+            PBOList remoteRepo = new PBOList();
+                remoteRepo.ReadFromDisk(localSettings.server + "repo.xml");
+            PBOList localRepo = new PBOList();
+                localRepo.ReadFromDisk(LOCAL_REPO);
+            PBOList quickRepo = new PBOList();
+                quickRepo.GeneratePBOListFromDirs(remoteSettings.modsArray, localSettings);
 
             //Comb through directories and hash folders, if nessesary
             if (localRepo.HaveFileNamesChanged(quickRepo))
             {
-                localRepo.DeleteXML(LOCAL_REPO);
+                localRepo.DeleteXML();
                 localRepo.Clear();
-                localRepo = quickRepo.AddHashesToList();
-                localRepo.WriteXMLToDisk(LOCAL_REPO);
-            }
+                quickRepo.AddHashesToList();
+                localRepo.AddRange(quickRepo);
+                localRepo.WriteXMLToDisk();
 
-            //DeleteFromDisk PBOs that are no longer in Repo
-            PBOList deleteList = localRepo.GetDeleteList(remoteRepo);
-            if (deleteList.Count > 0)
-                deleteList.DeleteFilesOnDisk();
+                //DeleteFromDisk PBOs that are no longer in Repo
+                PBOList deleteList = localRepo.GetDeleteList(remoteRepo);
+                if (deleteList.Count > 0)
+                    deleteList.DeleteFilesOnDisk();
 
-            //cycle list of pbo downloads, store in temp location
-            PBOList downloadList = localRepo.GetDownloadList(remoteRepo);
-            if (downloadList.Count > 0)
-                HTTP.DownloadList(downloadList, localSettings);
+                //cycle list of pbo downloads, store in temp location
+                PBOList downloadList = localRepo.GetDownloadList(remoteRepo);
+                if (downloadList.Count > 0)
+                    HTTP.DownloadList(downloadList, localSettings);
+            };
 
             //Todo: dialog asking to resync or launch the game, times out and exits
             //Run A3

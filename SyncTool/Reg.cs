@@ -6,8 +6,8 @@ namespace SyncTool
     {
         public static string GetArmaRegValue()
         {
-            RegistryKey rk = Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432NODE\\BOHEMIA INTERACTIVE\\ARMA 3", false);
-            return rk.ToString();
+            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432NODE\\BOHEMIA INTERACTIVE\\ARMA 3");
+            return (string)registryKey.GetValue("main");
         }
     }
 }
