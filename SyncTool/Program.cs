@@ -56,6 +56,12 @@ namespace SyncTool
                 }
             };
 
+            if (false)
+            {
+                Application.Run(new Launcher());
+                return;
+            }
+
             //Pull local repo, remote repo, generate quick repo
             PBOList remoteRepo = PBOList.ReadFromDisk(localSettings.server + "repo.xml");
             PBOList localRepo  = PBOList.ReadFromDisk(LOCAL_REPO);
