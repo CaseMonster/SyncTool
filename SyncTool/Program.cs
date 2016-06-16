@@ -49,6 +49,7 @@ namespace SyncTool
             //Comb through directories and hash folders, if nessesary
             if (localRepo.HaveFileNamesChanged(quickRepo))
             {
+                localRepo.DeleteXML(LOCAL_REPO);
                 localRepo.Clear();
                 localRepo = quickRepo.AddHashesToList();
                 localRepo.WriteXMLToDisk(LOCAL_REPO);

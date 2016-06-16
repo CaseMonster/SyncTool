@@ -37,6 +37,11 @@ namespace SyncTool
                 FileHandler.DeleteFile(p);
         }
 
+        public void DeleteXML(string s)
+        {
+            XML.BackupXML(s);
+        }
+
         //the return list contains a list of files not present in the remote repo (Deletion List)
         public PBOList GetDeleteList(PBOList remote)
         {
