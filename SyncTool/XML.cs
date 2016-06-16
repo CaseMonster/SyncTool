@@ -168,7 +168,6 @@ namespace SyncTool
                 if (s == "server.xml")
                     GenerateBlankXML(s);
 
-
                 return false;
             }
         }

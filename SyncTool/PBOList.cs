@@ -9,17 +9,17 @@ namespace SyncTool
             Log.InfoStamp("building list of files");
             PBOList list = new PBOList();
             foreach (string dir in dirs)
+            {
+                Log.Info(dir);
                 list.AddRange(FileHandler.FindPBOinDirectory(localSettings.modfolder + "\\" + dir + "\\"));
+            };
             return list;
         }
 
         public PBOList AddHashesToList()
         {
             Log.InfoStamp("hashing files");
-            foreach (PBO pbo in this)
-            {
-                FileHandler.HashPBOs(this);
-            }
+            FileHandler.HashPBOs(this);
             return this;
         }
 
@@ -86,7 +86,7 @@ namespace SyncTool
 
         public bool HaveFileNamesChanged(PBOList inputList)
         {
-            Log.Info("comparing files");
+            Log.InfoStamp("comparing files");
 
             PBOList diff = new PBOList();
             diff.AddRange(this);

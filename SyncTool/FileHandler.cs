@@ -9,8 +9,6 @@ namespace SyncTool
 {
     class FileHandler
     {
-
-        private const string KeyFile = ".fuckboi";
         public static PBOList FindPBOinDirectory(string basePath)
         {
             // Recurse through the directory
@@ -23,7 +21,8 @@ namespace SyncTool
                     string fileName = Path.GetFileName(file);
                     string filePath = file.TrimEnd(fileName.ToCharArray());
                     // for each file get the hash
-                    string fileHash = HashGenerator.GetHash(file);
+                    //string fileHash = HashGenerator.GetHash(file);
+                    string fileHash = "";
 
                     // store data in new pbo
                     list.Add(new PBO(fileName, filePath, fileHash));
