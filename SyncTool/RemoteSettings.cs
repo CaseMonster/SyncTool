@@ -9,6 +9,7 @@ namespace SyncTool
         public string downloadLocation = "NULL";
 
         public string[] modsArray;
+        public string launchMods;
 
         public RemoteSettings(string mods, string forceHash, string version, string downloadsLocation)
         {
@@ -17,12 +18,18 @@ namespace SyncTool
             this.version = version;
             this.downloadLocation = downloadsLocation;
 
-            ParseRemoteSettings(mods);
+            ParseModsArray(mods);
+            ParseLaunchMods(mods);
         }
 
-        public void ParseRemoteSettings(string s)
+        public void ParseModsArray(string s)
         {
             this.modsArray = s.Split(';');
+        }
+
+        public void ParseLaunchMods(string s)
+        {
+            launchMods = s.Insert(0, "-mod=");
         }
     }
 }

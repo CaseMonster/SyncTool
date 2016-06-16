@@ -45,7 +45,7 @@ namespace SyncTool
                     serverRepo.ReadFromDisk("server.xml");
                     serverRepo.GeneratePBOListFromDirs(remoteSettings.modsArray, localSettings);
                     serverRepo.AddHashesToList();
-                    serverRepo.WriteXMLToDisk();
+                    serverRepo.WriteXMLToDisk("server.xml");
                     return;
                 }
 
@@ -65,9 +65,9 @@ namespace SyncTool
 
             //Pull local repo, remote repo, generate quick repo
             PBOList remoteRepo = new PBOList();
-                remoteRepo.ReadFromDisk(localSettings.server + "repo.xml");
+                remoteRepo = remoteRepo.ReadFromDisk(localSettings.server + "//" + "repo.xml");
             PBOList localRepo = new PBOList();
-                localRepo.ReadFromDisk(LOCAL_REPO);
+                localRepo = localRepo.ReadFromDisk(LOCAL_REPO);
             PBOList quickRepo = new PBOList();
                 quickRepo.GeneratePBOListFromDirs(remoteSettings.modsArray, localSettings);
 
@@ -75,10 +75,9 @@ namespace SyncTool
             if (localRepo.HaveFileNamesChanged(quickRepo))
             {
                 localRepo.DeleteXML();
-                localRepo.Clear();
                 quickRepo.AddHashesToList();
                 localRepo.AddRange(quickRepo);
-                localRepo.WriteXMLToDisk();
+                localRepo.WriteXMLToDisk(LOCAL_REPO);
 
                 //DeleteFromDisk PBOs that are no longer in Repo
                 PBOList deleteList = localRepo.GetDeleteList(remoteRepo);
@@ -92,11 +91,10 @@ namespace SyncTool
             };
 
             //Todo: dialog asking to resync or launch the game, times out and exits
-            //Run A3
-            //Run.Execute(localSettings);
 
             Log.InfoStamp("all done");
             System.Console.ReadKey();
+            Run.Execute(localSettings, remoteSettings);
         }
     }
 }

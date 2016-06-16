@@ -20,8 +20,9 @@ namespace SyncTool
             return this;
         }
 
-        public void WriteXMLToDisk()
+        public void WriteXMLToDisk(string s)
         {
+            this.locationOnDisk = s;
             foreach (PBO pbo in this)
                 XML.WritePBOXML(this.locationOnDisk, pbo);
         }

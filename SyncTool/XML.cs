@@ -60,8 +60,7 @@ namespace SyncTool
                 set.Element("ServerAddress").Value,
                 set.Element("ModFolder").Value,
                 set.Element("Arma3Executable").Value,
-                set.Element("LaunchOptions").Value,
-                set.Element("LaunchedOnce").Value
+                set.Element("LaunchOptions").Value
             );
 
             return settings;
@@ -80,8 +79,7 @@ namespace SyncTool
                            new XElement("ServerAddress", settings.server),
                            new XElement("ModFolder", settings.modfolder),
                            new XElement("Arma3Executable", settings.arma3file),
-                           new XElement("LaunchOptions", settings.arma3args),
-                           new XElement("LaunchedOnce", settings.launched_once)
+                           new XElement("LaunchOptions", settings.arma3args)
                        )
                    )
                );
@@ -126,15 +124,15 @@ namespace SyncTool
         public static void GenerateBlankXML(string s)
         {
             Log.Info("generating new " + s);
-            StreamWriter f = File.CreateText(s);
-            f.Close();
+            //StreamWriter f = File.CreateText(s);
+            //f.Close();
 
             var doc = new XDocument
             (
                 new XElement("SyncTool")
             );
 
-            doc.Save(s);
+            //doc.Save(s);
         }
 
         public static void WritePBOXML(string xmlName, PBO pbo)

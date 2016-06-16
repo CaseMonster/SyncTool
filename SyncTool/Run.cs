@@ -4,12 +4,12 @@ namespace SyncTool
 {
     class Run
     {
-        public static void Execute(LocalSettings settings)
+        public static void Execute(LocalSettings localSettings, RemoteSettings remoteSettings)
         {
             Process p = new Process();
-            p.StartInfo.FileName = settings.arma3file;
-            p.StartInfo.WorkingDirectory = settings.arma3file;
-            p.StartInfo.Arguments = settings.arma3args;
+            p.StartInfo.FileName = "Arma 3";
+            p.StartInfo.WorkingDirectory = localSettings.arma3file;
+            p.StartInfo.Arguments = localSettings.arma3args + " " + remoteSettings.launchMods;
 
             try
             {
