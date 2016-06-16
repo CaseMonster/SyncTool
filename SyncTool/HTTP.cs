@@ -15,7 +15,6 @@ namespace SyncTool
 
         public static void DownloadList(PBOList dlList, LocalSettings localSettings)
         {
-            Log.InfoStamp("downloading file(s)");
             foreach (PBO dlObject in dlList)
             {
                 //Log.Info(localSettings.server + (new DirectoryInfo(dlObject.sdir).Name) + "/" + dlObject.name);

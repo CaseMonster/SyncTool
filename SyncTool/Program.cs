@@ -54,15 +54,13 @@ namespace SyncTool
                 localRepo.WriteXMLToDisk(LOCAL_REPO);
             }
 
-            //create list of pbos that have changed, hashes that have changed
-            PBOList downloadList = localRepo.GetDownloadList(remoteRepo);
-            PBOList deleteList = localRepo.GetDeleteList(remoteRepo);
-
             //DeleteFromDisk PBOs that are no longer in Repo
+            PBOList deleteList = localRepo.GetDeleteList(remoteRepo);
             if (deleteList.Count > 0)
                 deleteList.DeleteFilesOnDisk();
 
             //cycle list of pbo downloads, store in temp location
+            PBOList downloadList = localRepo.GetDownloadList(remoteRepo);
             if (downloadList.Count > 0)
                 HTTP.DownloadList(downloadList, localSettings);
 
