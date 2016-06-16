@@ -49,7 +49,7 @@ namespace SyncTool
             {
                 localRepo.Clear();
                 localRepo = quickRepo.AddHashesToList();
-                localRepo.WriteXMLToDisk();
+                //localRepo.WriteXMLToDisk();
             }
 
             //create list of pbos that have changed, hashes that have changed

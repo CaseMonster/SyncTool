@@ -20,15 +20,15 @@ namespace SyncTool
             return this;
         }
 
-        public void WriteXMLToDisk()
+        public void WriteXMLToDisk(string saveLocation)
         {
             foreach (PBO pbo in this)
-                XML.WritePBOXML(Program.LOCAL_REPO, pbo);
+                XML.WritePBOXML(saveLocation, pbo);
         }
 
-        public static PBOList ReadFromDisk(string s)
+        public static PBOList ReadFromDisk(string loadLocation)
         {
-            return XML.ReadRepoXML(s);
+            return XML.ReadRepoXML(loadLocation);
         }
 
         public void DeleteFilesOnDisk()
@@ -81,7 +81,7 @@ namespace SyncTool
             return diff;
         }
 
-        public bool HaveFileNamesChanged(PBOList quickRepo)
+        public bool HaveFileNamesChanged(PBOList inputList)
         {
             Log.Info("comparing files");
 
@@ -90,15 +90,15 @@ namespace SyncTool
 
             ArrayList list = new ArrayList();
             
-            foreach (PBO quickPBO in quickRepo)
+            foreach (PBO inputPBO in inputList)
                 foreach (PBO thisPBO in this)
-                    if (quickPBO.fileName == thisPBO.fileName)
+                    if (inputPBO.fileName == thisPBO.fileName)
                         list.Add(thisPBO.fileHash);
 
             foreach (string s in list)
                 diff = DeleteFromArray(diff, s);
 
-            if(quickRepo.Count != this.Count)
+            if(inputList.Count != this.Count)
             {
                 Log.Info("files have changed");
                 return true;
