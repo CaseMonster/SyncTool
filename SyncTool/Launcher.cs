@@ -33,6 +33,7 @@ namespace SyncTool
                 optionsForm.Activate();
                 optionsForm.TopMost = true;
                 this.Options_Button.Enabled = false;
+                this.Sync_Button.Enabled = false;
             }
 
         }
@@ -43,6 +44,7 @@ namespace SyncTool
             optionsForm.FormClosing += optionsFormClosing;
             optionsForm.Show();
             this.Options_Button.Enabled = false;
+            this.Sync_Button.Enabled = false;
         }
 
         private void Start_Sync(Object sender, EventArgs e)
@@ -99,6 +101,7 @@ namespace SyncTool
         private void optionsFormClosing(Object sender, FormClosingEventArgs e)
         {
             this.Options_Button.Enabled = true;
+            this.Sync_Button.Enabled = true;
         }
     }
 }
