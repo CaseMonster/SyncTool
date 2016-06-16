@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -41,9 +40,9 @@ namespace SyncTool
                 select new RemoteSettings
                 (
                     (string)x.Element("Mods"),
+                    (string)x.Element("ForceHash"),
                     (string)x.Element("Version"),
-                    (string)x.Element("ForceHash")
-
+                    (string)x.Element("DownloadLocation")
                 );
             RemoteSettings settings = list.First();
             return settings;
@@ -163,15 +162,15 @@ namespace SyncTool
                 //Log.Info(ex.ToString());
 
                 if (s == Program.LOCAL_SETTINGS)
+                {
                     GenerateLocalSettingsXML(s);
-                if (s == Program.LOCAL_REPO)
+                }
+                else
+                {
                     GenerateBlankXML(s);
-                if (s == Program.QUICK_REPO)
-                    GenerateBlankXML(s);
-                if (s == "server.xml")
-                    GenerateBlankXML(s);
+                }
 
-                return false;
+            return false;
             }
         }
 

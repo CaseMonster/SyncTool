@@ -4,19 +4,20 @@ namespace SyncTool
     class RemoteSettings
     {
         public string mods = "NULL";
-        public string[] modsArray;
-
         public string forceHash = "NULL";
         public string version = "NULL";
-        public string currentVersion = "NULL";
+        public string downloadLocation = "NULL";
 
-        public RemoteSettings(string mods, string version, string forceHash)
+        public string[] modsArray;
+
+        public RemoteSettings(string mods, string forceHash, string version, string downloadsLocation)
         {
             this.mods = mods;
-            ParseRemoteSettings(mods);
             this.forceHash = forceHash;
             this.version = version;
-            this.currentVersion = currentVersion = "NULL";
+            this.downloadLocation = downloadsLocation;
+
+            ParseRemoteSettings(mods);
         }
 
         public void ParseRemoteSettings(string s)
