@@ -49,7 +49,7 @@ namespace SyncTool
         public static void DeleteFile(PBO pbo)
         {
             //Delete only if the path has a keyfile and is not a keyfile
-            if (File.Exists(pbo.filePath + KeyFile) && !(pbo.filePath + KeyFile).Equals(pbo.filePath + pbo.fileName))
+            //if (File.Exists(pbo.filePath + KeyFile) && !(pbo.filePath + KeyFile).Equals(pbo.filePath + pbo.fileName))
                 File.Delete(pbo.filePath + pbo.fileName);
 
         }
