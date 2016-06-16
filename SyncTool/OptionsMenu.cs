@@ -18,11 +18,6 @@ namespace SyncTool
             InitializeComponent();
             this.Save_Button.Enabled = false;
             localSettings = XML.ReadLocalSettingsXML(SyncTool.Program.LOCAL_SETTINGS);
-            if (localSettings == null)
-            {
-                Log.Error("Failed to Get localsetting xml trying a generic");
-                return;
-            }
             this.Repo_Add_Textbox.Text = localSettings.server;
             this.Launch_Text.Text = localSettings.arma3args;
             this.Arma_Folder_Textbox.Text = localSettings.arma3file;
@@ -44,6 +39,11 @@ namespace SyncTool
                 localSettings.modfolder = this.Mods_Text.Text;
                 XML.OverWriteLocalSettingsXML(localSettings, SyncTool.Program.LOCAL_SETTINGS);
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

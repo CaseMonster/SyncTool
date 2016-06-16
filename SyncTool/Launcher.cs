@@ -22,6 +22,18 @@ namespace SyncTool
             this.Play_Button.Enabled = false;
             this.Options_Button.Click += Open_Options_Form;
             this.Sync_Button.Click += Start_Sync;
+            var localSettings = XML.ReadLocalSettingsXML(SyncTool.Program.LOCAL_SETTINGS);
+            if (!localSettings.launched_once.Equals("True"))
+            {
+                localSettings.launched_once = "True";
+                XML.OverWriteLocalSettingsXML(localSettings, SyncTool.Program.LOCAL_SETTINGS);
+                var optionsForm = new OptionsMenu();
+                optionsForm.FormClosing += optionsFormClosing;
+                optionsForm.Show();
+                optionsForm.Activate();
+                optionsForm.TopMost = true;
+                this.Options_Button.Enabled = false;
+            }
 
         }
 

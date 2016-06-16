@@ -41,11 +41,12 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(38, 158);
+            this.label1.Font = new System.Drawing.Font("Comic Sans MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 156);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(171, 13);
+            this.label1.Size = new System.Drawing.Size(96, 15);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Build Name Goes Here (Salty Slug)";
+            this.label1.Text = "V 1.0 (Salty Slug)";
             // 
             // Download_Progress
             // 
@@ -66,23 +67,26 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Comic Sans MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(12, 10);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 13);
+            this.label2.Size = new System.Drawing.Size(33, 15);
             this.label2.TabIndex = 3;
             this.label2.Text = "Sync";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Comic Sans MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(12, 69);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 13);
+            this.label3.Size = new System.Drawing.Size(56, 15);
             this.label3.TabIndex = 4;
             this.label3.Text = "Download";
             // 
             // Sync_Button
             // 
+            this.Sync_Button.Font = new System.Drawing.Font("Comic Sans MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Sync_Button.Location = new System.Drawing.Point(398, 26);
             this.Sync_Button.Name = "Sync_Button";
             this.Sync_Button.Size = new System.Drawing.Size(75, 23);
@@ -92,6 +96,7 @@
             // 
             // Options_Button
             // 
+            this.Options_Button.Font = new System.Drawing.Font("Comic Sans MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Options_Button.Location = new System.Drawing.Point(398, 85);
             this.Options_Button.Name = "Options_Button";
             this.Options_Button.Size = new System.Drawing.Size(75, 23);
@@ -101,6 +106,7 @@
             // 
             // Play_Button
             // 
+            this.Play_Button.Font = new System.Drawing.Font("Comic Sans MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Play_Button.Location = new System.Drawing.Point(215, 114);
             this.Play_Button.Name = "Play_Button";
             this.Play_Button.Size = new System.Drawing.Size(258, 57);
