@@ -20,8 +20,10 @@ namespace SyncTool
             {
                 if (args[0] == "-server")
                 {
-                    localSettings.modfolder = "\\";
-                    //FileHandler.HashFolders(remoteSettings, localSettings);
+                    PBOList serverRepo = PBOList.ReadFromDisk("server.xml");
+                    serverRepo = PBOList.GeneratePBOListFromDirs(remoteSettings.modsArray, localSettings);
+                    serverRepo.AddHashesToList();
+                    serverRepo.WriteXMLToDisk("server.xml");
                     return;
                 }
 
@@ -49,7 +51,7 @@ namespace SyncTool
             {
                 localRepo.Clear();
                 localRepo = quickRepo.AddHashesToList();
-                //localRepo.WriteXMLToDisk();
+                localRepo.WriteXMLToDisk(LOCAL_REPO);
             }
 
             //create list of pbos that have changed, hashes that have changed
@@ -63,14 +65,6 @@ namespace SyncTool
             //cycle list of pbo downloads, store in temp location
             if (downloadList.Count > 0)
                 HTTP.DownloadList(downloadList, localSettings);
-
-            //hash downloaded pbos, compare to remote list of pbos
-
-            //replace local pbos from temp location
-
-            //update local xml as replace
-
-            //compare two xml checksums for pbos, again
 
             //Run A3
             //Run.Execute(localSettings);

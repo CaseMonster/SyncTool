@@ -106,7 +106,7 @@ namespace SyncTool
                             "Settings",
                             new XElement("ServerAddress", "http://rollingkeg.com/repo/"),
                             new XElement("ModFolder", @"C:\Users\User\Documents\Arma 3\Mods\"),
-                            new XElement("Arma3Executable", "C:\\Program Files\\steam\\steamapps\\steamapps\\arma3\\arma3.exe"),
+                            new XElement("Arma3Executable", Reg.GetArmaRegValue()),
                             new XElement("LaunchOptions", "")
                         )
                     )
@@ -165,6 +165,9 @@ namespace SyncTool
                     GenerateBlankXML(s);
                 if (s == Program.QUICK_REPO)
                     GenerateBlankXML(s);
+                if (s == "server.xml")
+                    GenerateBlankXML(s);
+
 
                 return false;
             }

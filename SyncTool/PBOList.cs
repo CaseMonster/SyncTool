@@ -6,6 +6,7 @@ namespace SyncTool
     {
         public static PBOList GeneratePBOListFromDirs(string[] dirs, LocalSettings localSettings)
         {
+            Log.InfoStamp("building list of files");
             PBOList list = new PBOList();
             foreach (string dir in dirs)
                 list.AddRange(FileHandler.FindPBOinDirectory(localSettings.modfolder + "\\" + dir + "\\"));
@@ -16,7 +17,9 @@ namespace SyncTool
         {
             Log.InfoStamp("hashing files");
             foreach (PBO pbo in this)
+            {
                 FileHandler.HashPBOs(this);
+            }
             return this;
         }
 
