@@ -31,7 +31,7 @@ namespace SyncTool
 
         static string LinePrep(string s)
         {
-            return (Environment.NewLine + "[" + DateTime.Now.ToString("yyyy/MMM/dd HH:mm ss") + "]  " + Environment.NewLine + "   " + s);
+            return (Environment.NewLine + "[" + DateTime.Now.ToString("yyyy-MMM-dd HH:mm:ss") + "]  " + Environment.NewLine + "   " + s);
         }
 
         static string LinePrepNoStamp(string s)
