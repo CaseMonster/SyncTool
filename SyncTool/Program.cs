@@ -60,7 +60,7 @@ namespace SyncTool
 
             //DeleteFromDisk PBOs that are no longer in Repo
             if (deleteList.Count > 0)
-                localRepo.DeleteFilesOnDisk();
+                deleteList.DeleteFilesOnDisk();
 
             //cycle list of pbo downloads, store in temp location
             if (downloadList.Count > 0)

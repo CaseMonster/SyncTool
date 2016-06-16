@@ -9,10 +9,7 @@ namespace SyncTool
             Log.InfoStamp("building list of files");
             PBOList list = new PBOList();
             foreach (string dir in dirs)
-            {
-                Log.Info(dir);
                 list.AddRange(FileHandler.FindPBOinDirectory(localSettings.modfolder + "\\" + dir + "\\"));
-            };
             return list;
         }
 
