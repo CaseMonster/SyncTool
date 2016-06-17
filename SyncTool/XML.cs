@@ -59,7 +59,7 @@ namespace SyncTool
             (
                 set.Element("ServerAddress").Value,
                 set.Element("ModFolder").Value,
-                set.Element("Arma3Executable").Value,
+                set.Element("Arma3Folder").Value,
                 set.Element("LaunchOptions").Value
             );
 
@@ -78,7 +78,7 @@ namespace SyncTool
                            "Settings",
                            new XElement("ServerAddress", settings.server),
                            new XElement("ModFolder", settings.modfolder),
-                           new XElement("Arma3Executable", settings.arma3file),
+                           new XElement("Arma3Folder", settings.arma3file),
                            new XElement("LaunchOptions", settings.arma3args)
                        )
                    )
@@ -105,7 +105,7 @@ namespace SyncTool
                             "Settings",
                             new XElement("ServerAddress", "http://rollingkeg.com/repo/"),
                             new XElement("ModFolder", @"C:\Users\User\Documents\Arma 3\Mods\"),
-                            new XElement("Arma3Executable", Reg.GetArmaRegValue()),
+                            new XElement("Arma3Folder", Reg.GetArmaRegValue()),
                             new XElement("LaunchOptions", "-world=empty -nosplash")
                         )
                     )

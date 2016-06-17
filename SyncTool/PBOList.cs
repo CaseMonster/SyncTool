@@ -90,7 +90,7 @@ namespace SyncTool
 
         public bool HaveFileNamesChanged(PBOList inputList)
         {
-            Log.InfoStamp("comparing files");
+            Log.Info("comparing files");
 
             PBOList diff = new PBOList();
             diff.AddRange(this);
@@ -133,5 +133,10 @@ namespace SyncTool
             return list;
         }
 
+        public void AddModPathToList(LocalSettings localSettings)
+        {
+            foreach (PBO pbo in this)
+                pbo.filePath = localSettings.modfolder + "\\" + pbo.filePath;
+        }
     }
 }

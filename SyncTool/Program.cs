@@ -73,20 +73,23 @@ namespace SyncTool
             //Comb through directories and hash folders, if nessesary
             if (localRepo.HaveFileNamesChanged(quickRepo))
             {
-                localRepo.DeleteXML(LOCAL_REPO);
                 quickRepo.AddHashesToList();
-                localRepo.AddRange(quickRepo);
-                localRepo.WriteXMLToDisk(LOCAL_REPO);
 
                 //DeleteFromDisk PBOs that are no longer in Repo
-                PBOList deleteList = localRepo.GetDeleteList(remoteRepo);
+                PBOList deleteList = quickRepo.GetDeleteList(remoteRepo);
                 if (deleteList.Count > 0)
                     deleteList.DeleteFilesOnDisk();
 
                 //cycle list of pbo downloads, store in temp location
-                PBOList downloadList = localRepo.GetDownloadList(remoteRepo);
+                PBOList downloadList = quickRepo.GetDownloadList(remoteRepo);
                 if (downloadList.Count > 0)
                     HTTP.DownloadList(downloadList, localSettings);
+
+                localRepo.Clear();
+                localRepo.DeleteXML(LOCAL_REPO);
+                remoteRepo.AddModPathToList(localSettings);
+                localRepo.AddRange(remoteRepo);
+                localRepo.WriteXMLToDisk(LOCAL_REPO);
             };
 
             //Todo: dialog asking to resync or launch the game, times out and exits
