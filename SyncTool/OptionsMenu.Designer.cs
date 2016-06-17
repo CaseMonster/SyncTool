@@ -54,7 +54,7 @@
             this.Repo_Add_Textbox.Name = "Repo_Add_Textbox";
             this.Repo_Add_Textbox.Size = new System.Drawing.Size(501, 23);
             this.Repo_Add_Textbox.TabIndex = 4;
-            this.Repo_Add_Textbox.TextChanged += new System.EventHandler(this.Repo_Add_Textbox_TextChanged);
+            //this.Repo_Add_Textbox.TextChanged += new System.EventHandler(this.Repo_Add_Textbox_TextChanged);
             // 
             // Launch_Text
             // 
@@ -63,7 +63,7 @@
             this.Launch_Text.Name = "Launch_Text";
             this.Launch_Text.Size = new System.Drawing.Size(501, 23);
             this.Launch_Text.TabIndex = 5;
-            this.Launch_Text.TextChanged += new System.EventHandler(this.Launch_Text_TextChanged);
+            //this.Launch_Text.TextChanged += new System.EventHandler(this.Launch_Text_TextChanged);
             // 
             // Save_Button
             // 
@@ -81,7 +81,7 @@
             this.Mods_Text.Name = "Mods_Text";
             this.Mods_Text.Size = new System.Drawing.Size(501, 23);
             this.Mods_Text.TabIndex = 7;
-            this.Mods_Text.TextChanged += new System.EventHandler(this.Mods_Text_TextChanged);
+            //this.Mods_Text.TextChanged += new System.EventHandler(this.Mods_Text_TextChanged);
             // 
             // label1
             // 

@@ -39,9 +39,9 @@ namespace SyncTool
                 FileHandler.DeleteFile(p);
         }
 
-        public void DeleteXML()
+        public void DeleteXML(string s)
         {
-            XML.BackupXML(this.locationOnDisk);
+            XML.BackupXML(s);
         }
 
         //the return list contains a list of files not present in the remote repo (Deletion List)
