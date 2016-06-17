@@ -52,15 +52,10 @@ namespace SyncTool
             PBOList diff = new PBOList();
             diff.AddRange(this);
 
-            ArrayList list = new ArrayList();
-
             foreach (PBO thisPBO in this)
                 foreach (PBO remotePBO in remote)
                     if ((remotePBO.fileHash == thisPBO.fileHash) && (remotePBO.fileName == thisPBO.fileName))
-                        list.Add(thisPBO.fileHash);
-
-            foreach (string s in list)
-                diff = DeleteFromArray(diff, s);
+                        diff = DeleteFromArray(diff, thisPBO);
 
             Log.Info(diff.Count + " file(s) will be deleted");
             return diff;
@@ -74,15 +69,10 @@ namespace SyncTool
             PBOList diff = new PBOList();
             diff.AddRange(remote);
 
-            ArrayList list = new ArrayList();
-
             foreach (PBO remotePBO in remote)
                 foreach (PBO thisPBO in this)
                     if ((remotePBO.fileHash == thisPBO.fileHash) && (remotePBO.fileName == thisPBO.fileName))
-                        list.Add(thisPBO.fileHash);
-            
-            foreach (string s in list)
-                diff = DeleteFromArray(diff, s);
+                        diff = DeleteFromArray(diff, thisPBO);
 
             Log.Info(diff.Count + " file(s) will be downloaded");
             return diff;
@@ -95,15 +85,10 @@ namespace SyncTool
             PBOList diff = new PBOList();
             diff.AddRange(this);
 
-            ArrayList list = new ArrayList();
-            
             foreach (PBO inputPBO in inputList)
                 foreach (PBO thisPBO in this)
                     if (inputPBO.fileName == thisPBO.fileName)
-                        list.Add(thisPBO.fileHash);
-
-            foreach (string s in list)
-                diff = DeleteFromArray(diff, s);
+                        diff = DeleteFromArray(diff, thisPBO);
 
             if(inputList.Count != this.Count)
             {
@@ -120,11 +105,11 @@ namespace SyncTool
             return false;
         }
 
-        public PBOList DeleteFromArray(PBOList list, string s)
+        public PBOList DeleteFromArray(PBOList list, PBO pbo)
         {
             foreach (PBO p in list)
             {
-                if(p.fileHash == s)
+                if((p.fileHash == pbo.fileHash) && (p.fileName == pbo.fileName))
                 {
                     list.Remove(p);
                     return list;

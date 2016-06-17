@@ -85,6 +85,7 @@ namespace SyncTool
                 if (downloadList.Count > 0)
                     HTTP.DownloadList(downloadList, localSettings);
 
+                //add the repo from the server after adding back our modfolder
                 localRepo.Clear();
                 localRepo.DeleteXML(LOCAL_REPO);
                 remoteRepo.AddModPathToList(localSettings);
