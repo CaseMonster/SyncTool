@@ -19,7 +19,6 @@ namespace SyncTool
         //global vars
         public static string LOCAL_REPO = "repo.xml";
         public static string LOCAL_SETTINGS = "settings.xml";
-        public static string QUICK_REPO = "quick.xml";
 
         static void Main(string[] args)
         {

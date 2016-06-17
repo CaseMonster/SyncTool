@@ -106,8 +106,7 @@ namespace SyncTool
                             new XElement("ServerAddress", "http://rollingkeg.com/repo/"),
                             new XElement("ModFolder", @"C:\Users\User\Documents\Arma 3\Mods\"),
                             new XElement("Arma3Executable", Reg.GetArmaRegValue()),
-                            new XElement("LaunchOptions", ""),
-                            new XElement("LaunchedOnce", "False")
+                            new XElement("LaunchOptions", "")
                         )
                     )
                 );
@@ -132,7 +131,7 @@ namespace SyncTool
                 new XElement("SyncTool")
             );
 
-            //doc.Save(s);
+            doc.Save(s);
         }
 
         public static void WritePBOXML(string xmlName, PBO pbo)
@@ -157,9 +156,10 @@ namespace SyncTool
             catch (Exception ex)
             {
                 Log.Info("the XML is missing or corrupted, recreating");
-                //Log.Info(ex.ToString());
 
-                if (s == Program.LOCAL_SETTINGS)
+                if (s.Contains("http"))
+                    return false;
+                if(s == Program.LOCAL_SETTINGS)
                 {
                     GenerateLocalSettingsXML(s);
                 }
