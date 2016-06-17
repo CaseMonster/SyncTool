@@ -7,7 +7,7 @@ namespace SyncTool
         public static void Execute(LocalSettings localSettings, RemoteSettings remoteSettings)
         {
             Process p = new Process();
-            p.StartInfo.FileName = "Arma 3";
+            p.StartInfo.FileName = "Arma3.exe";
             p.StartInfo.WorkingDirectory = localSettings.arma3file;
 
             string modsArg = "";
@@ -19,7 +19,6 @@ namespace SyncTool
 
             try
             {
-                Log.Info("running executable");
                 p.Start();
             }
             catch (System.ComponentModel.Win32Exception ex)

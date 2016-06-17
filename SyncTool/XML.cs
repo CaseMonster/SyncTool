@@ -106,7 +106,7 @@ namespace SyncTool
                             new XElement("ServerAddress", "http://rollingkeg.com/repo/"),
                             new XElement("ModFolder", @"C:\Users\User\Documents\Arma 3\Mods\"),
                             new XElement("Arma3Executable", Reg.GetArmaRegValue()),
-                            new XElement("LaunchOptions", "")
+                            new XElement("LaunchOptions", "-world=empty -nosplash")
                         )
                     )
                 );
