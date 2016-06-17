@@ -15,3 +15,4 @@ C:\Users\am195\Desktop\SyncTool\SyncTool\obj\Debug\SyncTool.exe
 C:\Users\am195\Desktop\SyncTool\SyncTool\obj\Debug\SyncTool.pdb
 C:\GitHub\SyncTool\SyncTool\obj\Debug\SyncTool.OptionsMenu.resources
 C:\GitHub\SyncTool\SyncTool\obj\Debug\SyncTool.csproj.GenerateResource.Cache
+C:\GitHub\SyncTool\SyncTool\obj\Debug\SyncTool.Launcher.resources
