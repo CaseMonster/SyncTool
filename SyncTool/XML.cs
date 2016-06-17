@@ -134,15 +134,18 @@ namespace SyncTool
             doc.Save(s);
         }
 
-        public static void WritePBOXML(string xmlName, PBO pbo)
+        public static void WritePBOXML(string xmlName, PBOList list)
         {
             XDocument xmlFile = XDocument.Load(xmlName);
-            var xmlElement = (new XElement("FileNode",
+            foreach (PBO pbo in list)
+            { 
+                var xmlElement = (new XElement("FileNode",
                 new XElement("FileName", pbo.fileName),
                 new XElement("FilePath", pbo.filePath),
                 new XElement("FileHash", pbo.fileHash)));
+                xmlFile.Element("SyncTool").Add(xmlElement);
+            };
 
-            xmlFile.Element("SyncTool").Add(xmlElement);
             xmlFile.Save(xmlName);
         }
 

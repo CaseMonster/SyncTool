@@ -23,8 +23,7 @@ namespace SyncTool
         public void WriteXMLToDisk(string s)
         {
             this.locationOnDisk = s;
-            foreach (PBO pbo in this)
-                XML.WritePBOXML(this.locationOnDisk, pbo);
+            XML.WritePBOXML(this.locationOnDisk, this);
         }
 
         public PBOList ReadFromDisk(string s)
