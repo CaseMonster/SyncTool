@@ -9,7 +9,13 @@ namespace SyncTool
             Process p = new Process();
             p.StartInfo.FileName = "Arma 3";
             p.StartInfo.WorkingDirectory = localSettings.arma3file;
-            p.StartInfo.Arguments = localSettings.arma3args + " " + remoteSettings.launchMods;
+
+            string modsArg = "";
+            foreach (string s in remoteSettings.modsArray)
+                modsArg = modsArg + localSettings.modfolder + "\\" + s + ";";
+            modsArg = "-mod=\"" + modsArg + "\"";
+
+            p.StartInfo.Arguments = localSettings.arma3args + " " + modsArg;
 
             try
             {
