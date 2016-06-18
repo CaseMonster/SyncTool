@@ -44,6 +44,7 @@ namespace SyncTool
             bool argReset = false;
             bool argCLI = false;
             bool argSilent = false;
+            bool argForce = false;
 
             if (args.Length > 0)
             {
@@ -61,6 +62,9 @@ namespace SyncTool
 
                 if (args[0] == "-silent")
                     argCLI = true;
+
+                if (args[0] == "-force")
+                    argForce = true;
             };
 
             ArrayList remoteRepoList = new ArrayList();
@@ -94,7 +98,7 @@ namespace SyncTool
             {
                 PBOList tempLocalRepo = (PBOList)localRepoList[i];
                 PBOList tempQuickRepo = (PBOList)quickRepoList[i];
-                if (tempLocalRepo.HaveFileNamesChanged(tempQuickRepo))
+                if (tempLocalRepo.HaveFileNamesChanged(tempQuickRepo) || argForce)
                 {
                     haveFileNamesChanged = true;
                     modsThatChanged.Add(true);
@@ -106,7 +110,7 @@ namespace SyncTool
             };
 
             //Run checks, downloads, and deletions if files have changed
-            if (haveFileNamesChanged)
+            if (haveFileNamesChanged || argForce)
             {
                 Log.Info("changes detected");
 
@@ -138,6 +142,14 @@ namespace SyncTool
                     };
                 };
 
+                //Get number of files going to be downloaded
+                int tempCountDelete = 0;
+                foreach (PBOList tempQuickRepo in deleteRepoList)
+                {
+                    tempCountDelete = +tempQuickRepo.Count;
+                };
+                Log.Info(tempCountDelete + " files will be deleted");
+
                 //Delete
                 Log.Info("deleting extra or corrupt files");
                 foreach (PBOList tempDeleteRepo in deleteRepoList)
@@ -158,17 +170,17 @@ namespace SyncTool
                 };
 
                 //Get number of files going to be downloaded
-                int tempCount = 0;
+                int tempCountDownload = 0;
                 foreach (PBOList tempDownloadRepo in downloadRepoList)
                 {
-                    tempCount = +tempDownloadRepo.Count;
+                    tempCountDownload = +tempDownloadRepo.Count;
                 };
-                Log.Info(tempCount + " files will be downloaded");
+                Log.Info(tempCountDownload + " files will be downloaded");
 
                 //Download
                 foreach (PBOList tempDownloadRepo in downloadRepoList)
                 { 
-                    Log.Info("downloading " + tempDownloadRepo.ToString());
+                    Log.Info("downloading...");
                     HTTP.DownloadList(tempDownloadRepo);
                 };
                 Log.Info("files downloaded");
@@ -190,7 +202,6 @@ namespace SyncTool
             else
             {
                 Log.Info("no changes detected");
-                Console.ReadKey();
             }
 
             //Todo: dialog asking to resync or launch the game, times out and exits
