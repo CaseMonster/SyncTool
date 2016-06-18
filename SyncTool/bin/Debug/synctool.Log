@@ -195,3 +195,12 @@ File name: 'C:\GitHub\SyncTool\SyncTool\bin\Debug\repo.xml'
 
 [2016Jun13 2114]  
    generating newrepo.xml
+   
+=======================================================================================================================
+
+[2016-Jun-18 15:26:24]  
+   SyncTool started
+   loading config
+   building list of files
+   no changes detected
+   all done
