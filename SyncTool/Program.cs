@@ -72,9 +72,9 @@ namespace SyncTool
             foreach (string modlist in remoteSettings.modsArray)
             {
                 //For remote XMLs
-                //PBOList tempServerRepo = new PBOList();
-                //tempServerRepo = tempServerRepo.ReadFromDisk(Path.Combine(localSettings.server, (modlist + ".xml")));
-                //remoteRepoList.Add(tempServerRepo);
+                PBOList tempServerRepo = new PBOList();
+                tempServerRepo = tempServerRepo.ReadFromDisk(Path.Combine(localSettings.server, (modlist + ".xml")));
+                remoteRepoList.Add(tempServerRepo);
 
                 //For local XMLs
                 PBOList tempLocalRepo = new PBOList();
@@ -120,7 +120,8 @@ namespace SyncTool
                         Log.Info("hashing " + remoteSettings.modsArray[i]);
                         PBOList tempQuickRepo = (PBOList)quickRepoList[i];
                         tempQuickRepo.AddHashesToList();
-                        quickRepoList.Add(tempQuickRepo);
+                        quickRepoList.RemoveAt(i);
+                        quickRepoList.Insert(i, tempQuickRepo);
                     };
                 };
 
@@ -129,14 +130,17 @@ namespace SyncTool
                 ArrayList deleteRepoList = new ArrayList();
                 for (int i = 0; i < remoteSettings.modsArray.Length; i++)
                 {
-                    PBOList tempQuickRepo = (PBOList)quickRepoList[i];
-                    PBOList tempRemoteRepo = (PBOList)remoteRepoList[i];
-                    deleteRepoList.Add(tempQuickRepo.GetDeleteList(tempRemoteRepo));
+                    if ((bool)modsThatChanged[i])
+                    {
+                        PBOList tempQuickRepo = (PBOList)quickRepoList[i];
+                        PBOList tempRemoteRepo = (PBOList)remoteRepoList[i];
+                        deleteRepoList.Add(tempQuickRepo.GetDeleteList(tempRemoteRepo));
+                    };
                 };
 
                 //Delete
+                Log.Info("deleting extra or corrupt files");
                 foreach (PBOList tempDeleteRepo in deleteRepoList)
-                    if (tempDeleteRepo.Count > 0)
                         tempDeleteRepo.DeleteFilesOnDisk();
                 Log.Info("files deleted");
 
@@ -145,9 +149,12 @@ namespace SyncTool
                 ArrayList downloadRepoList = new ArrayList();
                 for (int i = 0; i < remoteSettings.modsArray.Length; i++)
                 {
-                    PBOList tempQuickRepo = (PBOList)quickRepoList[i];
-                    PBOList tempRemoteRepo = (PBOList)remoteRepoList[i];
-                    downloadRepoList.Add(tempQuickRepo.GetDownloadList(tempRemoteRepo));
+                    if ((bool)modsThatChanged[i])
+                    {
+                        PBOList tempQuickRepo = (PBOList)quickRepoList[i];
+                        PBOList tempRemoteRepo = (PBOList)remoteRepoList[i];
+                        downloadRepoList.Add(tempQuickRepo.GetDownloadList(tempRemoteRepo));
+                    };
                 };
 
                 //Get number of files going to be downloaded
@@ -159,14 +166,10 @@ namespace SyncTool
                 Log.Info(tempCount + " files will be downloaded");
 
                 //Download
-                for (int i = 0; i < remoteSettings.modsArray.Length; i++)
-                {
-                    PBOList tempDownloadRepo = (PBOList)downloadRepoList[i];
-                    if (tempDownloadRepo.Count > 0)
-                    {
-                        Log.Info("downloading " + remoteSettings.modsArray[i]);
-                        HTTP.DownloadList(tempDownloadRepo);
-                    };
+                foreach (PBOList tempDownloadRepo in downloadRepoList)
+                { 
+                    Log.Info("downloading " + tempDownloadRepo.ToString());
+                    HTTP.DownloadList(tempDownloadRepo);
                 };
                 Log.Info("files downloaded");
 
@@ -191,6 +194,9 @@ namespace SyncTool
             }
 
             //Todo: dialog asking to resync or launch the game, times out and exits
+            Log.Info("all done");
+            Console.ReadKey();
+            Run();
         }
 
         static void GenRepo()
@@ -214,6 +220,7 @@ namespace SyncTool
                 Log.Info("hashing " + remoteSettings.modsArray[i]);
                 PBOList tempQuickRepo = (PBOList)quickRepoList[i];
                 tempQuickRepo.AddHashesToList();
+                tempQuickRepo.RemoveModFolderForServerRepo();
                 quickRepoList.Add(tempQuickRepo);
             };
 

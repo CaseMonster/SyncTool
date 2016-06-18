@@ -17,6 +17,12 @@ namespace SyncTool
             return this;
         }
 
+        public void RemoveModFolderForServerRepo()
+        {
+            foreach (PBO pbo in this)
+                pbo.filePath = pbo.filePath.Remove(0, Program.localSettings.modfolder.Length);
+        }
+
         public void WriteXMLToDisk(string s)
         {
             this.locationOnDisk = s;
