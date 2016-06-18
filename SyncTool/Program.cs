@@ -28,16 +28,26 @@ namespace SyncTool
             GetConsoleMode(consoleHandle, out consoleMode);
             consoleMode &= ~ENABLE_QUICK_EDIT;
             SetConsoleMode(consoleHandle, consoleMode);
-
+            LocalSettings localSettings;
+            RemoteSettings remoteSettings;
             Log.Startup();
 
             //load settings
-            LocalSettings localSettings = XML.ReadLocalSettingsXML(LOCAL_SETTINGS);
-            RemoteSettings remoteSettings = XML.ReadRemoteSettingsXML(localSettings.server + "settings.xml");
-            //todo: redo local settings, launch optional first run dialog
 
+            //todo: redo local settings, launch optional first run dialog
+            if (true)
+            {
+                Application.Run(new Launcher());
+                Log.InfoStamp("all done");
+                return;
+            }
+            else {
+                localSettings = XML.ReadLocalSettingsXML(LOCAL_SETTINGS);
+                remoteSettings = XML.ReadRemoteSettingsXML(localSettings.server + "settings.xml");
+            }
             if (args.Length > 0)
             {
+
                 if (args[0] == "-server")
                 {
                     PBOList serverRepo = new PBOList();
@@ -56,20 +66,15 @@ namespace SyncTool
                 }
             };
 
-            if (false)
-            {
-                Application.Run(new Launcher());
-                return;
-            }
 
+            //Add Run Function here
             //Pull local repo, remote repo, generate quick repo
             PBOList remoteRepo = new PBOList();
-                remoteRepo = remoteRepo.ReadFromDisk(localSettings.server + "//" + "repo.xml");
+            remoteRepo = remoteRepo.ReadFromDisk(localSettings.server + "//" + "repo.xml");
             PBOList localRepo = new PBOList();
-                localRepo = localRepo.ReadFromDisk(LOCAL_REPO);
+            localRepo = localRepo.ReadFromDisk(LOCAL_REPO);
             PBOList quickRepo = new PBOList();
-                quickRepo.GeneratePBOListFromDirs(remoteSettings.modsArray, localSettings);
-
+            quickRepo.GeneratePBOListFromDirs(remoteSettings.modsArray, localSettings);
             //Comb through directories and hash folders, if nessesary
             if (localRepo.HaveFileNamesChanged(quickRepo))
             {
@@ -91,13 +96,8 @@ namespace SyncTool
                 remoteRepo.AddModPathToList(localSettings);
                 localRepo.AddRange(remoteRepo);
                 localRepo.WriteXMLToDisk(LOCAL_REPO);
-            };
 
-            //Todo: dialog asking to resync or launch the game, times out and exits
-
-            Log.InfoStamp("all done");
-            System.Console.ReadKey();
-            Run.Execute(localSettings, remoteSettings);
+            }
         }
     }
 }
