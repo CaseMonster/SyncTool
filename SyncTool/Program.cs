@@ -89,12 +89,20 @@ namespace SyncTool
 
             //Check each quick repo against it's corresponding local repo
             bool haveFileNamesChanged = false;
+            ArrayList modsThatChanged = new ArrayList();
             for (int i = 0; i < localRepoList.Count; i++)
             {
                 PBOList tempLocalRepo = (PBOList)localRepoList[i];
                 PBOList tempQuickRepo = (PBOList)quickRepoList[i];
                 if (tempLocalRepo.HaveFileNamesChanged(tempQuickRepo))
+                {
                     haveFileNamesChanged = true;
+                    modsThatChanged.Add(true);
+                }
+                else
+                {
+                    modsThatChanged.Add(false);
+                }
             };
 
             //Run checks, downloads, and deletions if files have changed
@@ -106,10 +114,14 @@ namespace SyncTool
                 Log.InfoStamp("hashing files stored locally");
                 for (int i = 0; i < remoteSettings.modsArray.Length; i++)
                 {
-                    Log.Info("hashing " + remoteSettings.modsArray[i]);
-                    PBOList tempQuickRepo = (PBOList)quickRepoList[i];
-                    tempQuickRepo.AddHashesToList();
-                    quickRepoList.Add(tempQuickRepo);
+                    //Only hash mod folders that have changed
+                    if ((bool)modsThatChanged[i])
+                    {
+                        Log.Info("hashing " + remoteSettings.modsArray[i]);
+                        PBOList tempQuickRepo = (PBOList)quickRepoList[i];
+                        tempQuickRepo.AddHashesToList();
+                        quickRepoList.Add(tempQuickRepo);
+                    };
                 };
 
                 //Check each quick repo to each remote repo
