@@ -186,6 +186,11 @@ namespace SyncTool
                     Log.Info("no files to delete");
                 };
 
+                //Check for empty folders to delete
+                Log.Info("deleting any empty folders");
+                foreach (string dir in remoteSettings.modsArray)
+                    FileHandler.DeleteEmptyFolders(Path.Combine(localSettings.modfolder,dir));
+
                 //cycle list of pbo downloads
                 Log.InfoStamp("finding files to download");
                 ArrayList downloadRepoList = new ArrayList();

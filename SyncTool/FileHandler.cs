@@ -30,6 +30,16 @@ namespace SyncTool
             };
         }
 
+        public static void DeleteEmptyFolders(string dir)
+        {
+            foreach (var directory in Directory.GetDirectories(dir))
+            {
+                DeleteEmptyFolders(directory);
+                if (Directory.GetFiles(directory).Length == 0 && Directory.GetDirectories(directory).Length == 0)
+                    Directory.Delete(directory, false);
+            };
+        }
+
         public static PBOList HashPBOs(PBOList list)
         {
             foreach (PBO pbo in list)
