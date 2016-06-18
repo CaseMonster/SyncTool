@@ -23,7 +23,6 @@ namespace SyncTool
 
         //global vars
         public static string LOCAL_FOLDER = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RollingRepo");
-        public static string LOCAL_REPO = Path.Combine(LOCAL_FOLDER, "repo.xml");
         public static string LOCAL_SETTINGS = Path.Combine(LOCAL_FOLDER, "settings.xml");
 
         public static LocalSettings localSettings = XML.ReadLocalSettingsXML(LOCAL_SETTINGS);
@@ -60,8 +59,8 @@ namespace SyncTool
                     Log.Info("not running as administrator, exiting");
                     Console.ReadKey();
                 }
-                Application.Exit();
-                return;
+                //Application.Exit();
+                //return;
             };
 
             //load settings
@@ -160,59 +159,67 @@ namespace SyncTool
                 Log.InfoStamp("finding files to delete");
                 ArrayList deleteRepoList = new ArrayList();
                 for (int i = 0; i < remoteSettings.modsArray.Length; i++)
-                {
                     if ((bool)modsThatChanged[i])
                     {
                         PBOList tempQuickRepo = (PBOList)quickRepoList[i];
                         PBOList tempRemoteRepo = (PBOList)remoteRepoList[i];
                         deleteRepoList.Add(tempQuickRepo.GetDeleteList(tempRemoteRepo));
                     };
-                };
 
                 //Get number of files going to be downloaded
                 int tempCountDelete = 0;
-                foreach (PBOList tempQuickRepo in deleteRepoList)
-                {
-                    tempCountDelete = +tempQuickRepo.Count;
-                };
-                Log.Info(tempCountDelete + " files will be deleted");
+                foreach (PBOList tempdeleteRepo in deleteRepoList)
+                    tempCountDelete =+ tempdeleteRepo.Count;
 
-                //Delete
-                Log.Info("deleting extra or corrupt files");
-                foreach (PBOList tempDeleteRepo in deleteRepoList)
+                if (tempCountDelete > 0)
+                {
+                    Log.Info(tempCountDelete + " files will be deleted");
+
+                    //Delete
+                    Log.Info("deleting...");
+                    foreach (PBOList tempDeleteRepo in deleteRepoList)
                         tempDeleteRepo.DeleteFilesOnDisk();
-                Log.Info("files deleted");
+                    Log.Info("files deleted");
+                }
+                else
+                {
+                    Log.Info("no files to delete");
+                };
 
                 //cycle list of pbo downloads
-                Log.InfoStamp("downloading files");
+                Log.InfoStamp("finding files to download");
                 ArrayList downloadRepoList = new ArrayList();
                 for (int i = 0; i < remoteSettings.modsArray.Length; i++)
-                {
                     if ((bool)modsThatChanged[i])
                     {
                         PBOList tempQuickRepo = (PBOList)quickRepoList[i];
                         PBOList tempRemoteRepo = (PBOList)remoteRepoList[i];
                         downloadRepoList.Add(tempQuickRepo.GetDownloadList(tempRemoteRepo));
                     };
-                };
 
                 //Get number of files going to be downloaded
                 int tempCountDownload = 0;
                 foreach (PBOList tempDownloadRepo in downloadRepoList)
-                {
                     tempCountDownload = +tempDownloadRepo.Count;
-                };
-                Log.Info(tempCountDownload + " files will be downloaded");
 
-                //Download
-                foreach (PBOList tempDownloadRepo in downloadRepoList)
-                { 
+                if (tempCountDownload > 0)
+                {
+                    Log.Info(tempCountDownload + " files will be downloaded");
+
+                    //Download
                     Log.Info("downloading...");
-                    HTTP.DownloadList(tempDownloadRepo);
+                    foreach (PBOList tempDownloadRepo in downloadRepoList)
+                    {
+                        HTTP.DownloadList(tempDownloadRepo);
+                    };
+                    Log.Info("files downloaded");
+                }
+                else
+                {
+                    Log.Info("no files to download");
                 };
-                Log.Info("files downloaded");
 
-                //add the repo from the server after adding back our modfolder
+                //save to xml, add the repo from the server after adding back our modfolder
                 Log.InfoStamp("saving XML to disk");
                 for (int i = 0; i < remoteSettings.modsArray.Length; i++)
                 {

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.IO;
 
 namespace SyncTool
 {
@@ -54,7 +55,7 @@ namespace SyncTool
 
             foreach (PBO thisPBO in this)
                 foreach (PBO remotePBO in remote)
-                    if ((remotePBO.fileHash == thisPBO.fileHash) && (remotePBO.fileName == thisPBO.fileName))
+                    if ((remotePBO.fileHash == thisPBO.fileHash) && (remotePBO.fileName == thisPBO.fileName) && (Path.Combine(Program.localSettings.modfolder,remotePBO.filePath) == thisPBO.filePath))
                         diff = DeleteFromArray(diff, thisPBO);
 
             return diff;
