@@ -13,7 +13,6 @@ namespace SyncTool
 
         public static PBOList ReadRepoXML(string s)
         {
-            Log.Info("reading " + s);
             IsSyntaxCorrect(s);
 
             var doc = XDocument.Load(s);
@@ -32,7 +31,6 @@ namespace SyncTool
 
         public static RemoteSettings ReadRemoteSettingsXML(string s)
         {
-            Log.Info("reading " + s);
             IsSyntaxCorrect(s);
 
             var doc = XDocument.Load(s);
@@ -50,7 +48,6 @@ namespace SyncTool
 
         public static LocalSettings ReadLocalSettingsXML(string s)
         {
-            Log.Info("reading " + s);
             IsSyntaxCorrect(s);
 
             var doc = XDocument.Load(s, LoadOptions.PreserveWhitespace);
@@ -89,9 +86,10 @@ namespace SyncTool
 
         public static void GenerateLocalSettingsXML(string s)
         {
+            if (!Directory.Exists(Path.GetDirectoryName(s)))
+                Directory.CreateDirectory(Path.GetDirectoryName(s));
             if (!File.Exists(s))
             {
-                Log.Info("generating new " + s);
                 StreamWriter f = File.CreateText(s);
                 f.Close();
 
@@ -117,12 +115,11 @@ namespace SyncTool
             {
                 BackupXML(s);
                 GenerateLocalSettingsXML(s);
-            }
+            };
         }
 
         public static void GenerateBlankXML(string s)
         {
-            Log.Info("generating new " + s);
             //StreamWriter f = File.CreateText(s);
             //f.Close();
 
@@ -158,8 +155,6 @@ namespace SyncTool
             }
             catch (Exception ex)
             {
-                Log.Info("the XML is missing or corrupted, recreating");
-
                 if (s.Contains("http"))
                     return false;
                 if(s == Program.LOCAL_SETTINGS)
@@ -177,8 +172,6 @@ namespace SyncTool
 
         public static void BackupXML(string s)
         {
-            Log.Info("deleting/backing up " + s);
-
             if (File.Exists(s + ".backup"))
             {
                 File.Delete(s + ".backup");

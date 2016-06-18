@@ -26,7 +26,6 @@ namespace SyncTool
             }
             catch
             {
-                Log.Info(basePath + " folder does not exist");
                 return list;
             };
         }
@@ -43,8 +42,8 @@ namespace SyncTool
         public static void DeleteFile(PBO pbo)
         {
             Log.Info(pbo.fileName);
-            if (File.Exists(pbo.filePath + pbo.fileName))
-                File.Delete(pbo.filePath + pbo.fileName);
+            //if (File.Exists(pbo.filePath + pbo.fileName))
+            //    File.Delete(pbo.filePath + pbo.fileName);
 
         }
 

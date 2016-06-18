@@ -4,18 +4,18 @@ namespace SyncTool
 {
     class Run
     {
-        public static void Execute(LocalSettings localSettings, RemoteSettings remoteSettings)
+        public static void Execute()
         {
             Process p = new Process();
             p.StartInfo.FileName = "Arma3.exe";
-            p.StartInfo.WorkingDirectory = localSettings.arma3file;
+            p.StartInfo.WorkingDirectory = Program.localSettings.arma3file;
 
             string modsArg = "";
-            foreach (string s in remoteSettings.modsArray)
-                modsArg = modsArg + localSettings.modfolder + "\\" + s + ";";
+            foreach (string s in Program.remoteSettings.modsArray)
+                modsArg = modsArg + Program.localSettings.modfolder + "\\" + s + ";";
             modsArg = "-mod=\"" + modsArg + "\"";
 
-            p.StartInfo.Arguments = localSettings.arma3args + " " + modsArg;
+            p.StartInfo.Arguments = Program.localSettings.arma3args + " " + modsArg;
 
             try
             {
@@ -23,8 +23,6 @@ namespace SyncTool
             }
             catch (System.ComponentModel.Win32Exception ex)
             {
-                Log.Error("could not run program");
-                Log.Info(ex.ToString());
                 return;
             };
         }
