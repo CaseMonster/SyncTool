@@ -5,13 +5,13 @@ namespace SyncTool
 {
     class Log
     {
-        public static string LOGFILE = "synctool.Log";
+        public static string LOGFILE = "rollingrepo.Log";
         static StreamWriter log;
 
         public static void Startup()
         {
             Info(Environment.NewLine + "=======================================================================================================================");
-            InfoStamp("SyncTool started");
+            InfoStamp("RollingRepo started");
         }
 
         public static void InfoStamp(string s)
