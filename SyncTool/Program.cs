@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 using System.Windows.Forms;
 
 namespace SyncTool
@@ -28,6 +31,7 @@ namespace SyncTool
 
         static void Main(string[] args)
         {
+            Log.Startup();
             //Disable quick edit mode in console window
             IntPtr consoleHandle = GetStdHandle(STD_INPUT_HANDLE);
             uint consoleMode;
@@ -35,7 +39,30 @@ namespace SyncTool
             consoleMode &= ~ENABLE_QUICK_EDIT;
             SetConsoleMode(consoleHandle, consoleMode);
 
-            Log.Startup();
+            //check to see if user is running as admin
+            var wi = WindowsIdentity.GetCurrent();
+            var wp = new WindowsPrincipal(wi);
+            bool runAsAdmin = wp.IsInRole(WindowsBuiltInRole.Administrator);
+            if (!runAsAdmin)
+            {
+                // It is not possible to launch a ClickOnce app as administrator directly,
+                // so instead we launch the app as administrator in a new process.
+                var processInfo = new ProcessStartInfo(Assembly.GetExecutingAssembly().CodeBase);
+                processInfo.UseShellExecute = true;
+                processInfo.Verb = "runas";
+
+                try
+                {
+                    Process.Start(processInfo);
+                }
+                catch (Exception)
+                {
+                    Log.Info("not running as administrator, exiting");
+                    Console.ReadKey();
+                }
+                Application.Exit();
+                return;
+            };
 
             //load settings
             Log.Info("loading config");
