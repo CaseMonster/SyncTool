@@ -11,14 +11,13 @@ namespace SyncTool
             myWebClient.DownloadFile(uri, file);
         }
 
-        public static void DownloadList(PBOList dlList, LocalSettings localSettings)
+        public static void DownloadList(PBOList dlList)
         {
             foreach (PBO dlObject in dlList)
             {
                 Log.Info(dlObject.fileName);
-                Download(localSettings.server + dlObject.filePath.Replace(@"\","/") + "/" + dlObject.fileName, localSettings.modfolder + "\\" + dlObject.filePath + dlObject.fileName);
+                Download(Program.localSettings.server + dlObject.filePath.Replace(@"\","/") + "/" + dlObject.fileName, Program.localSettings.modfolder + "\\" + dlObject.filePath + dlObject.fileName);
             };
-            Log.Info("file(s) downloaded");
         }
     }
 }

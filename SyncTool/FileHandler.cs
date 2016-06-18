@@ -26,7 +26,6 @@ namespace SyncTool
             }
             catch
             {
-                Log.Info(basePath + " folder does not exist");
                 return list;
             };
         }
