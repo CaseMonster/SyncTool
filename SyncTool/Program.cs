@@ -117,6 +117,14 @@ namespace SyncTool
                 quickRepoList.Add(tempQuickRepo);
             };
 
+            //Check the server repo for mods, if the list is empty, something is wrong
+            if(remoteRepoList.Count == 0)
+            {
+                Log.Info("something is wrong with the server files, exiting");
+                Application.Exit();
+                return;
+            };
+
             //Check each quick repo against it's corresponding local repo
             bool haveFileNamesChanged = false;
             ArrayList modsThatChanged = new ArrayList();
