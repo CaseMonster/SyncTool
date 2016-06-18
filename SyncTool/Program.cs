@@ -59,8 +59,8 @@ namespace SyncTool
                     Log.Info("not running as administrator, exiting");
                     Console.ReadKey();
                 }
-                //Application.Exit();
-                //return;
+                Application.Exit();
+                return;
             };
 
             //load settings
@@ -197,7 +197,8 @@ namespace SyncTool
                 //Check for empty folders to delete
                 Log.Info("deleting any empty folders");
                 foreach (string dir in remoteSettings.modsArray)
-                    FileHandler.DeleteEmptyFolders(Path.Combine(localSettings.modfolder,dir));
+                    if(Directory.Exists(Path.Combine(localSettings.modfolder, dir)))
+                        FileHandler.DeleteEmptyFolders(Path.Combine(localSettings.modfolder,dir));
 
                 //cycle list of pbo downloads
                 Log.InfoStamp("finding files to download");
