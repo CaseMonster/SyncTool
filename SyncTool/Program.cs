@@ -67,8 +67,8 @@ namespace SyncTool
                     Log.Info("not running as administrator, exiting");
                     Console.ReadKey();
                 }
-                Application.Exit();
-                return;
+                //Application.Exit();
+                //return;
             };
 
             //load settings
@@ -171,7 +171,7 @@ namespace SyncTool
             };
 
             //Run checks, downloads, and deletions if files have changed
-            if (haveFileNamesChanged || forceSync)
+            if (haveFileNamesChanged || forceSync || remoteSettings.forceHash)
             {
                 Log.Info("changes detected");
 
@@ -203,8 +203,8 @@ namespace SyncTool
 
                 //Get number of files going to be downloaded
                 int tempCountDelete = 0;
-                foreach (PBOList tempdeleteRepo in deleteRepoList)
-                    tempCountDelete =+ tempdeleteRepo.Count;
+                foreach (PBOList tempDeleteRepo in deleteRepoList)
+                    tempCountDelete += tempDeleteRepo.Count;
 
                 if (tempCountDelete > 0)
                 {
