@@ -15,7 +15,7 @@ namespace SyncTool
                 modsArg = modsArg + Program.localSettings.modfolder + "\\" + s + ";";
             modsArg = "-mod=\"" + modsArg + "\"";
 
-            p.StartInfo.Arguments = Program.localSettings.arma3args + " " + modsArg;
+            p.StartInfo.Arguments = Program.localSettings.arma3args + " " + modsArg + " " + Program.remoteSettings.args;
 
             try
             {

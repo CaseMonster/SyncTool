@@ -86,14 +86,15 @@ namespace SyncTool
                     if (inputPBO.fileName == thisPBO.fileName)
                         diff = DeleteFromArray(diff, thisPBO);
 
-            if(inputList.Count != this.Count)
-            {
+            if (this.Count == 0)
                 return true;
-            };
+
+            if (inputList.Count != this.Count)
+                return true;
+
             if (diff.Count > 0)
-            {
                 return true;
-            };
+
             return false;
         }
 

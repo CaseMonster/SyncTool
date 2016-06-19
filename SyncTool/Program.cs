@@ -29,11 +29,6 @@ namespace SyncTool
         public static LocalSettings localSettings = XML.ReadLocalSettingsXML(LOCAL_SETTINGS);
         public static RemoteSettings remoteSettings = XML.ReadRemoteSettingsXML(Path.Combine(localSettings.server, "settings.xml"));
 
-        //global lists
-        ArrayList remoteRepoList = new ArrayList();
-        ArrayList localRepoList = new ArrayList();
-        ArrayList quickRepoList = new ArrayList();
-
         static void Main(string[] args)
         {
             Log.Startup();
@@ -72,8 +67,8 @@ namespace SyncTool
                     Log.Info("not running as administrator, exiting");
                     Console.ReadKey();
                 }
-                //Application.Exit();
-                //return;
+                Application.Exit();
+                return;
             };
 
             //load settings
@@ -93,15 +88,17 @@ namespace SyncTool
                 {
                     Log.Info("reseting everything");
                     Reset();
+                    return;
                 };
 
                 if (args[0].Contains("-cli"))
-                    argCLI = true;
+                    //not done yet
 
                 if (args[0].Contains("-silent"))
                 {
                     Log.Info("running silent");
                     Sync(false);
+                    return;
                 };
 
                 if (args[0].Contains("-force"))
@@ -110,6 +107,7 @@ namespace SyncTool
                     Sync(true);
                     Console.ReadKey();
                     Run();
+                    return;
                 };
             }
             else
