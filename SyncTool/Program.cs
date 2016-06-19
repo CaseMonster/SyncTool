@@ -158,18 +158,18 @@ namespace SyncTool
                 {
                     haveFileNamesChanged = true;
                     modsThatChanged.Add(true);
-                    Log.Info("changes detected");
                 }
                 else
                 {
                     modsThatChanged.Add(false);
-                    Log.Info("no changes detected");
                 }
             };
 
             //Run checks, downloads, and deletions if files have changed
             if (haveFileNamesChanged || forceSync)
             {
+                Log.Info("changes detected");
+
                 //Add hashes to each quick repo
                 Log.InfoStamp("hashing files stored locally");
                 for (int i = 0; i < remoteSettings.modsArray.Length; i++)
@@ -269,6 +269,10 @@ namespace SyncTool
                     tempLocalRepo.WriteXMLToDisk(Path.Combine(LOCAL_FOLDER, (remoteSettings.modsArray[i] + ".xml")));
                 };
             }
+            else
+            {
+                Log.Info("no changes detected");
+            };
 
             //Todo: dialog asking to resync or launch the game, times out and exits
             Log.Info("all done");
