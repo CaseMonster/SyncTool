@@ -29,11 +29,6 @@ namespace SyncTool
         public static LocalSettings localSettings = XML.ReadLocalSettingsXML(LOCAL_SETTINGS);
         public static RemoteSettings remoteSettings = XML.ReadRemoteSettingsXML(Path.Combine(localSettings.server, "settings.xml"));
 
-        //global lists
-        ArrayList remoteRepoList = new ArrayList();
-        ArrayList localRepoList = new ArrayList();
-        ArrayList quickRepoList = new ArrayList();
-
         static void Main(string[] args)
         {
             Log.Startup();
@@ -55,6 +50,13 @@ namespace SyncTool
                 var processInfo = new ProcessStartInfo(Assembly.GetExecutingAssembly().CodeBase);
                 processInfo.UseShellExecute = true;
                 processInfo.Verb = "runas";
+                if (args.Length > 0)
+                {
+                    string processArgs = "";
+                    foreach (string s in args)
+                        processArgs = processArgs + s;
+                    processInfo.Arguments = processArgs;
+                };
 
                 try
                 {
@@ -65,8 +67,8 @@ namespace SyncTool
                     Log.Info("not running as administrator, exiting");
                     Console.ReadKey();
                 }
-                //Application.Exit();
-                //return;
+                Application.Exit();
+                return;
             };
 
             //load settings
@@ -76,33 +78,36 @@ namespace SyncTool
 
             if (args.Length > 0)
             {
-                if (args[0] == "-server")
+                if (args[0].Contains("-server"))
                 {
                     GenRepo();
                     return;
                 }
 
-                if (args[0] == "-reset")
+                if (args[0].Contains("-reset"))
                 {
                     Log.Info("reseting everything");
                     Reset();
+                    return;
                 };
 
-                if (args[0] == "-cli")
-                    argCLI = true;
+                if (args[0].Contains("-cli"))
+                    //not done yet
 
-                if (args[0] == "-silent")
+                if (args[0].Contains("-silent"))
                 {
                     Log.Info("running silent");
                     Sync(false);
+                    return;
                 };
 
-                if (args[0] == "-force")
+                if (args[0].Contains("-force"))
                 {
                     Log.Info("forcing hash");
                     Sync(true);
                     Console.ReadKey();
                     Run();
+                    return;
                 };
             }
             else
@@ -210,17 +215,17 @@ namespace SyncTool
                     foreach (PBOList tempDeleteRepo in deleteRepoList)
                         tempDeleteRepo.DeleteFilesOnDisk();
                     Log.Info("files deleted");
+
+                    //Check for empty folders to delete
+                    Log.Info("deleting any empty folders");
+                    foreach (string dir in remoteSettings.modsArray)
+                        if (Directory.Exists(Path.Combine(localSettings.modfolder, dir)))
+                            FileHandler.DeleteEmptyFolders(Path.Combine(localSettings.modfolder, dir));
                 }
                 else
                 {
                     Log.Info("no files to delete");
                 };
-
-                //Check for empty folders to delete
-                Log.Info("deleting any empty folders");
-                foreach (string dir in remoteSettings.modsArray)
-                    if(Directory.Exists(Path.Combine(localSettings.modfolder, dir)))
-                        FileHandler.DeleteEmptyFolders(Path.Combine(localSettings.modfolder,dir));
 
                 //cycle list of pbo downloads
                 Log.InfoStamp("finding files to download");

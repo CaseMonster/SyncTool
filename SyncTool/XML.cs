@@ -38,9 +38,8 @@ namespace SyncTool
                 select new RemoteSettings
                 (
                     (string)x.Element("Mods"),
-                    (string)x.Element("ForceHash"),
-                    (string)x.Element("Version"),
-                    (string)x.Element("DownloadLocation")
+                    (bool)x.Element("ForceHash"),
+                    (string)x.Element("Args")
                 );
             RemoteSettings settings = list.First();
             return settings;
