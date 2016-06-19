@@ -71,6 +71,8 @@ namespace SyncTool
                 foreach (PBO thisPBO in this)
                     if ((remotePBO.fileHash == thisPBO.fileHash) && (remotePBO.fileName == thisPBO.fileName))
                         diff = DeleteFromArray(diff, thisPBO);
+            if (this.Count == 0)
+                return remote;
             return diff;
         }
 
