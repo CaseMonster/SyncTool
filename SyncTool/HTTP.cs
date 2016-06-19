@@ -6,9 +6,15 @@ namespace SyncTool
     {
         public static void Download(string uri, string file)
         {
-            FileHandler.CheckFolder(file);
-            WebClient myWebClient = new WebClient();
-            myWebClient.DownloadFile(uri, file);
+            try
+            {
+                FileHandler.CheckFolder(file);
+                WebClient myWebClient = new WebClient();
+                myWebClient.DownloadFile(uri, file);
+            }
+            catch
+            {
+            };
         }
 
         public static void DownloadList(PBOList dlList)

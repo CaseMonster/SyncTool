@@ -25,8 +25,14 @@ namespace SyncTool
         public static string LOCAL_FOLDER = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RollingRepo");
         public static string LOCAL_SETTINGS = Path.Combine(LOCAL_FOLDER, "settings.xml");
 
+        //global settings
         public static LocalSettings localSettings = XML.ReadLocalSettingsXML(LOCAL_SETTINGS);
         public static RemoteSettings remoteSettings = XML.ReadRemoteSettingsXML(Path.Combine(localSettings.server, "settings.xml"));
+
+        //global lists
+        ArrayList remoteRepoList = new ArrayList();
+        ArrayList localRepoList = new ArrayList();
+        ArrayList quickRepoList = new ArrayList();
 
         static void Main(string[] args)
         {
@@ -49,50 +55,73 @@ namespace SyncTool
                 var processInfo = new ProcessStartInfo(Assembly.GetExecutingAssembly().CodeBase);
                 processInfo.UseShellExecute = true;
                 processInfo.Verb = "runas";
+                if (args.Length > 0)
+                {
+                    string processArgs = "";
+                    foreach (string s in args)
+                        processArgs = processArgs + s;
+                    processInfo.Arguments = processArgs;
+                };
 
                 try
                 {
                     Process.Start(processInfo);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     Log.Info("not running as administrator, exiting");
                     Console.ReadKey();
                 }
-                Application.Exit();
-                return;
+                //Application.Exit();
+                //return;
             };
 
             //load settings
             Log.Info("loading config");
-            //todo: redo local settings, launch optional first run dialog
 
-            bool argReset = false;
             bool argCLI = false;
-            bool argSilent = false;
-            bool argForce = false;
 
             if (args.Length > 0)
             {
-                if (args[0] == "-server")
+                if (args[0].Contains("-server"))
                 {
                     GenRepo();
                     return;
                 }
 
-                if (args[0] == "-reset")
-                    argReset = true;
+                if (args[0].Contains("-reset"))
+                {
+                    Log.Info("reseting everything");
+                    Reset();
+                };
 
-                if (args[0] == "-cli")
+                if (args[0].Contains("-cli"))
                     argCLI = true;
 
-                if (args[0] == "-silent")
-                    argCLI = true;
+                if (args[0].Contains("-silent"))
+                {
+                    Log.Info("running silent");
+                    Sync(false);
+                };
 
-                if (args[0] == "-force")
-                    argForce = true;
-            };
+                if (args[0].Contains("-force"))
+                {
+                    Log.Info("forcing hash");
+                    Sync(true);
+                    Console.ReadKey();
+                    Run();
+                };
+            }
+            else
+            {
+                Sync(false);
+                Console.ReadKey();
+                Run();
+            }
+        }
 
+        public static void Sync(bool forceSync)
+        {
             ArrayList remoteRepoList = new ArrayList();
             ArrayList localRepoList = new ArrayList();
             ArrayList quickRepoList = new ArrayList();
@@ -118,7 +147,7 @@ namespace SyncTool
             };
 
             //Check the server repo for mods, if the list is empty, something is wrong
-            if(remoteRepoList.Count == 0)
+            if (remoteRepoList.Count == 0)
             {
                 Log.Info("something is wrong with the server files, exiting");
                 Application.Exit();
@@ -132,7 +161,7 @@ namespace SyncTool
             {
                 PBOList tempLocalRepo = (PBOList)localRepoList[i];
                 PBOList tempQuickRepo = (PBOList)quickRepoList[i];
-                if (tempLocalRepo.HaveFileNamesChanged(tempQuickRepo) || argForce)
+                if (tempLocalRepo.HaveFileNamesChanged(tempQuickRepo) || forceSync)
                 {
                     haveFileNamesChanged = true;
                     modsThatChanged.Add(true);
@@ -144,7 +173,7 @@ namespace SyncTool
             };
 
             //Run checks, downloads, and deletions if files have changed
-            if (haveFileNamesChanged || argForce)
+            if (haveFileNamesChanged || forceSync)
             {
                 Log.Info("changes detected");
 
@@ -188,17 +217,17 @@ namespace SyncTool
                     foreach (PBOList tempDeleteRepo in deleteRepoList)
                         tempDeleteRepo.DeleteFilesOnDisk();
                     Log.Info("files deleted");
+
+                    //Check for empty folders to delete
+                    Log.Info("deleting any empty folders");
+                    foreach (string dir in remoteSettings.modsArray)
+                        if (Directory.Exists(Path.Combine(localSettings.modfolder, dir)))
+                            FileHandler.DeleteEmptyFolders(Path.Combine(localSettings.modfolder, dir));
                 }
                 else
                 {
                     Log.Info("no files to delete");
                 };
-
-                //Check for empty folders to delete
-                Log.Info("deleting any empty folders");
-                foreach (string dir in remoteSettings.modsArray)
-                    if(Directory.Exists(Path.Combine(localSettings.modfolder, dir)))
-                        FileHandler.DeleteEmptyFolders(Path.Combine(localSettings.modfolder,dir));
 
                 //cycle list of pbo downloads
                 Log.InfoStamp("finding files to download");
@@ -250,15 +279,19 @@ namespace SyncTool
             else
             {
                 Log.Info("no changes detected");
-            }
+            };
 
             //Todo: dialog asking to resync or launch the game, times out and exits
             Log.Info("all done");
-            Console.ReadKey();
-            Run();
         }
 
-        static void GenRepo()
+        public static void Run()
+        { 
+            Log.InfoStamp("starting arma");
+            SyncTool.Run.Execute();
+        }
+
+        public static void GenRepo()
         {
             ArrayList quickRepoList = new ArrayList();
 
@@ -294,10 +327,16 @@ namespace SyncTool
             };
         }
 
-        static void Run()
-        { 
-            Log.InfoStamp("starting arma");
-            SyncTool.Run.Execute();
+        public static void Reset()
+        {
+            Log.Info("deleting xmls");
+            PBOList tempPBO = new PBOList();
+            for (int i = 0; i < remoteSettings.modsArray.Length; i++)
+            {
+                tempPBO.DeleteXML(Path.Combine(LOCAL_FOLDER, (remoteSettings.modsArray[i] + ".xml")));
+            };
+            tempPBO.DeleteXML(LOCAL_SETTINGS);
+            Log.Info("all xmls removed");
         }
     }
 }
