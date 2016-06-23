@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace SyncTool
@@ -80,41 +81,45 @@ namespace SyncTool
                    )
                );
             doc.Save(location);
-
         }
 
-        public static void GenerateLocalSettingsXML(string s)
+        public static void GenerateLocalSettingsXML(string path, string modFolder)
         {
-            if (!Directory.Exists(Path.GetDirectoryName(s)))
-                Directory.CreateDirectory(Path.GetDirectoryName(s));
-            if (!File.Exists(s))
+            if (!Directory.Exists(Path.GetDirectoryName(path)))
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+            if (!File.Exists(path))
             {
-                StreamWriter f = File.CreateText(s);
+                if (File.Exists(path + ".backup"))
+                {
+                    File.Delete(path + ".backup");
+                    if (File.Exists(path))
+                        File.Move(path, path + ".backup");
+                }
+                else
+                {
+                    if (File.Exists(path))
+                        File.Move(path, path + ".backup");
+                }
+                StreamWriter f = File.CreateText(path);
                 f.Close();
+            };
 
-                var doc = new XDocument
+            var doc = new XDocument
+            (
+                new XElement
                 (
+                    "SyncTool",
                     new XElement
                     (
-                        "SyncTool",
-                        new XElement
-                        (
-                            "Settings",
-                            new XElement("ServerAddress", "http://rollingkeg.com/repo/"),
-                            new XElement("ModFolder", @"C:\Users\User\Documents\Arma 3\Mods\"),
-                            new XElement("Arma3Folder", Reg.GetArmaRegValue()),
-                            new XElement("LaunchOptions", "-world=empty -nosplash")
-                        )
+                        "Settings",
+                        new XElement("ServerAddress", "http://rollingkeg.com/repo/"),
+                        new XElement("ModFolder", modFolder),
+                        new XElement("Arma3Folder", Reg.GetArmaRegValue()),
+                        new XElement("LaunchOptions", "-world=empty -nosplash")
                     )
-                );
-                doc.Save(s);
-
-            }
-            else
-            {
-                BackupXML(s);
-                GenerateLocalSettingsXML(s);
-            };
+                )
+            );
+            doc.Save(path);
         }
 
         public static void GenerateBlankXML(string s)
@@ -158,7 +163,11 @@ namespace SyncTool
                     return false;
                 if(s == Program.LOCAL_SETTINGS)
                 {
-                    GenerateLocalSettingsXML(s);
+                    MessageBox.Show("This is a temportary window, the gui is coming later.\nSelect the folder you want your mods to be saved in.\nThis will be the folder that holds all of your @mod folders.\nIf you have any problems you can delete your appdata\\roaming\\rollingrepo\\settings.xml to make this box pop up again.");
+
+                    FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+                    folderBrowserDialog.ShowDialog();
+                    GenerateLocalSettingsXML(s, (string)folderBrowserDialog.SelectedPath);
                 }
                 else
                 {
