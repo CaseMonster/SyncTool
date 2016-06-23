@@ -29,6 +29,7 @@ namespace SyncTool
         public static LocalSettings localSettings = XML.ReadLocalSettingsXML(LOCAL_SETTINGS);
         public static RemoteSettings remoteSettings = XML.ReadRemoteSettingsXML(Path.Combine(localSettings.server, "settings.xml"));
 
+        [STAThread]
         static void Main(string[] args)
         {
             Log.Startup();
@@ -40,6 +41,7 @@ namespace SyncTool
             SetConsoleMode(consoleHandle, consoleMode);
 
             //check to see if user is running as admin
+            Log.Info("checking to see if running as admin");
             var wi = WindowsIdentity.GetCurrent();
             var wp = new WindowsPrincipal(wi);
             bool runAsAdmin = wp.IsInRole(WindowsBuiltInRole.Administrator);
@@ -67,8 +69,8 @@ namespace SyncTool
                     Log.Info("not running as administrator, exiting");
                     Console.ReadKey();
                 }
-                //Application.Exit();
-                //return;
+                Application.Exit();
+                return;
             };
 
             //load settings
@@ -94,12 +96,12 @@ namespace SyncTool
                 if (args[0].Contains("-cli"))
                     //not done yet
 
-                if (args[0].Contains("-silent"))
-                {
-                    Log.Info("running silent");
-                    Sync(false);
-                    return;
-                };
+                    if (args[0].Contains("-silent"))
+                    {
+                        Log.Info("running silent");
+                        Sync(false);
+                        return;
+                    };
 
                 if (args[0].Contains("-force"))
                 {
@@ -113,9 +115,10 @@ namespace SyncTool
             else
             {
                 Sync(false);
-                Console.ReadKey();
-                Run();
-            }
+                //Console.ReadKey();
+                //Run();
+                Application.Run(new TempUI());
+            };
         }
 
         public static void Sync(bool forceSync)
@@ -307,7 +310,7 @@ namespace SyncTool
             Log.InfoStamp("hashing files stored locally");
             for (int i = 0; i < remoteSettings.modsArray.Length; i++)
             {
-                Log.Info("hashing " + remoteSettings.modsArray[i]);
+                Log.Info(remoteSettings.modsArray[i]);
                 PBOList tempQuickRepo = (PBOList)quickRepoList[i];
                 tempQuickRepo.AddHashesToList();
                 tempQuickRepo.RemoveModFolderForServerRepo();
@@ -317,7 +320,7 @@ namespace SyncTool
             Log.InfoStamp("saving XML to disk");
             for (int i = 0; i < remoteSettings.modsArray.Length; i++)
             {
-                Log.Info("saving " + remoteSettings.modsArray[i]);
+                Log.Info(remoteSettings.modsArray[i]);
                 PBOList tempQuickRepo = (PBOList)quickRepoList[i];
                 tempQuickRepo.DeleteXML(Path.Combine(LOCAL_FOLDER, (remoteSettings.modsArray[i] + ".xml")));
                 tempQuickRepo.AddModPathToList();

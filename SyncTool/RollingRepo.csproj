@@ -26,7 +26,7 @@
     <InstallUrl>http://rollingkeg.com/rollingrepo/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>13</ApplicationRevision>
+    <ApplicationRevision>20</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -105,6 +105,12 @@
     <Compile Include="Reg.cs" />
     <Compile Include="RemoteSettings.cs" />
     <Compile Include="Run.cs" />
+    <Compile Include="TempUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TempUI.Designer.cs">
+      <DependentUpon>TempUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="XML.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +123,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OptionsMenu.resx">
       <DependentUpon>OptionsMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TempUI.resx">
+      <DependentUpon>TempUI.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
