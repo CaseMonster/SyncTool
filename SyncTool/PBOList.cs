@@ -48,6 +48,7 @@ namespace SyncTool
         }
 
         //the return list contains a list of files not present in the remote repo (Deletion List)
+        //Path check is a little long for some extra checks and formatting of path string
         public PBOList GetDeleteList(PBOList remote)
         {
             PBOList diff = new PBOList();
@@ -55,7 +56,7 @@ namespace SyncTool
 
             foreach (PBO thisPBO in this)
                 foreach (PBO remotePBO in remote)
-                    if ((remotePBO.fileHash == thisPBO.fileHash) && (remotePBO.fileName == thisPBO.fileName) && (Path.Combine(Program.localSettings.modfolder,remotePBO.filePath) == thisPBO.filePath))
+                    if ((remotePBO.fileHash == thisPBO.fileHash) && (remotePBO.fileName == thisPBO.fileName) && (Path.GetFullPath(Path.Combine(Program.localSettings.modfolder,remotePBO.filePath)) == Path.GetFullPath(thisPBO.filePath)))
                         diff = DeleteFromArray(diff, thisPBO);
 
             return diff;

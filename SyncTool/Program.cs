@@ -56,7 +56,7 @@ namespace SyncTool
                 {
                     string processArgs = "";
                     foreach (string s in args)
-                        processArgs = processArgs + s;
+                    processArgs = processArgs + s;
                     processInfo.Arguments = processArgs;
                 };
 
@@ -114,14 +114,14 @@ namespace SyncTool
             }
             else
             {
-                Sync(false);
-                //Console.ReadKey();
-                //Run();
+                //If sync comes back true(no changes) then it won't run again, if changes were detected
+                while (!Sync(false))
+                    Sync(true);
                 Application.Run(new TempUI());
             };
         }
 
-        public static void Sync(bool forceSync)
+        public static bool Sync(bool forceSync)
         {
             ArrayList remoteRepoList = new ArrayList();
             ArrayList localRepoList = new ArrayList();
@@ -150,21 +150,30 @@ namespace SyncTool
             //Check the server repo for mods, if the list is empty, something is wrong
             if (remoteRepoList.Count == 0)
             {
-                Log.Info("something is wrong with the server files, exiting");
-                Application.Exit();
-                return;
+                Log.Info("something is wrong with the server files, the server may be down temporarily");
+                return true;
+            };
+
+            //Check the local mod directory, if it's blank throw error, recreate settings
+            if (localSettings.modfolder == "")
+            {
+                Log.Info("the mod folder appears to be blank, removing");
+                PBOList temp = new PBOList();
+                temp.DeleteXML(LOCAL_SETTINGS);
+                return false;
             };
 
             //Check each quick repo against it's corresponding local repo
-            bool haveFileNamesChanged = false;
+            bool haveFilesChanged = false;
             ArrayList modsThatChanged = new ArrayList();
+            //Check quick vs local(xml) repo
             for (int i = 0; i < localRepoList.Count; i++)
             {
                 PBOList tempLocalRepo = (PBOList)localRepoList[i];
                 PBOList tempQuickRepo = (PBOList)quickRepoList[i];
                 if (tempLocalRepo.HaveFileNamesChanged(tempQuickRepo) || forceSync)
                 {
-                    haveFileNamesChanged = true;
+                    haveFilesChanged = true;
                     modsThatChanged.Add(true);
                 }
                 else
@@ -172,11 +181,22 @@ namespace SyncTool
                     modsThatChanged.Add(false);
                 }
             };
+            //Check quick vs remote repo
+            for (int i = 0; i < localRepoList.Count; i++)
+            {
+                PBOList tempRemoteRepo = (PBOList)remoteRepoList[i];
+                PBOList tempQuickRepo = (PBOList)quickRepoList[i];
+                if (tempRemoteRepo.HaveFileNamesChanged(tempQuickRepo) || forceSync)
+                {
+                    haveFilesChanged = true;
+                    modsThatChanged[i] = true; //modifies the value from the first check
+                };
+            };
 
             //Run checks, downloads, and deletions if files have changed
-            if (haveFileNamesChanged || forceSync || remoteSettings.forceHash)
+            if (haveFilesChanged || forceSync || remoteSettings.forceHash)
             {
-                Log.Info("changes detected");
+                Log.Info("changes detected or checking has been forced");
 
                 //Add hashes to each quick repo
                 Log.InfoStamp("hashing files stored locally");
@@ -185,7 +205,7 @@ namespace SyncTool
                     //Only hash mod folders that have changed
                     if ((bool)modsThatChanged[i])
                     {
-                        Log.Info("hashing " + remoteSettings.modsArray[i]);
+                        Log.Info(remoteSettings.modsArray[i]);
                         PBOList tempQuickRepo = (PBOList)quickRepoList[i];
                         tempQuickRepo.AddHashesToList();
                         quickRepoList.RemoveAt(i);
@@ -207,14 +227,13 @@ namespace SyncTool
                 //Get number of files going to be downloaded
                 int tempCountDelete = 0;
                 foreach (PBOList tempDeleteRepo in deleteRepoList)
-                    tempCountDelete += tempDeleteRepo.Count;
+                    tempCountDelete = tempCountDelete + tempDeleteRepo.Count;
 
                 if (tempCountDelete > 0)
                 {
                     Log.Info(tempCountDelete + " files will be deleted");
 
                     //Delete
-                    Log.Info("deleting...");
                     foreach (PBOList tempDeleteRepo in deleteRepoList)
                         tempDeleteRepo.DeleteFilesOnDisk();
                     Log.Info("files deleted");
@@ -251,7 +270,6 @@ namespace SyncTool
                     Log.Info(tempCountDownload + " files will be downloaded");
 
                     //Download
-                    Log.Info("downloading...");
                     foreach (PBOList tempDownloadRepo in downloadRepoList)
                     {
                         HTTP.DownloadList(tempDownloadRepo);
@@ -264,10 +282,10 @@ namespace SyncTool
                 };
 
                 //save to xml, add the repo from the server after adding back our modfolder
-                Log.InfoStamp("saving XML to disk");
+                Log.InfoStamp("saving xml");
                 for (int i = 0; i < remoteSettings.modsArray.Length; i++)
                 {
-                    Log.Info("saving " + remoteSettings.modsArray[i]);
+                    Log.Info(remoteSettings.modsArray[i]);
                     PBOList tempLocalRepo = (PBOList)localRepoList[i];
                     PBOList tempRemoteRepo = (PBOList)remoteRepoList[i];
                     tempLocalRepo.Clear();
@@ -276,14 +294,17 @@ namespace SyncTool
                     tempLocalRepo.AddRange(tempRemoteRepo);
                     tempLocalRepo.WriteXMLToDisk(Path.Combine(LOCAL_FOLDER, (remoteSettings.modsArray[i] + ".xml")));
                 };
+
+                //Mods changed
+                Log.InfoStamp("checking files for consistency");
+                return false;
             }
             else
             {
-                Log.Info("no changes detected");
+                //Mods did not change
+                Log.Info("all done, no changes detected");
+                return true;
             };
-
-            //Todo: dialog asking to resync or launch the game, times out and exits
-            Log.Info("all done");
         }
 
         public static void Run()
@@ -317,7 +338,7 @@ namespace SyncTool
                 quickRepoList.Add(tempQuickRepo);
             };
 
-            Log.InfoStamp("saving XML to disk");
+            Log.InfoStamp("saving xml");
             for (int i = 0; i < remoteSettings.modsArray.Length; i++)
             {
                 Log.Info(remoteSettings.modsArray[i]);
@@ -330,7 +351,7 @@ namespace SyncTool
 
         public static void Reset()
         {
-            Log.Info("deleting xmls");
+            Log.Info("deleting xml");
             PBOList tempPBO = new PBOList();
             for (int i = 0; i < remoteSettings.modsArray.Length; i++)
             {

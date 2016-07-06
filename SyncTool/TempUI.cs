@@ -24,7 +24,8 @@ namespace SyncTool
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
             folderBrowserDialog.ShowDialog();
-            XML.GenerateLocalSettingsXML(Program.LOCAL_SETTINGS, (string)folderBrowserDialog.SelectedPath);
+            if((string)folderBrowserDialog.SelectedPath != "")
+                XML.GenerateLocalSettingsXML(Program.LOCAL_SETTINGS, (string)folderBrowserDialog.SelectedPath);
         }
 
         private void button3_Click(object sender, EventArgs e)

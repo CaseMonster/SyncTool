@@ -26,7 +26,7 @@
     <InstallUrl>http://rollingkeg.com/rollingrepo/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>20</ApplicationRevision>
+    <ApplicationRevision>26</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -84,20 +84,8 @@
     <Compile Include="FileHandler.cs" />
     <Compile Include="Hash.cs" />
     <Compile Include="HTTP.cs" />
-    <Compile Include="Launcher.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Launcher.Designer.cs">
-      <DependentUpon>Launcher.cs</DependentUpon>
-    </Compile>
     <Compile Include="LocalSettings.cs" />
     <Compile Include="Log.cs" />
-    <Compile Include="OptionsMenu.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="OptionsMenu.Designer.cs">
-      <DependentUpon>OptionsMenu.cs</DependentUpon>
-    </Compile>
     <Compile Include="PBO.cs" />
     <Compile Include="PBOList.cs" />
     <Compile Include="Program.cs" />
@@ -118,12 +106,6 @@
     <None Include="RollingRepo_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Launcher.resx">
-      <DependentUpon>Launcher.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OptionsMenu.resx">
-      <DependentUpon>OptionsMenu.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="TempUI.resx">
       <DependentUpon>TempUI.cs</DependentUpon>
     </EmbeddedResource>

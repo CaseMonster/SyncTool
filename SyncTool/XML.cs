@@ -63,47 +63,8 @@ namespace SyncTool
             return settings;
         }
 
-        public static void OverWriteLocalSettingsXML(LocalSettings settings, string location)
-        {
-            var doc = new XDocument
-               (
-                   new XElement
-                   (
-                       "SyncTool",
-                       new XElement
-                       (
-                           "Settings",
-                           new XElement("ServerAddress", settings.server),
-                           new XElement("ModFolder", settings.modfolder),
-                           new XElement("Arma3Folder", settings.arma3file),
-                           new XElement("LaunchOptions", settings.arma3args)
-                       )
-                   )
-               );
-            doc.Save(location);
-        }
-
         public static void GenerateLocalSettingsXML(string path, string modFolder)
         {
-            if (!Directory.Exists(Path.GetDirectoryName(path)))
-                Directory.CreateDirectory(Path.GetDirectoryName(path));
-            if (!File.Exists(path))
-            {
-                if (File.Exists(path + ".backup"))
-                {
-                    File.Delete(path + ".backup");
-                    if (File.Exists(path))
-                        File.Move(path, path + ".backup");
-                }
-                else
-                {
-                    if (File.Exists(path))
-                        File.Move(path, path + ".backup");
-                }
-                StreamWriter f = File.CreateText(path);
-                f.Close();
-            };
-
             var doc = new XDocument
             (
                 new XElement
@@ -120,12 +81,17 @@ namespace SyncTool
                 )
             );
             doc.Save(path);
+            Program.localSettings = new LocalSettings("http://rollingkeg.com/repo/", modFolder, Reg.GetArmaRegValue(), "-world=empty -nosplash");
+            //Program.localSettings = XML.ReadLocalSettingsXML(Program.LOCAL_SETTINGS);
         }
 
         public static void GenerateBlankXML(string s)
         {
             //StreamWriter f = File.CreateText(s);
             //f.Close();
+
+            if (!Directory.Exists(Path.GetDirectoryName(s)))
+                Directory.CreateDirectory(Path.GetDirectoryName(s));
 
             var doc = new XDocument
             (
@@ -160,13 +126,15 @@ namespace SyncTool
             catch (Exception ex)
             {
                 if (s.Contains("http"))
-                    return false;
+                    return false; //this should never happen, server xml is busted
                 if(s == Program.LOCAL_SETTINGS)
                 {
                     MessageBox.Show("This is a temportary window, the gui is coming later.\nSelect the folder you want your mods to be saved in.\nThis will be the folder that holds all of your @mod folders.\nIf you have any problems you can delete your appdata\\roaming\\rollingrepo\\settings.xml to make this box pop up again.");
 
                     FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
                     folderBrowserDialog.ShowDialog();
+
+                    GenerateBlankXML(s);
                     GenerateLocalSettingsXML(s, (string)folderBrowserDialog.SelectedPath);
                 }
                 else
@@ -192,6 +160,7 @@ namespace SyncTool
                     File.Move(s, s + ".backup");
             }
 
+            //recreate xml
             IsSyntaxCorrect(s);
         }
     }
